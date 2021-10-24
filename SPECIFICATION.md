@@ -389,13 +389,11 @@ Content-Length: 0
     Content-Type: application/json
     ...
     
-    [
-        {
-        	"order": "<number>",
-            "status": "PROCESSED",
-            "accrual": 500
-        }
-    ]
+    {
+        "order": "<number>",
+        "status": "PROCESSED",
+        "accrual": 500
+    }
     ```
 
   Поля объекта ответа:
