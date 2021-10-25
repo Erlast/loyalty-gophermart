@@ -171,7 +171,7 @@ Content-Type: text/plain
 Формат запроса:
 
 ```
-GET /api/user/tickets HTTP/1.1
+GET /api/user/orders HTTP/1.1
 Content-Length: 0
 ```
 
