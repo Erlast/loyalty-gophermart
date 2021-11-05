@@ -44,10 +44,10 @@ jobs:
           mv $GITHUB_WORKSPACE/.tools/gophermarttest /usr/local/bin/gophermarttest
           mv $GITHUB_WORKSPACE/.tools/random /usr/local/bin/random
 
-      - name: Build server binary
+      - name: Build binaries
         run: |
-          cd cmd/gophermart
-          go build -o gophermart
+          (cd cmd/gophermart && go build -o gophermart)
+          (cd cmd/accrual && go build -o accrual)
 
       - name: Test
         run: |
@@ -57,7 +57,7 @@ jobs:
             -gophermart-host=localhost \
             -gophermart-port=8080 \
             -gophermart-database-uri="postgresql://postgres:postgres@postgres/praktikum?sslmode=disable" \
-            -accrual-binary-path=cmd/accrual/accrual_linux_amd64 \
+            -accrual-binary-path=cmd/accrual/accrual \
             -accrual-host=localhost \
             -accrual-port=$(random unused-port) \
             -accrual-database-uri="postgresql://postgres:postgres@postgres/praktikum?sslmode=disable"
