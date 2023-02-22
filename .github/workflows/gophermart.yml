@@ -46,8 +46,8 @@ jobs:
 
       - name: Build binaries
         run: |
-          (cd cmd/gophermart && go build -o gophermart)
-          (cd cmd/accrual && go build -o accrual)
+          (cd cmd/gophermart && go build -buildvcs=false -o gophermart)
+          (cd cmd/accrual && go build -buildvcs=false -o accrual)
 
       - name: Test
         run: |
