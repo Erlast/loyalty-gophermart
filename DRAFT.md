@@ -1,24 +1,31 @@
-### PlantUml ###
-
 @startuml
-actor Пользователь
+skinparam backgroundColor #FEFECE
+skinparam handwritten true
 
-RECTANGLE Интернет_магазин_Гофермарт
+title Диаграмма последовательностей для HTTP API системы расчёта баллов лояльности
 
-RECTANGLE Система_расчета_баллов
+participant "Пользователь" as User
+participant "Система лояльности" as LoyaltySystem
+participant "Система расчёта баллов" as PointsCalcSystem
 
-RECTANGLE Система_лояльности
+note right of User:Регистрация и аутентификация пользователя
+User -> LoyaltySystem:POST /api/user/register — регистрация пользователя
+User -> LoyaltySystem:POST /api/user/login — аутентификация пользователя
 
-RECTANGLE Счет_пользователя
+note right of User:Работа с системой лояльности
+User -> LoyaltySystem:POST /api/user/orders — загрузка номера заказа для расчёта
 
-Пользователь --> Интернет_магазин_Гофермарт : совершает покупку
-Интернет_магазин_Гофермарт --> Система_расчета_баллов : передает заказ
-Система_расчета_баллов --> Пользователь : передает номер заказа
-Пользователь --> Система_лояльности : передает номер заказа
-Система_лояльности --> Система_лояльности : связывает заказ с пользователем
-Система_лояльности --> Система_расчета_баллов : сверяет номер заказа
-Система_расчета_баллов --> Система_лояльности : расчет баллов
-Система_лояльности --> Счет_пользователя : начисляет баллы
-Счет_пользователя --> Пользователь : показывает доступные баллы
-Пользователь --> Интернет_магазин_Гофермарт : списывает баллы для оплаты
+note right of LoyaltySystem:Работа с системой расчета балов
+LoyaltySystem --> PointsCalcSystem:POST /api/orders — регистрация нового заказа
+LoyaltySystem --> PointsCalcSystem:GET /api/orders/{number} — информации о расчёте 
+
+User -> LoyaltySystem:GET /api/user/orders — список загруженных номеров заказов
+User -> LoyaltySystem:GET /api/user/balance — текущий баланс счёта баллов
+User -> LoyaltySystem:POST /api/user/balance/withdraw — списание баллов
+User -> LoyaltySystem:GET /api/user/withdrawals — информация о списании средств
+
+note right of User:Регистрация логики начилсения балов
+User --> PointsCalcSystem:POST /api/goods — регистрация информации о новой механике вознаграждения за товар.
 @enduml
+
+
