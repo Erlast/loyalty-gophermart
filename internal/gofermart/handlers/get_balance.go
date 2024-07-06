@@ -1,6 +1,8 @@
 package handlers
 
-import "gofermart/cmd/gophermart/pkg/zaplog"
+import (
+	"gofermart/pkg/zaplog"
+)
 
 func GetBalance() {
 	zaplog.Logger.Info("get balance")

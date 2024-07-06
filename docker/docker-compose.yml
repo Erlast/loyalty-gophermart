@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: gofermart
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  gofermart:
+    build:
+      context: ..
+      dockerfile: gofermart/Dockerfile
+    container_name: gofermart
+    environment:
+      - RUN_ADDRESS=:8080
+      - DATABASE_URI=postgres://user:password@postgres:5432/gofermart?sslmode=disable
+      - ACCRUAL_SYSTEM_ADDRESS=http://accrual:8090
+      - JWT_SECRET=your_jwt_secret_key
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+  accrual:
+    build:
+      context: ..
+      dockerfile: Dockerfile.accrual
+    container_name: accrual
+    environment:
+      - RUN_ADDRESS=:8090
+      - DATABASE_URI=postgres://user:password@postgres:5432/gofermart?sslmode=disable
+    depends_on:
+      - postgres
+    ports:
+      - "8090:8090"
+
+volumes:
+  postgres_data:

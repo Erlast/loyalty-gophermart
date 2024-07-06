@@ -1,6 +1,8 @@
 package handlers
 
-import "gofermart/cmd/gophermart/pkg/zaplog"
+import (
+	"gofermart/pkg/zaplog"
+)
 
 func Withdraw() {
 	zaplog.Logger.Info("Withdraw called")

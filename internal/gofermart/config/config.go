@@ -2,7 +2,7 @@ package config
 
 import (
 	"flag"
-	"gofermart/cmd/gophermart/pkg/zaplog"
+	"gofermart/pkg/zaplog"
 	"os"
 )
 
@@ -10,6 +10,13 @@ type Config struct {
 	RunAddress           string `json:"run_address"`
 	DatabaseURI          string `json:"database_uri"`
 	AccrualSystemAddress string `json:"accrual_system_address"`
+	JWTSecret            string `json:"jwt_secret"`
+}
+
+var config Config
+
+func GetConfig() *Config {
+	return &config
 }
 
 // LoadConfig loads configuration from environment variables and flags
@@ -18,6 +25,7 @@ func LoadConfig() Config {
 	defaultRunAddress := "localhost:8080"
 	defaultDatabaseURI := ""
 	defaultAccrualSystemAddress := ""
+	defaultJWTSecret := "secret"
 
 	if envRunAddress, exists := os.LookupEnv("RUN_ADDRESS"); exists {
 		defaultRunAddress = envRunAddress
@@ -28,11 +36,15 @@ func LoadConfig() Config {
 	if envAccrualSystemAddress, exists := os.LookupEnv("ACCRUAL_SYSTEM_ADDRESS"); exists {
 		defaultAccrualSystemAddress = envAccrualSystemAddress
 	}
+	if envJWTSecret, exists := os.LookupEnv("JWT_SECRET"); exists {
+		defaultJWTSecret = envJWTSecret
+	}
 
 	// Define command-line flags with default values from environment variables
 	runAddress := flag.String("a", defaultRunAddress, "Service run address")
 	databaseURI := flag.String("d", defaultDatabaseURI, "Database URI")
 	accrualSystemAddress := flag.String("r", defaultAccrualSystemAddress, "Accrual system address")
+	jwtSecret := flag.String("s", defaultJWTSecret, "JWT secret")
 
 	// Parse the flags
 	flag.Parse()
@@ -42,9 +54,12 @@ func LoadConfig() Config {
 		zaplog.Logger.Fatalf("Both DATABASE_URI and ACCRUAL_SYSTEM_ADDRESS must be provided either as flags or environment variables")
 	}
 
-	return Config{
+	config = Config{
 		RunAddress:           *runAddress,
 		DatabaseURI:          *databaseURI,
 		AccrualSystemAddress: *accrualSystemAddress,
+		JWTSecret:            *jwtSecret,
 	}
+
+	return config
 }
