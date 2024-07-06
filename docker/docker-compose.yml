@@ -16,7 +16,7 @@ services:
   gofermart:
     build:
       context: ..
-      dockerfile: gofermart/Dockerfile
+      dockerfile: docker/gofermart/Dockerfile
     container_name: gofermart
     environment:
       - RUN_ADDRESS=:8080
@@ -31,7 +31,7 @@ services:
   accrual:
     build:
       context: ..
-      dockerfile: Dockerfile.accrual
+      dockerfile: docker/accrual/Dockerfile
     container_name: accrual
     environment:
       - RUN_ADDRESS=:8090

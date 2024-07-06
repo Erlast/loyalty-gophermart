@@ -5,8 +5,6 @@ import (
 	"go.uber.org/zap"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/services"
-	"gofermart/pkg/jwt"
-
 	"net/http"
 )
 
@@ -33,7 +31,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := jwt.GenerateJWT(user.ID)
+	token, err := services.GenerateJWT(user.ID)
 	if err != nil {
 		h.Logger.Error("Error generating JWT", zap.Error(err))
 		render.Render(w, r, ErrInternalServerError(err))
@@ -59,7 +57,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := jwt.GenerateJWT(user.ID)
+	token, err := services.GenerateJWT(user.ID)
 	if err != nil {
 		h.Logger.Error("Error generating JWT", zap.Error(err))
 		render.Render(w, r, ErrInternalServerError(err))

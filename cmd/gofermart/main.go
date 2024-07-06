@@ -5,9 +5,9 @@ import (
 	"go.uber.org/zap"
 	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/handlers"
+	"gofermart/internal/gofermart/middleware"
 	"gofermart/internal/gofermart/services"
 	"gofermart/internal/gofermart/storage"
-	"gofermart/pkg/middleware"
 	"gofermart/pkg/zaplog"
 	"net/http"
 )
@@ -31,10 +31,16 @@ func main() {
 	// Create a new Chi router
 	r := chi.NewRouter()
 
-	userHandler := handlers.NewUserHandler(
-		services.NewUserService(storage.NewUserStorage(storage.DB)),
-		zaplog.Logger,
-	)
+	// Инициализация сервисов
+	userStorage := storage.NewUserStorage(storage.DB)
+	userService := services.NewUserService(userStorage)
+	orderStorage := storage.NewOrderStorage(storage.DB)
+	orderService := services.NewOrderService(orderStorage)
+
+	//инициализация обработчиков
+	userHandler := handlers.NewUserHandler(userService, zaplog.Logger)
+	orderHandler := handlers.NewOrderHandler(orderService, zaplog.Logger)
+
 	// POST /api/user/register — регистрация пользователя
 	r.Post("/api/user/register", userHandler.Register)
 	// POST /api/user/login — аутентификация пользователя
@@ -44,9 +50,7 @@ func main() {
 		r.Use(middleware.AuthMiddleware(zaplog.Logger))
 
 		// POST /api/user/orders — загрузка пользователем номера заказа для расчёта
-		r.Post("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {
-			handlers.LoadOrders()
-		})
+		r.Post("/api/user/orders", orderHandler.LoadOrders)
 
 		// GET /api/user/orders — получение списка загруженных пользователем номеров заказов и их статусов
 		r.Get("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {

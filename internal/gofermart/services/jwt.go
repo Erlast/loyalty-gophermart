@@ -1,4 +1,4 @@
-package jwt
+package services
 
 import (
 	"gofermart/internal/gofermart/config"

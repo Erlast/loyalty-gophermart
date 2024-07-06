@@ -3,7 +3,7 @@ package middleware
 import (
 	"context"
 	"go.uber.org/zap"
-	"gofermart/pkg/jwt"
+	"gofermart/internal/gofermart/services"
 	"net/http"
 	"strings"
 )
@@ -18,7 +18,7 @@ func AuthMiddleware(logger *zap.SugaredLogger) func(next http.Handler) http.Hand
 			}
 
 			tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
-			claims, err := jwt.ParseJWT(tokenStr)
+			claims, err := services.ParseJWT(tokenStr)
 			if err != nil {
 				logger.Error("Invalid token", zap.Error(err))
 				http.Error(w, "Invalid token", http.StatusUnauthorized)
