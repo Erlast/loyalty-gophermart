@@ -2,8 +2,9 @@ package storage
 
 import (
 	"context"
-	"github.com/jackc/pgx/v4/pgxpool"
 	"gofermart/internal/gofermart/models"
+
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type BalanceStorage struct {

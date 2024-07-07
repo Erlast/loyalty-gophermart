@@ -19,7 +19,7 @@ func GetConfig() *Config {
 	return &config
 }
 
-// LoadConfig loads configuration from environment variables and flags
+// LoadConfig loads configuration from environment variables and flags.
 func LoadConfig() Config {
 	// Initialize default values from environment variables
 	defaultRunAddress := "localhost:8080"

@@ -2,10 +2,11 @@ package middleware
 
 import (
 	"context"
-	"go.uber.org/zap"
 	"gofermart/internal/gofermart/services"
 	"net/http"
 	"strings"
+
+	"go.uber.org/zap"
 )
 
 func AuthMiddleware(logger *zap.SugaredLogger) func(next http.Handler) http.Handler {

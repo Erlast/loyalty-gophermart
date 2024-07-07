@@ -1,8 +1,6 @@
 package main
 
 import (
-	"github.com/go-chi/chi/v5"
-	"go.uber.org/zap"
 	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/handlers"
 	"gofermart/internal/gofermart/middleware"
@@ -10,6 +8,9 @@ import (
 	"gofermart/internal/gofermart/storage"
 	"gofermart/pkg/zaplog"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -39,7 +40,7 @@ func main() {
 	orderService := services.NewOrderService(orderStorage)
 	balanceService := services.NewBalanceService(balanceStorage)
 
-	//инициализация обработчиков
+	// инициализация обработчиков
 	userHandler := handlers.NewUserHandler(userService, zaplog.Logger)
 	orderHandler := handlers.NewOrderHandler(orderService, zaplog.Logger)
 	balanceHandler := handlers.NewBalanceHandler(balanceService, zaplog.Logger)

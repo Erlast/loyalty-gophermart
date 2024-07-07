@@ -3,10 +3,11 @@ package storage
 import (
 	"context"
 	"fmt"
-	"github.com/jackc/pgx/v4/pgxpool"
 	"gofermart/internal/gofermart/config"
 	"os"
 	"path/filepath"
+
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 var DB *pgxpool.Pool

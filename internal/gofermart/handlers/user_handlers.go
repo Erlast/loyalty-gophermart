@@ -1,11 +1,12 @@
 package handlers
 
 import (
-	"github.com/go-chi/render"
-	"go.uber.org/zap"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/services"
 	"net/http"
+
+	"github.com/go-chi/render"
+	"go.uber.org/zap"
 )
 
 type UserHandler struct {

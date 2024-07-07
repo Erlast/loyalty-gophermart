@@ -1,13 +1,14 @@
 package zaplog
 
 import (
-	"go.uber.org/zap"
 	"log"
+
+	"go.uber.org/zap"
 )
 
 var Logger *zap.SugaredLogger
 
-// InitLogger создает и возвращает новый экземпляр zap SugaredLogger для разработки
+// InitLogger создает и возвращает новый экземпляр zap SugaredLogger для разработки.
 func InitLogger() {
 	zapLogger, err := zap.NewDevelopment()
 	if err != nil {
