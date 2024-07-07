@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16
-    container_name: postgres
+    container_name: gofermart_postgres
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - gofermart_data:/var/lib/postgresql/data
 
   gofermart:
     build:
