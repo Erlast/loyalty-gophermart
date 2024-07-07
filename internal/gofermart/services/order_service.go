@@ -6,7 +6,6 @@ import (
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/storage"
 	"gofermart/pkg/validators"
-	"regexp"
 )
 
 type OrderService struct {
@@ -25,8 +24,6 @@ func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) err
 	return s.storage.CreateOrder(ctx, order)
 }
 
-// validateOrderNumber проверяет, что номер заказа состоит только из цифр и имеет длину от 10 до 20 символов.
-func validateOrderNumber(orderNumber string) bool {
-	re := regexp.MustCompile(`^\d{10,20}$`)
-	return re.MatchString(orderNumber)
+func (s *OrderService) GetOrdersByUserID(ctx context.Context, userID int64) ([]models.Order, error) {
+	return s.storage.GetOrdersByUserID(ctx, userID)
 }

@@ -41,7 +41,7 @@ func LoadConfig() Config {
 	}
 
 	// Define command-line flags with default values from environment variables
-	runAddress := flag.String("a", defaultRunAddress, "Service run address")
+	runAddress := flag.String("a", defaultRunAddress, "service run address")
 	databaseURI := flag.String("d", defaultDatabaseURI, "Database URI")
 	accrualSystemAddress := flag.String("r", defaultAccrualSystemAddress, "Accrual system address")
 	jwtSecret := flag.String("s", defaultJWTSecret, "JWT secret")

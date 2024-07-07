@@ -33,13 +33,16 @@ func main() {
 
 	// Инициализация сервисов
 	userStorage := storage.NewUserStorage(storage.DB)
-	userService := services.NewUserService(userStorage)
 	orderStorage := storage.NewOrderStorage(storage.DB)
+	balanceStorage := storage.NewBalanceStorage(storage.DB)
+	userService := services.NewUserService(userStorage)
 	orderService := services.NewOrderService(orderStorage)
+	balanceService := services.NewBalanceService(balanceStorage)
 
 	//инициализация обработчиков
 	userHandler := handlers.NewUserHandler(userService, zaplog.Logger)
 	orderHandler := handlers.NewOrderHandler(orderService, zaplog.Logger)
+	balanceHandler := handlers.NewBalanceHandler(balanceService, zaplog.Logger)
 
 	// POST /api/user/register — регистрация пользователя
 	r.Post("/api/user/register", userHandler.Register)
@@ -53,25 +56,16 @@ func main() {
 		r.Post("/api/user/orders", orderHandler.LoadOrders)
 
 		// GET /api/user/orders — получение списка загруженных пользователем номеров заказов и их статусов
-		r.Get("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {
-			handlers.ListOrders()
-		})
+		r.Get("/api/user/orders", orderHandler.ListOrders)
 
 		// GET /api/user/balance — получение текущего баланса счёта баллов лояльности пользователя
-		r.Get("/api/user/balance", func(w http.ResponseWriter, r *http.Request) {
-			handlers.GetBalance()
-		})
+		r.Get("/api/user/balance", balanceHandler.GetBalance)
 
 		// POST /api/user/balance/withdraw — запрос на списание баллов с накопительного счёта
-		r.Post("/api/user/balance/withdraw", func(w http.ResponseWriter, r *http.Request) {
-			handlers.Withdraw()
-		})
+		r.Post("/api/user/balance/withdraw", balanceHandler.Withdraw)
 
 		// GET /api/user/withdrawals — получение информации о выводе средств с накопительного счёта
-		r.Get("/api/user/withdrawals", func(w http.ResponseWriter, r *http.Request) {
-			handlers.Withdrawals()
-		})
-
+		r.Get("/api/user/withdrawals", balanceHandler.Withdrawals)
 	})
 
 	// Define your routes

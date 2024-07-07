@@ -9,31 +9,31 @@ import (
 )
 
 type UserHandler struct {
-	Service *services.UserService
-	Logger  *zap.SugaredLogger
+	service *services.UserService
+	logger  *zap.SugaredLogger
 }
 
 func NewUserHandler(service *services.UserService, logger *zap.SugaredLogger) *UserHandler {
-	return &UserHandler{Service: service, Logger: logger}
+	return &UserHandler{service: service, logger: logger}
 }
 
 func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 	if err := render.Bind(r, &user); err != nil {
-		h.Logger.Error("Error binding request", zap.Error(err))
+		h.logger.Error("Error binding request", zap.Error(err))
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
 
-	if err := h.Service.Register(r.Context(), &user); err != nil {
-		h.Logger.Error("Error registering user", zap.Error(err))
+	if err := h.service.Register(r.Context(), &user); err != nil {
+		h.logger.Error("Error registering user", zap.Error(err))
 		render.Render(w, r, ErrInternalServerError(err))
 		return
 	}
 
 	token, err := services.GenerateJWT(user.ID)
 	if err != nil {
-		h.Logger.Error("Error generating JWT", zap.Error(err))
+		h.logger.Error("Error generating JWT", zap.Error(err))
 		render.Render(w, r, ErrInternalServerError(err))
 		return
 	}
@@ -45,21 +45,21 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var credentials models.Credentials
 	if err := render.Bind(r, &credentials); err != nil {
-		h.Logger.Error("Error binding request", zap.Error(err))
+		h.logger.Error("Error binding request", zap.Error(err))
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
 
-	user, err := h.Service.Login(r.Context(), credentials)
+	user, err := h.service.Login(r.Context(), credentials)
 	if err != nil {
-		h.Logger.Error("Error logging in", zap.Error(err))
+		h.logger.Error("Error logging in", zap.Error(err))
 		render.Render(w, r, ErrUnauthorized(err))
 		return
 	}
 
 	token, err := services.GenerateJWT(user.ID)
 	if err != nil {
-		h.Logger.Error("Error generating JWT", zap.Error(err))
+		h.logger.Error("Error generating JWT", zap.Error(err))
 		render.Render(w, r, ErrInternalServerError(err))
 		return
 	}
