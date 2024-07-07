@@ -32,7 +32,14 @@ func (s *OrderStorage) GetOrdersByUserID(ctx context.Context, userID int64) ([]m
 	var orders []models.Order
 	for rows.Next() {
 		var order models.Order
-		if err := rows.Scan(&order.ID, &order.UserID, &order.Number, &order.Status, &order.Accrual, &order.UploadedAt); err != nil {
+		if err := rows.Scan(
+			&order.ID,
+			&order.UserID,
+			&order.Number,
+			&order.Status,
+			&order.Accrual,
+			&order.UploadedAt,
+		); err != nil {
 			return nil, err
 		}
 		orders = append(orders, order)

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/services"
 	"net/http"
@@ -20,7 +21,7 @@ func NewOrderHandler(service *services.OrderService, logger *zap.SugaredLogger) 
 }
 
 func (h *OrderHandler) LoadOrders(w http.ResponseWriter, r *http.Request) {
-	userID := r.Context().Value("userID").(int64)
+	userID := h.getUserID(r)
 
 	var order models.Order
 	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
@@ -41,7 +42,7 @@ func (h *OrderHandler) LoadOrders(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *OrderHandler) ListOrders(w http.ResponseWriter, r *http.Request) {
-	userID := r.Context().Value("userID").(int64)
+	userID := h.getUserID(r)
 
 	orders, err := h.service.GetOrdersByUserID(r.Context(), userID)
 	if err != nil {
@@ -51,4 +52,8 @@ func (h *OrderHandler) ListOrders(w http.ResponseWriter, r *http.Request) {
 	}
 
 	render.JSON(w, r, orders)
+}
+
+func (h *OrderHandler) getUserID(r *http.Request) int64 {
+	return r.Context().Value(config.UserIDContextKey).(int64)
 }

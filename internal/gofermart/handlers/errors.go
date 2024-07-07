@@ -7,12 +7,11 @@ import (
 )
 
 type ErrResponse struct {
-	Err            error `json:"-"` // низкоуровневая ошибка
-	HTTPStatusCode int   `json:"-"` // HTTP статус-код
-
-	StatusText string `json:"status"`          // статус ошибки
-	AppCode    int64  `json:"code,omitempty"`  // приложение-специфичный код ошибки
-	ErrorText  string `json:"error,omitempty"` // сообщение об ошибке
+	StatusText     string `json:"status"`          // статус ошибки
+	ErrorText      string `json:"error,omitempty"` // сообщение об ошибке
+	AppCode        int64  `json:"code,omitempty"`  // приложение-специфичный код ошибки
+	HTTPStatusCode int    `json:"-"`               // HTTP статус-код
+	Err            error  `json:"-"`               // низкоуровневая ошибка
 }
 
 func (e *ErrResponse) Render(w http.ResponseWriter, r *http.Request) error {

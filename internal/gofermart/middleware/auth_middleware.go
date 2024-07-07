@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/services"
 	"net/http"
 	"strings"
@@ -26,7 +27,7 @@ func AuthMiddleware(logger *zap.SugaredLogger) func(next http.Handler) http.Hand
 				return
 			}
 
-			ctx := context.WithValue(r.Context(), "userID", claims.UserID)
+			ctx := context.WithValue(r.Context(), config.UserIDContextKey, claims.UserID)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}

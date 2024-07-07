@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/services"
 	"net/http"
@@ -20,7 +21,7 @@ func NewBalanceHandler(service *services.BalanceService, logger *zap.SugaredLogg
 }
 
 func (h *BalanceHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
-	userID := r.Context().Value("userID").(int64)
+	userID := r.Context().Value(config.UserIDContextKey).(int64)
 
 	balance, err := h.service.GetBalanceByUserID(r.Context(), userID)
 	if err != nil {
@@ -33,7 +34,7 @@ func (h *BalanceHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *BalanceHandler) Withdraw(w http.ResponseWriter, r *http.Request) {
-	userID := r.Context().Value("userID").(int64)
+	userID := r.Context().Value(config.UserIDContextKey).(int64)
 
 	var withdrawal models.WithdrawalRequest
 	if err := json.NewDecoder(r.Body).Decode(&withdrawal); err != nil {
@@ -54,7 +55,7 @@ func (h *BalanceHandler) Withdraw(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *BalanceHandler) Withdrawals(w http.ResponseWriter, r *http.Request) {
-	userID := r.Context().Value("userID").(int64)
+	userID := r.Context().Value(config.UserIDContextKey).(int64)
 
 	withdrawals, err := h.service.GetWithdrawalsByUserID(r.Context(), userID)
 	if err != nil {

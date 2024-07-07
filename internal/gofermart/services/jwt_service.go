@@ -16,7 +16,7 @@ func GenerateJWT(userID int64) (string, error) {
 	claims := &JWTClaim{
 		UserID: userID,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(), //nolint:mnd // 72 часа
 		},
 	}
 

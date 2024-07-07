@@ -51,7 +51,7 @@ func LoadConfig() Config {
 
 	// Ensure that the required parameters are provided
 	if *databaseURI == "" || *accrualSystemAddress == "" {
-		zaplog.Logger.Fatalf("Both DATABASE_URI and ACCRUAL_SYSTEM_ADDRESS must be provided either as flags or environment variables")
+		zaplog.Logger.Fatal("DATABASE URI and ACCRUAL SYSTEM ADDRESS must be provided")
 	}
 
 	config = Config{

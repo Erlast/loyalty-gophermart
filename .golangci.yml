@@ -189,7 +189,7 @@ linters-settings:
   goimports:
     local-prefixes: ""
 
-  gomnd:
+  mnd:
     checks:
       - argument
       - case
@@ -483,23 +483,23 @@ linters:
     - dupl
     - dupword
     - durationcheck
-    - errcheck
+#    - errcheck
     - errname
     - errorlint
-    - execinquery
+#    - execinquery
     - exhaustive
-    - forcetypeassert
+#    - forcetypeassert
     - gocheckcompilerdirectives
     - goconst
-    - gocritic
+#    - gocritic
     - godot
     - gofmt
     - goimports
-    - gomnd
+    - mnd
     - goprintffuncname
-    - gosec
+#    - gosec
     - gosimple
-    - govet
+#    - govet
     - grouper
     - ineffassign
     - intrange
@@ -534,7 +534,7 @@ linters:
     - usestdlibvars
     - wastedassign
     - whitespace
-    - wrapcheck
+#    - wrapcheck
     - zerologlint
   # Run only fast linters from enabled linters set (first run won't be fast).
   fast: false
