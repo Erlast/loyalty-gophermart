@@ -16,6 +16,8 @@ type BalanceHandler struct {
 	logger  *zap.SugaredLogger
 }
 
+const ErrorGettingUserIDFromContext = "error_getting_user_id_from_context: %v"
+
 func NewBalanceHandler(service *services.BalanceService, logger *zap.SugaredLogger) *BalanceHandler {
 	return &BalanceHandler{service: service, logger: logger}
 }
@@ -23,7 +25,7 @@ func NewBalanceHandler(service *services.BalanceService, logger *zap.SugaredLogg
 func (h *BalanceHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
-		h.logger.Errorf("Error getting user id from context: %v", err)
+		h.logger.Errorf(ErrorGettingUserIDFromContext, err)
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
@@ -41,7 +43,7 @@ func (h *BalanceHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
 func (h *BalanceHandler) Withdraw(w http.ResponseWriter, r *http.Request) {
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
-		h.logger.Errorf("Error getting user id from context: %v", err)
+		h.logger.Errorf(ErrorGettingUserIDFromContext, err)
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
@@ -67,7 +69,7 @@ func (h *BalanceHandler) Withdraw(w http.ResponseWriter, r *http.Request) {
 func (h *BalanceHandler) Withdrawals(w http.ResponseWriter, r *http.Request) {
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
-		h.logger.Errorf("Error getting user id from context: %v", err)
+		h.logger.Errorf(ErrorGettingUserIDFromContext, err)
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}

@@ -3,6 +3,10 @@ package storage
 import (
 	"context"
 	"gofermart/internal/gofermart/models"
+	"gofermart/pkg/zaplog"
+
+	"github.com/jackc/pgx/v4"
+	"go.uber.org/zap"
 
 	"github.com/jackc/pgx/v4/pgxpool"
 )
@@ -32,7 +36,12 @@ func (s *BalanceStorage) Withdraw(ctx context.Context, withdrawal *models.Withdr
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback(ctx)
+	defer func(tx pgx.Tx, ctx context.Context) {
+		err := tx.Rollback(ctx)
+		if err != nil {
+			zaplog.Logger.Error("Rollback failed", zap.Error(err))
+		}
+	}(tx, ctx)
 
 	updateBalanceQuery := `
         UPDATE balances
