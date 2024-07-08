@@ -12,13 +12,13 @@ import (
 
 var DB *pgxpool.Pool
 
-func InitDB(cfg config.Config) error {
+func InitDB(cfg config.Config, ctx context.Context) error {
 	parsedConfig, err := pgxpool.ParseConfig(cfg.DatabaseURI)
 	if err != nil {
 		return fmt.Errorf("unable to parse cfg.DatabaseURI: %w", err)
 	}
 
-	DB, err = pgxpool.ConnectConfig(context.Background(), parsedConfig)
+	DB, err = pgxpool.ConnectConfig(ctx, parsedConfig)
 	if err != nil {
 		return fmt.Errorf("unable to connect to database: %w", err)
 	}
@@ -26,11 +26,7 @@ func InitDB(cfg config.Config) error {
 	return nil
 }
 
-func CloseDB() {
-	DB.Close()
-}
-
-func ApplyMigrations(migrationsDir string) error {
+func ApplyMigrations(migrationsDir string, ctx context.Context) error {
 	entries, err := os.ReadDir(migrationsDir)
 	if err != nil {
 		return fmt.Errorf("failed to read migrations directory: %w", err)
@@ -47,7 +43,7 @@ func ApplyMigrations(migrationsDir string) error {
 			return fmt.Errorf("failed to read migration file %s: %w", filePath, err)
 		}
 
-		_, err = DB.Exec(context.Background(), string(content))
+		_, err = DB.Exec(ctx, string(content))
 		if err != nil {
 			return fmt.Errorf("failed to execute migration file %s: %w", filePath, err)
 		}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/handlers"
 	"gofermart/internal/gofermart/middleware"
@@ -15,6 +16,8 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	zaplog.InitLogger()
 	defer func(Logger *zap.SugaredLogger) {
 		err := Logger.Sync()
@@ -26,14 +29,14 @@ func main() {
 	cfg := config.LoadConfig()
 	zaplog.Logger.Infof("Config: %v", cfg)
 
-	err := storage.InitDB(cfg)
+	err := storage.InitDB(cfg, ctx)
 	if err != nil {
 		zaplog.Logger.Fatalf("Error initializing database: %s", err)
 	}
 	defer storage.DB.Close()
 
 	// Применение миграций
-	err = storage.ApplyMigrations("migrations/gofermart")
+	err = storage.ApplyMigrations("migrations/gofermart", ctx)
 	if err != nil {
 		zaplog.Logger.Fatal("Failed to apply migrations", zap.Error(err))
 	}
