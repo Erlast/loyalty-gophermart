@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"encoding/json"
-	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/services"
+	"gofermart/pkg/helpers"
 	"net/http"
 
 	"github.com/go-chi/render"
@@ -21,7 +21,12 @@ func NewBalanceHandler(service *services.BalanceService, logger *zap.SugaredLogg
 }
 
 func (h *BalanceHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
-	userID := r.Context().Value(config.UserIDContextKey).(int64)
+	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+	if err != nil {
+		h.logger.Errorf("Error getting user id from context: %v", err)
+		http.Error(w, "", http.StatusInternalServerError)
+		return
+	}
 
 	balance, err := h.service.GetBalanceByUserID(r.Context(), userID)
 	if err != nil {
@@ -34,7 +39,12 @@ func (h *BalanceHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *BalanceHandler) Withdraw(w http.ResponseWriter, r *http.Request) {
-	userID := r.Context().Value(config.UserIDContextKey).(int64)
+	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+	if err != nil {
+		h.logger.Errorf("Error getting user id from context: %v", err)
+		http.Error(w, "", http.StatusInternalServerError)
+		return
+	}
 
 	var withdrawal models.WithdrawalRequest
 	if err := json.NewDecoder(r.Body).Decode(&withdrawal); err != nil {
@@ -55,7 +65,12 @@ func (h *BalanceHandler) Withdraw(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *BalanceHandler) Withdrawals(w http.ResponseWriter, r *http.Request) {
-	userID := r.Context().Value(config.UserIDContextKey).(int64)
+	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+	if err != nil {
+		h.logger.Errorf("Error getting user id from context: %v", err)
+		http.Error(w, "", http.StatusInternalServerError)
+		return
+	}
 
 	withdrawals, err := h.service.GetWithdrawalsByUserID(r.Context(), userID)
 	if err != nil {

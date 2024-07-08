@@ -7,6 +7,7 @@ import (
 	"gofermart/internal/gofermart/services"
 	"gofermart/internal/gofermart/storage"
 	"gofermart/pkg/zaplog"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -15,16 +16,24 @@ import (
 
 func main() {
 	zaplog.InitLogger()
-	defer zaplog.Logger.Sync()
+	defer func(Logger *zap.SugaredLogger) {
+		err := Logger.Sync()
+		if err != nil {
+			log.Printf("Error syncing zap logger: %s", err)
+		}
+	}(zaplog.Logger)
 
 	cfg := config.LoadConfig()
 	zaplog.Logger.Infof("Config: %v", cfg)
 
-	storage.InitDB(cfg)
+	err := storage.InitDB(cfg)
+	if err != nil {
+		zaplog.Logger.Fatalf("Error initializing database: %s", err)
+	}
 	defer storage.DB.Close()
 
 	// Применение миграций
-	err := storage.ApplyMigrations("migrations/gofermart")
+	err = storage.ApplyMigrations("migrations/gofermart")
 	if err != nil {
 		zaplog.Logger.Fatal("Failed to apply migrations", zap.Error(err))
 	}
@@ -71,9 +80,15 @@ func main() {
 
 	// Define your routes
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Welcome to Gofermart!"))
+		_, err := w.Write([]byte("Welcome to Gofermart!"))
+		if err != nil {
+			zaplog.Logger.Errorf("Error writing response: %s", err)
+		}
 	})
 
 	// Start the HTTP server
-	http.ListenAndServe(":8080", r)
+	err = http.ListenAndServe(":8080", r)
+	if err != nil {
+		zaplog.Logger.Fatal("Error starting server", zap.Error(err))
+	}
 }

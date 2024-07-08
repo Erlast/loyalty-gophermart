@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"encoding/json"
-	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/services"
+	"gofermart/pkg/helpers"
 	"net/http"
 
 	"github.com/go-chi/render"
@@ -21,7 +21,12 @@ func NewOrderHandler(service *services.OrderService, logger *zap.SugaredLogger) 
 }
 
 func (h *OrderHandler) LoadOrders(w http.ResponseWriter, r *http.Request) {
-	userID := h.getUserID(r)
+	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+	if err != nil {
+		h.logger.Errorf("Error getting user id from context: %v", err)
+		http.Error(w, "", http.StatusInternalServerError)
+		return
+	}
 
 	var order models.Order
 	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
@@ -42,7 +47,12 @@ func (h *OrderHandler) LoadOrders(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *OrderHandler) ListOrders(w http.ResponseWriter, r *http.Request) {
-	userID := h.getUserID(r)
+	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+	if err != nil {
+		h.logger.Errorf("Error getting user id from context: %v", err)
+		http.Error(w, "", http.StatusInternalServerError)
+		return
+	}
 
 	orders, err := h.service.GetOrdersByUserID(r.Context(), userID)
 	if err != nil {
@@ -52,8 +62,4 @@ func (h *OrderHandler) ListOrders(w http.ResponseWriter, r *http.Request) {
 	}
 
 	render.JSON(w, r, orders)
-}
-
-func (h *OrderHandler) getUserID(r *http.Request) int64 {
-	return r.Context().Value(config.UserIDContextKey).(int64)
 }
