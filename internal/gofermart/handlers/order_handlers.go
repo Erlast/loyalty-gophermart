@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"errors"
+	"github.com/go-chi/chi/v5"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/services"
 	"gofermart/pkg/helpers"
@@ -93,4 +94,26 @@ func (h *OrderHandler) ListOrders(ctx context.Context, w http.ResponseWriter, r 
 	}
 
 	render.JSON(w, r, orders)
+}
+
+func (h *OrderHandler) GetOrderAccrual(w http.ResponseWriter, r *http.Request) {
+	orderNumber := chi.URLParam(r, "number")
+
+	if !validators.ValidateOrderNumber(orderNumber) {
+		http.Error(w, "Invalid order number format", http.StatusUnprocessableEntity)
+		return
+	}
+
+	accrualInfo, err := h.service.GetOrderAccrualInfo(r.Context(), orderNumber)
+	if err != nil {
+		if err == models.ErrOrderNotFound {
+			http.Error(w, "Order not found", http.StatusNoContent)
+			return
+		}
+		h.logger.Error("Error getting order accrual info", zap.Error(err))
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	render.JSON(w, r, accrualInfo)
 }

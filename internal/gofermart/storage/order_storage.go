@@ -65,3 +65,27 @@ func (s *OrderStorage) GetOrdersByUserID(ctx context.Context, userID int64) ([]m
 
 	return orders, nil
 }
+
+func (s *OrderStorage) GetOrdersByStatus(ctx context.Context, statuses ...models.OrderStatus) ([]models.Order, error) {
+	var orders []models.Order
+	query := "SELECT user_id, number, status, accrual, created_at, updated_at FROM orders WHERE status = ANY($1)"
+	rows, err := s.db.Query(ctx, query, statuses)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var order models.Order
+		if err := rows.Scan(&order.UserID, &order.Number, &order.Status, &order.Accrual, &order.UploadedAt); err != nil {
+			return nil, err
+		}
+		orders = append(orders, order)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return orders, nil
+}

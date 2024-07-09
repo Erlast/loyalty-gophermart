@@ -6,6 +6,7 @@ import (
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/storage"
 	"gofermart/pkg/validators"
+	"time"
 )
 
 var (
@@ -15,11 +16,12 @@ var (
 )
 
 type OrderService struct {
-	storage *storage.OrderStorage
+	storage        *storage.OrderStorage
+	accrualService *AccrualService
 }
 
-func NewOrderService(storage *storage.OrderStorage) *OrderService {
-	return &OrderService{storage: storage}
+func NewOrderService(storage *storage.OrderStorage, accrualService *AccrualService) *OrderService {
+	return &OrderService{storage: storage, accrualService: accrualService}
 }
 
 func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) error {
@@ -44,4 +46,45 @@ func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) err
 
 func (s *OrderService) GetOrdersByUserID(ctx context.Context, userID int64) ([]models.Order, error) {
 	return s.storage.GetOrdersByUserID(ctx, userID)
+}
+
+func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
+	orders, err := s.storage.GetOrdersByStatus(ctx, models.OrderStatusNew, models.OrderStatusProcessing)
+	if err != nil {
+		return err
+	}
+
+	for _, order := range orders {
+		accrualInfo, err := s.accrualService.GetAccrualInfo(order.Number)
+		if err != nil {
+			continue
+		}
+
+		if accrualInfo == nil {
+			continue
+		}
+
+		order.Status = accrualInfo.Status
+		order.Accrual = accrualInfo.Accrual
+		order.UpdatedAt = time.Now()
+
+		if err := s.storage.UpdateOrder(ctx, order); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (s *OrderService) GetOrderAccrualInfo(ctx context.Context, orderNumber string) (*models.AccrualResponse, error) {
+	accrualInfo, err := s.accrualService.GetAccrualInfo(orderNumber)
+	if err != nil {
+		return nil, err
+	}
+
+	if accrualInfo == nil {
+		return nil, models.ErrOrderNotFound
+	}
+
+	return accrualInfo, nil
 }

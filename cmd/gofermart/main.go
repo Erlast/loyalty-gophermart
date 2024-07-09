@@ -10,6 +10,9 @@ import (
 	"gofermart/pkg/zaplog"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
@@ -41,59 +44,47 @@ func main() {
 		zaplog.Logger.Fatal("Failed to apply migrations", zap.Error(err))
 	}
 
-	// Create a new Chi router
-	r := chi.NewRouter()
-
 	// Инициализация сервисов
 	userStorage := storage.NewUserStorage(storage.DB)
 	orderStorage := storage.NewOrderStorage(storage.DB)
 	balanceStorage := storage.NewBalanceStorage(storage.DB)
+	accrualService := services.NewAccrualService(cfg.AccrualSystemAddress)
 	userService := services.NewUserService(userStorage)
-	orderService := services.NewOrderService(orderStorage)
+	orderService := services.NewOrderService(orderStorage, accrualService)
 	balanceService := services.NewBalanceService(balanceStorage)
 
-	// инициализация обработчиков
-	userHandler := handlers.NewUserHandler(userService, zaplog.Logger)
-	orderHandler := handlers.NewOrderHandler(orderService, zaplog.Logger)
-	balanceHandler := handlers.NewBalanceHandler(balanceService, zaplog.Logger)
+	// Инициализация роутера
+	router := chi.NewRouter()
+	router.Use(middleware.AuthMiddleware(zaplog.Logger))
 
-	// POST /api/user/register — регистрация пользователя
-	r.Post("/api/user/register", userHandler.Register)
-	// POST /api/user/login — аутентификация пользователя
-	r.Post("/api/user/login", userHandler.Login)
+	// Регистрация маршрутов
+	handlers.RegisterRoutes(ctx, router, userService, orderService, balanceService, zaplog.Logger)
 
-	r.Group(func(r chi.Router) {
-		r.Use(middleware.AuthMiddleware(zaplog.Logger))
-
-		// загрузка пользователем номера заказа для расчёта балов
-		r.Post("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {
-			orderHandler.LoadOrder(ctx, w, r)
-		})
-
-		// получение списка загруженных пользователем номеров заказов и их статусов
-		r.Get("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {
-			orderHandler.ListOrders(ctx, w, r)
-		})
-
-		// получение текущего баланса счёта баллов лояльности пользователя
-		r.Get("/api/user/balance", func(w http.ResponseWriter, r *http.Request) {
-			balanceHandler.GetBalance(ctx, w, r)
-		})
-
-		// запрос на списание баллов с накопительного счёта
-		r.Post("/api/user/balance/withdraw", func(w http.ResponseWriter, r *http.Request) {
-			balanceHandler.Withdraw(ctx, w, r)
-		})
-
-		// получение информации о выводе средств с накопительного счёта
-		r.Get("/api/user/withdrawals", func(w http.ResponseWriter, r *http.Request) {
-			balanceHandler.Withdrawals(ctx, w, r)
-		})
-	})
-
-	// Start the HTTP server
-	err = http.ListenAndServe(":8080", r)
-	if err != nil {
-		zaplog.Logger.Fatal("Error starting server", zap.Error(err))
+	// Настройка и запуск сервера
+	srv := &http.Server{
+		Addr:    config.GetConfig().RunAddress,
+		Handler: router,
 	}
+
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			zaplog.Logger.Fatal("ListenAndServe failed", zap.Error(err))
+		}
+	}()
+	zaplog.Logger.Info("Server is running", zap.String("address", config.GetConfig().RunAddress))
+
+	// Graceful shutdown
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	zaplog.Logger.Info("Shutting down server...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		zaplog.Logger.Fatal("Server forced to shutdown", zap.Error(err))
+	}
+
+	zaplog.Logger.Info("Server exiting")
 }
