@@ -15,7 +15,7 @@ func AuthMiddleware(logger *zap.SugaredLogger) func(next http.Handler) http.Hand
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			authHeader := r.Header.Get("Authorization")
 			if authHeader == "" {
-				http.Error(w, "Missing token", http.StatusUnauthorized)
+				http.Error(w, "", http.StatusUnauthorized)
 				return
 			}
 
@@ -23,7 +23,7 @@ func AuthMiddleware(logger *zap.SugaredLogger) func(next http.Handler) http.Hand
 			claims, err := services.ParseJWT(tokenStr)
 			if err != nil {
 				logger.Error("Invalid token", zap.Error(err))
-				http.Error(w, "Invalid token", http.StatusUnauthorized)
+				http.Error(w, "", http.StatusUnauthorized)
 				return
 			}
 

@@ -64,7 +64,7 @@ func (s *BalanceStorage) Withdraw(ctx context.Context, withdrawal *models.Withdr
 }
 
 func (s *BalanceStorage) GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error) {
-	query := `SELECT user_id, order_number, amount, processed_at FROM withdrawals WHERE user_id = $1 ORDER BY processed_at`
+	query := `SELECT order_number, amount, processed_at FROM withdrawals WHERE user_id = $1 ORDER BY processed_at`
 	rows, err := s.db.Query(ctx, query, userID)
 	if err != nil {
 		return nil, err
@@ -74,7 +74,7 @@ func (s *BalanceStorage) GetWithdrawalsByUserID(ctx context.Context, userID int6
 	var withdrawals []models.Withdrawal
 	for rows.Next() {
 		var withdrawal models.Withdrawal
-		if err := rows.Scan(&withdrawal.UserID, &withdrawal.Order, &withdrawal.Amount, &withdrawal.ProcessedAt); err != nil {
+		if err := rows.Scan(&withdrawal.Order, &withdrawal.Amount, &withdrawal.ProcessedAt); err != nil {
 			return nil, err
 		}
 		withdrawals = append(withdrawals, withdrawal)

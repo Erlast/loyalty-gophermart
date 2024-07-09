@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/services"
 	"gofermart/pkg/helpers"
@@ -40,11 +42,11 @@ func (h *BalanceHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
 	render.JSON(w, r, balance)
 }
 
-func (h *BalanceHandler) Withdraw(w http.ResponseWriter, r *http.Request) {
+func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
-		h.logger.Errorf(ErrorGettingUserIDFromContext, err)
-		http.Error(w, "", http.StatusInternalServerError)
+		h.logger.Error("Unauthorized user", zap.Error(err))
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
 
@@ -57,27 +59,40 @@ func (h *BalanceHandler) Withdraw(w http.ResponseWriter, r *http.Request) {
 
 	withdrawal.UserID = userID
 
-	if err := h.service.Withdraw(r.Context(), &withdrawal); err != nil {
-		h.logger.Error("Error withdrawing balance", zap.Error(err))
-		http.Error(w, "Error withdrawing balance: "+err.Error(), http.StatusBadRequest)
+	err = h.service.Withdraw(ctx, &withdrawal)
+	if err != nil {
+		switch {
+		case errors.Is(err, services.ErrInsufficientBalance):
+			http.Error(w, "Insufficient balance", http.StatusPaymentRequired)
+		case errors.Is(err, services.ErrInvalidOrderNumber):
+			http.Error(w, "Invalid order number format", http.StatusUnprocessableEntity)
+		default:
+			h.logger.Error("Error withdrawing balance", zap.Error(err))
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+		}
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 }
 
-func (h *BalanceHandler) Withdrawals(w http.ResponseWriter, r *http.Request) {
+func (h *BalanceHandler) Withdrawals(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
-		h.logger.Errorf(ErrorGettingUserIDFromContext, err)
+		h.logger.Error(ErrorGettingUserIDFromContext, zap.Error(err))
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
 
-	withdrawals, err := h.service.GetWithdrawalsByUserID(r.Context(), userID)
+	withdrawals, err := h.service.GetWithdrawalsByUserID(ctx, userID)
 	if err != nil {
 		h.logger.Error("Error getting withdrawals", zap.Error(err))
-		http.Error(w, "Error getting withdrawals", http.StatusInternalServerError)
+		http.Error(w, "", http.StatusInternalServerError)
+		return
+	}
+
+	if len(withdrawals) == 0 {
+		w.WriteHeader(http.StatusNoContent)
 		return
 	}
 

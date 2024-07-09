@@ -29,14 +29,14 @@ func main() {
 	cfg := config.LoadConfig()
 	zaplog.Logger.Infof("Config: %v", cfg)
 
-	err := storage.InitDB(cfg, ctx)
+	err := storage.InitDB(ctx, cfg)
 	if err != nil {
 		zaplog.Logger.Fatalf("Error initializing database: %s", err)
 	}
 	defer storage.DB.Close()
 
 	// Применение миграций
-	err = storage.ApplyMigrations("migrations/gofermart", ctx)
+	err = storage.ApplyMigrations(ctx, "migrations/gofermart")
 	if err != nil {
 		zaplog.Logger.Fatal("Failed to apply migrations", zap.Error(err))
 	}
@@ -65,20 +65,28 @@ func main() {
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.AuthMiddleware(zaplog.Logger))
 
-		// POST /api/user/orders — загрузка пользователем номера заказа для расчёта
-		r.Post("/api/user/orders", orderHandler.LoadOrders)
+		// загрузка пользователем номера заказа для расчёта балов
+		r.Post("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {
+			orderHandler.LoadOrder(ctx, w, r)
+		})
 
-		// GET /api/user/orders — получение списка загруженных пользователем номеров заказов и их статусов
-		r.Get("/api/user/orders", orderHandler.ListOrders)
+		// получение списка загруженных пользователем номеров заказов и их статусов
+		r.Get("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {
+			orderHandler.ListOrders(ctx, w, r)
+		})
 
-		// GET /api/user/balance — получение текущего баланса счёта баллов лояльности пользователя
+		// запрос на списание баллов с накопительного счёта
+		r.Post("/api/user/balance/withdraw", func(w http.ResponseWriter, r *http.Request) {
+			balanceHandler.Withdraw(ctx, w, r)
+		})
+
+		// получение информации о выводе средств с накопительного счёта
+		r.Get("/api/user/withdrawals", func(w http.ResponseWriter, r *http.Request) {
+			balanceHandler.Withdrawals(ctx, w, r)
+		})
+
+		// получение текущего баланса счёта баллов лояльности пользователя
 		r.Get("/api/user/balance", balanceHandler.GetBalance)
-
-		// POST /api/user/balance/withdraw — запрос на списание баллов с накопительного счёта
-		r.Post("/api/user/balance/withdraw", balanceHandler.Withdraw)
-
-		// GET /api/user/withdrawals — получение информации о выводе средств с накопительного счёта
-		r.Get("/api/user/withdrawals", balanceHandler.Withdrawals)
 	})
 
 	// Define your routes

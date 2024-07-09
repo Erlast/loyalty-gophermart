@@ -5,6 +5,12 @@ import (
 	"errors"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/storage"
+	"gofermart/pkg/validators"
+)
+
+var (
+	ErrInsufficientBalance = errors.New("insufficient balance")
+	ErrInvalidOrderNumber  = errors.New("invalid order number format")
 )
 
 type BalanceService struct {
@@ -26,7 +32,11 @@ func (s *BalanceService) Withdraw(ctx context.Context, withdrawal *models.Withdr
 	}
 
 	if balance.CurrentBalance < withdrawal.Amount {
-		return errors.New("insufficient balance")
+		return ErrInsufficientBalance
+	}
+
+	if !validators.ValidateOrderNumber(withdrawal.Order) {
+		return ErrInvalidOrderNumber
 	}
 
 	return s.storage.Withdraw(ctx, withdrawal)

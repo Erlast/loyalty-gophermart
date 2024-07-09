@@ -24,6 +24,9 @@ func GenerateJWT(userID int64) (string, error) {
 	return token.SignedString([]byte(config.GetConfig().JWTSecret))
 }
 
+// ParseJWT jwt.ParseWithClaims — это метод из библиотеки github.com/dgrijalva/jwt-go
+// func(token *jwt.Token) (interface{}, error) — это функция, которая предоставляется для валидации токена.
+// Она должна возвращать секретный ключ, используемый для подписи токена.
 func ParseJWT(tokenStr string) (*JWTClaim, error) {
 	claims := &JWTClaim{}
 	token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
