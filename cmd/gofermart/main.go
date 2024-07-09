@@ -91,14 +91,6 @@ func main() {
 		})
 	})
 
-	// Define your routes
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		_, err := w.Write([]byte("Welcome to Gofermart!"))
-		if err != nil {
-			zaplog.Logger.Errorf("Error writing response: %s", err)
-		}
-	})
-
 	// Start the HTTP server
 	err = http.ListenAndServe(":8080", r)
 	if err != nil {
