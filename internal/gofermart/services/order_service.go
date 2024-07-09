@@ -66,9 +66,9 @@ func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 
 		order.Status = accrualInfo.Status
 		order.Accrual = accrualInfo.Accrual
-		order.UpdatedAt = time.Now()
+		order.UploadedAt = time.Now()
 
-		if err := s.storage.UpdateOrder(ctx, order); err != nil {
+		if err := s.storage.UpdateOrder(ctx, &order); err != nil {
 			return err
 		}
 	}

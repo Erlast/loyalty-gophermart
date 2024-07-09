@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/handlers"
 	"gofermart/internal/gofermart/middleware"
@@ -60,6 +61,22 @@ func main() {
 	// Регистрация маршрутов
 	handlers.RegisterRoutes(ctx, router, userService, orderService, balanceService, zaplog.Logger)
 
+	// Запуск фоновой горутины для обновления статусов заказов
+	go func() {
+		ticker := time.NewTicker(1 * time.Minute)
+		defer ticker.Stop()
+		for {
+			select {
+			case <-ticker.C:
+				if err := orderService.UpdateOrderStatuses(ctx); err != nil {
+					zaplog.Logger.Error("Error updating order statuses", zap.Error(err))
+				}
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+
 	// Настройка и запуск сервера
 	srv := &http.Server{
 		Addr:    config.GetConfig().RunAddress,
@@ -67,7 +84,7 @@ func main() {
 	}
 
 	go func() {
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			zaplog.Logger.Fatal("ListenAndServe failed", zap.Error(err))
 		}
 	}()
