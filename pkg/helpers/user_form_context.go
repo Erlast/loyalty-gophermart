@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"errors"
 	"gofermart/internal/gofermart/config"
 	"net/http"
 
@@ -13,7 +14,7 @@ func GetUserIDFromContext(r *http.Request, logger *zap.SugaredLogger) (int64, er
 	userID, ok := userIDValue.(int64)
 	if !ok {
 		logger.Error("Error getting userID from context", zap.Any("userIDValue", userIDValue))
-		return 0, http.ErrNoLocation
+		return 0, errors.New("error getting userID from context")
 	}
 	return userID, nil
 }
