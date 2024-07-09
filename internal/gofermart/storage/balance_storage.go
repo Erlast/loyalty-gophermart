@@ -20,11 +20,11 @@ func NewBalanceStorage(db *pgxpool.Pool) *BalanceStorage {
 }
 
 func (s *BalanceStorage) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {
-	query := `SELECT user_id, current_balance, total_withdrawn FROM balances WHERE user_id = $1`
+	query := `SELECT current_balance, total_withdrawn FROM balances WHERE user_id = $1`
 	row := s.db.QueryRow(ctx, query, userID)
 
 	var balance models.Balance
-	if err := row.Scan(&balance.UserID, &balance.CurrentBalance, &balance.TotalWithdrawn); err != nil {
+	if err := row.Scan(&balance.CurrentBalance, &balance.TotalWithdrawn); err != nil {
 		return nil, err
 	}
 

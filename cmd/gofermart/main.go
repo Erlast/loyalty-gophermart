@@ -75,6 +75,11 @@ func main() {
 			orderHandler.ListOrders(ctx, w, r)
 		})
 
+		// получение текущего баланса счёта баллов лояльности пользователя
+		r.Get("/api/user/balance", func(w http.ResponseWriter, r *http.Request) {
+			balanceHandler.GetBalance(ctx, w, r)
+		})
+
 		// запрос на списание баллов с накопительного счёта
 		r.Post("/api/user/balance/withdraw", func(w http.ResponseWriter, r *http.Request) {
 			balanceHandler.Withdraw(ctx, w, r)
@@ -84,9 +89,6 @@ func main() {
 		r.Get("/api/user/withdrawals", func(w http.ResponseWriter, r *http.Request) {
 			balanceHandler.Withdrawals(ctx, w, r)
 		})
-
-		// получение текущего баланса счёта баллов лояльности пользователя
-		r.Get("/api/user/balance", balanceHandler.GetBalance)
 	})
 
 	// Define your routes

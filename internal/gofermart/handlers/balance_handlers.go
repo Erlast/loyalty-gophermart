@@ -24,7 +24,7 @@ func NewBalanceHandler(service *services.BalanceService, logger *zap.SugaredLogg
 	return &BalanceHandler{service: service, logger: logger}
 }
 
-func (h *BalanceHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
+func (h *BalanceHandler) GetBalance(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
 		h.logger.Errorf(ErrorGettingUserIDFromContext, err)
@@ -32,10 +32,10 @@ func (h *BalanceHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	balance, err := h.service.GetBalanceByUserID(r.Context(), userID)
+	balance, err := h.service.GetBalanceByUserID(ctx, userID)
 	if err != nil {
 		h.logger.Error("Error getting balance", zap.Error(err))
-		http.Error(w, "Error getting balance", http.StatusInternalServerError)
+		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
 
