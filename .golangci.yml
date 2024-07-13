@@ -499,7 +499,7 @@ linters:
     - goprintffuncname
 #    - gosec
     - gosimple
-#    - govet
+    - govet
     - grouper
     - ineffassign
     - intrange

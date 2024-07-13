@@ -10,8 +10,8 @@ import (
 )
 
 type AccrualService struct {
-	AccrualSystemAddress string
 	Client               *http.Client
+	AccrualSystemAddress string
 }
 
 func NewAccrualService(address string) *AccrualService {

@@ -7,11 +7,11 @@ import (
 
 // User представляет пользователя системы.
 type User struct {
-	ID        int64     `json:"id"`
-	Login     string    `json:"login"`
-	Password  string    `json:"password"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+	Password  string    `json:"password"`
+	Login     string    `json:"login"`
+	ID        int64     `json:"id"`
 }
 
 // Bind для User необходим для использования с chi/render.

@@ -8,8 +8,8 @@ import (
 )
 
 type JWTClaim struct {
-	UserID int64 `json:"user_id"`
 	jwt.StandardClaims
+	UserID int64 `json:"user_id"`
 }
 
 func GenerateJWT(userID int64) (string, error) {

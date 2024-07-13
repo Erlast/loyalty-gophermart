@@ -11,11 +11,11 @@ const (
 )
 
 type ErrResponse struct {
+	Err            error  `json:"-"`               // низкоуровневая ошибка
 	StatusText     string `json:"status"`          // статус ошибки
 	ErrorText      string `json:"error,omitempty"` // сообщение об ошибке
 	AppCode        int64  `json:"code,omitempty"`  // приложение-специфичный код ошибки
 	HTTPStatusCode int    `json:"-"`               // HTTP статус-код
-	Err            error  `json:"-"`               // низкоуровневая ошибка
 }
 
 func (e *ErrResponse) Render(_ http.ResponseWriter, r *http.Request) error {
