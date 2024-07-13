@@ -20,8 +20,8 @@ type OrderService struct {
 	accrualService *AccrualService
 }
 
-func NewOrderService(storage *storage.OrderStorage, accrualService *AccrualService) *OrderService {
-	return &OrderService{storage: storage, accrualService: accrualService}
+func NewOrderService(orderStorage *storage.OrderStorage, accrualService *AccrualService) *OrderService {
+	return &OrderService{storage: orderStorage, accrualService: accrualService}
 }
 
 func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) error {

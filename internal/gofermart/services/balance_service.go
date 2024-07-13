@@ -17,8 +17,8 @@ type BalanceService struct {
 	storage *storage.BalanceStorage
 }
 
-func NewBalanceService(storage *storage.BalanceStorage) *BalanceService {
-	return &BalanceService{storage: storage}
+func NewBalanceService(balanceStorage *storage.BalanceStorage) *BalanceService {
+	return &BalanceService{storage: balanceStorage}
 }
 
 func (s *BalanceService) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {

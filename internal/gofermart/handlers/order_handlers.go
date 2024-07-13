@@ -67,6 +67,7 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 			if err != nil {
 				h.logger.Errorf("%v:,%v", op, err)
 				http.Error(w, "", http.StatusInternalServerError)
+				return
 			}
 		case errors.Is(err, services.ErrOrderAlreadyLoadedByDifferentUser):
 			w.WriteHeader(http.StatusConflict)
@@ -74,6 +75,7 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 			if err != nil {
 				h.logger.Errorf("%v:,%v", op, err)
 				http.Error(w, "", http.StatusInternalServerError)
+				return
 			}
 		case errors.Is(err, services.ErrInvalidOrderFormat):
 			w.WriteHeader(http.StatusUnprocessableEntity)
@@ -81,10 +83,12 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 			if err != nil {
 				h.logger.Errorf("%v:,%v", op, err)
 				http.Error(w, "", http.StatusInternalServerError)
+				return
 			}
 		default:
 			h.logger.Error("Error creating order", zap.Error(err))
 			http.Error(w, "", http.StatusInternalServerError)
+			return
 		}
 		return
 	}

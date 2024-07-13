@@ -488,10 +488,10 @@ linters:
     - errorlint
 #    - execinquery
     - exhaustive
-#    - forcetypeassert
+    - forcetypeassert
     - gocheckcompilerdirectives
     - goconst
-#    - gocritic
+    - gocritic
     - godot
     - gofmt
     - goimports

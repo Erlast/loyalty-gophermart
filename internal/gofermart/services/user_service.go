@@ -14,8 +14,8 @@ type UserService struct {
 	storage *storage.UserStorage
 }
 
-func NewUserService(storage *storage.UserStorage) *UserService {
-	return &UserService{storage: storage}
+func NewUserService(userStorage *storage.UserStorage) *UserService {
+	return &UserService{storage: userStorage}
 }
 
 func (s *UserService) Register(ctx context.Context, user *models.User) error {
