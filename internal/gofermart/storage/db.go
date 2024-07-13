@@ -2,17 +2,27 @@ package storage
 
 import (
 	"context"
+	"embed"
+	"errors"
 	"fmt"
-	"gofermart/internal/gofermart/config"
-	"os"
-	"path/filepath"
-
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/golang-migrate/migrate/v4/source/iofs"
 	"github.com/jackc/pgx/v4/pgxpool"
+	"gofermart/internal/gofermart/config"
 )
+
+//go:embed internal/gofermart/migrations/*.sql
+var migrationsDir embed.FS
 
 var DB *pgxpool.Pool
 
 func InitDB(ctx context.Context, cfg config.Config) error {
+
+	if err := runMigrations(cfg.DatabaseURI); err != nil {
+		return fmt.Errorf("failed to run DB migrations: %w", err)
+	}
+
 	parsedConfig, err := pgxpool.ParseConfig(cfg.DatabaseURI)
 	if err != nil {
 		return fmt.Errorf("unable to parse cfg.DatabaseURI: %w", err)
@@ -26,28 +36,20 @@ func InitDB(ctx context.Context, cfg config.Config) error {
 	return nil
 }
 
-func ApplyMigrations(ctx context.Context, migrationsDir string) error {
-	entries, err := os.ReadDir(migrationsDir)
+func runMigrations(dsn string) error {
+	d, err := iofs.New(migrationsDir, "migrations")
 	if err != nil {
-		return fmt.Errorf("failed to read migrations directory: %w", err)
+		return fmt.Errorf("failed to return an iofs driver: %w", err)
 	}
 
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue
-		}
-
-		filePath := filepath.Join(migrationsDir, entry.Name())
-		content, err := os.ReadFile(filePath)
-		if err != nil {
-			return fmt.Errorf("failed to read migration file %s: %w", filePath, err)
-		}
-
-		_, err = DB.Exec(ctx, string(content))
-		if err != nil {
-			return fmt.Errorf("failed to execute migration file %s: %w", filePath, err)
+	m, err := migrate.NewWithSourceInstance("iofs", d, dsn)
+	if err != nil {
+		return fmt.Errorf("failed to get a new migrate instance: %w", err)
+	}
+	if err = m.Up(); err != nil {
+		if !errors.Is(err, migrate.ErrNoChange) {
+			return fmt.Errorf("failed to apply migrations to the DB: %w", err)
 		}
 	}
-
 	return nil
 }

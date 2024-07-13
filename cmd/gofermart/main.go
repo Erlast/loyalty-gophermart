@@ -39,12 +39,6 @@ func main() {
 	}
 	defer storage.DB.Close()
 
-	// Применение миграций
-	err = storage.ApplyMigrations(ctx, "migrations/gofermart")
-	if err != nil {
-		zaplog.Logger.Fatal("Failed to apply migrations", zap.Error(err))
-	}
-
 	// Инициализация сервисов
 	userStorage := storage.NewUserStorage(storage.DB)
 	orderStorage := storage.NewOrderStorage(storage.DB)
