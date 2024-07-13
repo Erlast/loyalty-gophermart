@@ -3,7 +3,6 @@ package handlers
 import (
 	"context"
 	"errors"
-	"github.com/go-chi/chi/v5"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/services"
 	"gofermart/pkg/helpers"
@@ -11,6 +10,8 @@ import (
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/go-chi/chi/v5"
 
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
@@ -39,12 +40,12 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 		http.Error(w, "", http.StatusBadRequest)
 		return
 	}
-	defer r.Body.Close()
+	defer r.Body.Close() //nolint:errcheck //later change
 
 	orderNumber := string(body)
 
 	if !validators.ValidateOrderNumber(orderNumber) { // Assuming you have a function to validate the order number
-		h.logger.Error("Invalid order number format", zap.String("orderNumber", orderNumber))
+		h.logger.Error(InvalidOrderFormatMsg, zap.String("orderNumber", orderNumber))
 		http.Error(w, "", http.StatusUnprocessableEntity)
 		return
 	}
@@ -61,13 +62,13 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 		switch {
 		case errors.Is(err, services.ErrOrderAlreadyLoadedBySameUser):
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("Order number already loaded by this user")) //nolint:errcheck
+			w.Write([]byte("Order number already loaded by this user")) //nolint:errcheck // later change
 		case errors.Is(err, services.ErrOrderAlreadyLoadedByDifferentUser):
 			w.WriteHeader(http.StatusConflict)
-			w.Write([]byte("Order number already loaded by a different user")) //nolint:errcheck
+			w.Write([]byte("Order number already loaded by a different user")) //nolint:errcheck //later change
 		case errors.Is(err, services.ErrInvalidOrderFormat):
 			w.WriteHeader(http.StatusUnprocessableEntity)
-			w.Write([]byte("Invalid order number format")) //nolint:errcheck
+			w.Write([]byte(InvalidOrderFormatMsg)) //nolint:errcheck
 		default:
 			h.logger.Error("Error creating order", zap.Error(err))
 			http.Error(w, "", http.StatusInternalServerError)
@@ -100,7 +101,7 @@ func (h *OrderHandler) GetOrderAccrual(w http.ResponseWriter, r *http.Request) {
 	orderNumber := chi.URLParam(r, "number")
 
 	if !validators.ValidateOrderNumber(orderNumber) {
-		http.Error(w, "Invalid order number format", http.StatusUnprocessableEntity)
+		http.Error(w, InvalidOrderFormatMsg, http.StatusUnprocessableEntity)
 		return
 	}
 

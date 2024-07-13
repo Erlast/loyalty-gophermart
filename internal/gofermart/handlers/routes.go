@@ -2,12 +2,13 @@ package handlers
 
 import (
 	"context"
-	"github.com/go-chi/chi/v5"
-	"go.uber.org/zap"
 	"gofermart/internal/gofermart/middleware"
 	"gofermart/internal/gofermart/services"
 	"gofermart/pkg/zaplog"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
+	"go.uber.org/zap"
 )
 
 func RegisterRoutes(

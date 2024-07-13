@@ -6,6 +6,10 @@ import (
 	"github.com/go-chi/render"
 )
 
+const (
+	InvalidOrderFormatMsg = "Invalid order number format"
+)
+
 type ErrResponse struct {
 	StatusText     string `json:"status"`          // статус ошибки
 	ErrorText      string `json:"error,omitempty"` // сообщение об ошибке

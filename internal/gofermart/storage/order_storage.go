@@ -3,8 +3,9 @@ package storage
 import (
 	"context"
 	"errors"
-	"github.com/jackc/pgx/v4"
 	"gofermart/internal/gofermart/models"
+
+	"github.com/jackc/pgx/v4"
 
 	"github.com/jackc/pgx/v4/pgxpool"
 )

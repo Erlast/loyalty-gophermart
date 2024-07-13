@@ -96,7 +96,7 @@ func main() {
 	<-quit
 	zaplog.Logger.Info("Shutting down server...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) //nolint:mnd // 5 секунд на завершение
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
