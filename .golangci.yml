@@ -497,7 +497,7 @@ linters:
     - goimports
     - mnd
     - goprintffuncname
-#    - gosec
+    - gosec
     - gosimple
     - govet
     - grouper

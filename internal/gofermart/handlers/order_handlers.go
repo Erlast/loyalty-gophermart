@@ -27,6 +27,7 @@ func NewOrderHandler(service *services.OrderService, logger *zap.SugaredLogger) 
 }
 
 func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	op := "order handlers method load order"
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
 		h.logger.Errorf("Error getting user id from context: %v", err)
@@ -62,13 +63,25 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 		switch {
 		case errors.Is(err, services.ErrOrderAlreadyLoadedBySameUser):
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("Order number already loaded by this user")) //nolint:errcheck // later change
+			_, err = w.Write([]byte("Order number already loaded by this user"))
+			if err != nil {
+				h.logger.Errorf("%v:,%v", op, err)
+				http.Error(w, "", http.StatusInternalServerError)
+			}
 		case errors.Is(err, services.ErrOrderAlreadyLoadedByDifferentUser):
 			w.WriteHeader(http.StatusConflict)
-			w.Write([]byte("Order number already loaded by a different user")) //nolint:errcheck //later change
+			_, err = w.Write([]byte("Order number already loaded by a different user"))
+			if err != nil {
+				h.logger.Errorf("%v:,%v", op, err)
+				http.Error(w, "", http.StatusInternalServerError)
+			}
 		case errors.Is(err, services.ErrInvalidOrderFormat):
 			w.WriteHeader(http.StatusUnprocessableEntity)
-			w.Write([]byte(InvalidOrderFormatMsg)) //nolint:errcheck // later change
+			_, err = w.Write([]byte(InvalidOrderFormatMsg))
+			if err != nil {
+				h.logger.Errorf("%v:,%v", op, err)
+				http.Error(w, "", http.StatusInternalServerError)
+			}
 		default:
 			h.logger.Error("Error creating order", zap.Error(err))
 			http.Error(w, "", http.StatusInternalServerError)
