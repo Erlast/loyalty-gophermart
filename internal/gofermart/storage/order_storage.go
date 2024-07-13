@@ -25,7 +25,7 @@ func (s *OrderStorage) GetOrder(ctx context.Context, number string) (*models.Ord
 	err := row.Scan(&order.UserID, &order.Number)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, nil
+			return nil, errors.New("no rows in result set")
 		}
 		return nil, err
 	}

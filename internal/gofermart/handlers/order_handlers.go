@@ -68,7 +68,7 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 			w.Write([]byte("Order number already loaded by a different user")) //nolint:errcheck //later change
 		case errors.Is(err, services.ErrInvalidOrderFormat):
 			w.WriteHeader(http.StatusUnprocessableEntity)
-			w.Write([]byte(InvalidOrderFormatMsg)) //nolint:errcheck
+			w.Write([]byte(InvalidOrderFormatMsg)) //nolint:errcheck // later change
 		default:
 			h.logger.Error("Error creating order", zap.Error(err))
 			http.Error(w, "", http.StatusInternalServerError)
@@ -107,7 +107,7 @@ func (h *OrderHandler) GetOrderAccrual(w http.ResponseWriter, r *http.Request) {
 
 	accrualInfo, err := h.service.GetOrderAccrualInfo(r.Context(), orderNumber)
 	if err != nil {
-		if err == models.ErrOrderNotFound {
+		if errors.Is(err, models.ErrOrderNotFound) {
 			http.Error(w, "Order not found", http.StatusNoContent)
 			return
 		}

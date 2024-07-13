@@ -5,21 +5,18 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"gofermart/internal/gofermart/config"
+
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 	"github.com/jackc/pgx/v4/pgxpool"
-	"gofermart/internal/gofermart/config"
 )
-
-//go:embed internal/gofermart/migrations/*.sql
-var migrationsDir embed.FS
 
 var DB *pgxpool.Pool
 
-func InitDB(ctx context.Context, cfg config.Config) error {
-
-	if err := runMigrations(cfg.DatabaseURI); err != nil {
+func InitDB(ctx context.Context, cfg config.Config, migrationsDir embed.FS) error {
+	if err := runMigrations(cfg.DatabaseURI, migrationsDir); err != nil {
 		return fmt.Errorf("failed to run DB migrations: %w", err)
 	}
 
@@ -36,7 +33,7 @@ func InitDB(ctx context.Context, cfg config.Config) error {
 	return nil
 }
 
-func runMigrations(dsn string) error {
+func runMigrations(dsn string, migrationsDir embed.FS) error {
 	d, err := iofs.New(migrationsDir, "migrations")
 	if err != nil {
 		return fmt.Errorf("failed to return an iofs driver: %w", err)

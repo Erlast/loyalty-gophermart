@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"gofermart/internal/gofermart/models"
 	"net/http"
@@ -16,7 +17,7 @@ type AccrualService struct {
 func NewAccrualService(address string) *AccrualService {
 	return &AccrualService{
 		AccrualSystemAddress: address,
-		Client:               &http.Client{Timeout: 10 * time.Second},
+		Client:               &http.Client{Timeout: 10 * time.Second}, //nolint:mnd // Timeout 10 секунд
 	}
 }
 
@@ -26,10 +27,10 @@ func (s *AccrualService) GetAccrualInfo(orderNumber string) (*models.AccrualResp
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck // later change
 
 	if resp.StatusCode == http.StatusNoContent {
-		return nil, nil
+		return nil, errors.New("no content")
 	}
 
 	if resp.StatusCode != http.StatusOK {

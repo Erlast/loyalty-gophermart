@@ -6,6 +6,7 @@ import (
 	"gofermart/internal/gofermart/config"
 	"gofermart/internal/gofermart/handlers"
 	"gofermart/internal/gofermart/middleware"
+	"gofermart/internal/gofermart/migrations/gofermart"
 	"gofermart/internal/gofermart/services"
 	"gofermart/internal/gofermart/storage"
 	"gofermart/pkg/zaplog"
@@ -33,7 +34,7 @@ func main() {
 	cfg := config.LoadConfig()
 	zaplog.Logger.Infof("Config: %v", cfg)
 
-	err := storage.InitDB(ctx, cfg)
+	err := storage.InitDB(ctx, cfg, gofermart.Files)
 	if err != nil {
 		zaplog.Logger.Fatalf("Error initializing database: %s", err)
 	}
