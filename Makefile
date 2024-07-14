@@ -28,6 +28,7 @@ _golangci-lint-rm-unformatted-report: _golangci-lint-format-report
 
 .PHONY: golangci-lint-clean
 golangci-lint-clean:
+
 lint:
 	# | jq > ./golangci-lint/report.json
 	golangci-lint run --fix -c .golangci.yml > golangci-lint/report-unformatted.json
