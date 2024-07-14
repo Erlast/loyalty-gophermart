@@ -90,9 +90,29 @@ func PostAccrualGoodsHandler(
 ) {
 	var bodyReq models.Goods
 
-	err := prepareBody(req, res, log, &bodyReq)
+	if req.Body == http.NoBody {
+		http.Error(res, "Empty body!", http.StatusBadRequest)
+		return
+	}
+
+	body, err := io.ReadAll(req.Body)
 
 	if err != nil {
+		log.Errorf("failed to read the request body: %v", err)
+		http.Error(res, "", http.StatusInternalServerError)
+		return
+	}
+
+	err = json.Unmarshal(body, &bodyReq)
+
+	if err != nil {
+		log.Errorf("failed to marshal result: %v", err)
+		http.Error(res, "", http.StatusInternalServerError)
+		return
+	}
+
+	if err := bodyReq.Validate(); err != nil {
+		http.Error(res, err.Error(), http.StatusBadRequest)
 		return
 	}
 

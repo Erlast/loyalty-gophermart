@@ -17,7 +17,7 @@ type envCfg struct {
 	DatabaseURI string `env:"DATABASE_URI"`
 }
 
-const defaultRunAddress = ":8080"
+const defaultRunAddress = "localhost:8080"
 
 func ParseAccrualFlags() *Cfg {
 	config := &Cfg{
@@ -25,7 +25,7 @@ func ParseAccrualFlags() *Cfg {
 		DatabaseURI: "",
 	}
 
-	flag.StringVar(&config.RunAddress, "a", config.RunAddress, "port to run server")
+	flag.StringVar(&config.RunAddress, "a", config.RunAddress, "address to run server")
 	flag.StringVar(&config.DatabaseURI, "d", config.DatabaseURI, "database URI")
 
 	flag.Parse()
