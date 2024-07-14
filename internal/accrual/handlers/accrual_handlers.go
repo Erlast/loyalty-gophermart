@@ -90,44 +90,24 @@ func PostAccrualGoodsHandler(
 ) {
 	var bodyReq models.Goods
 
-	if req.Body == http.NoBody {
-		http.Error(res, "Empty body!", http.StatusBadRequest)
-		return
-	}
-
-	body, err := io.ReadAll(req.Body)
+	err := prepareBody(req, res, log, &bodyReq)
 
 	if err != nil {
-		log.Errorf("failed to read the request body: %v", err)
-		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
 
-	err = json.Unmarshal(body, &bodyReq)
-
-	if err != nil {
-		log.Errorf("failed to marshal result: %v", err)
-		http.Error(res, "", http.StatusInternalServerError)
-		return
-	}
-
-	if err := bodyReq.Validate(); err != nil {
-		http.Error(res, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	err = store.SaveGoods(ctx, bodyReq)
-
-	if err != nil {
-		var conflictErr *helpers.ConflictError
-		if errors.As(err, &conflictErr) {
-			res.WriteHeader(http.StatusConflict)
-			return
-		}
-		log.Errorf("failed to save goods: %v", err)
-		http.Error(res, "", http.StatusInternalServerError)
-		return
-	}
+	//err = store.SaveGoods(ctx, bodyReq)
+	//
+	//if err != nil {
+	//	var conflictErr *helpers.ConflictError
+	//	if errors.As(err, &conflictErr) {
+	//		res.WriteHeader(http.StatusConflict)
+	//		return
+	//	}
+	//	log.Errorf("failed to save goods: %v", err)
+	//	http.Error(res, "", http.StatusInternalServerError)
+	//	return
+	//}
 
 	res.WriteHeader(http.StatusOK)
 }
