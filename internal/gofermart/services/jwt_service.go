@@ -2,7 +2,7 @@ package services
 
 import (
 	"fmt"
-	"gofermart/internal/gofermart/config"
+	"loyalty-gophermart/internal/gofermart/config"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"

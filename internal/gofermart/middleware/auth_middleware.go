@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"context"
-	"gofermart/internal/gofermart/config"
-	"gofermart/internal/gofermart/services"
+	"loyalty-gophermart/internal/gofermart/config"
+	"loyalty-gophermart/internal/gofermart/services"
 	"net/http"
 	"strings"
 

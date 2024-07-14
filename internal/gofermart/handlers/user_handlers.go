@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"gofermart/internal/gofermart/models"
-	"gofermart/internal/gofermart/services"
+	"loyalty-gophermart/internal/gofermart/models"
+	"loyalty-gophermart/internal/gofermart/services"
+
 	"net/http"
 
 	"github.com/go-chi/render"

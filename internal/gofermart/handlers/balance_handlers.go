@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"gofermart/internal/gofermart/models"
-	"gofermart/internal/gofermart/services"
-	"gofermart/pkg/helpers"
+	"loyalty-gophermart/internal/gofermart/models"
+	"loyalty-gophermart/internal/gofermart/services"
+	"loyalty-gophermart/pkg/helpers"
 	"net/http"
 
 	"github.com/go-chi/render"

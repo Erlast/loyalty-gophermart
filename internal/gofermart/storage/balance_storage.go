@@ -3,8 +3,8 @@ package storage
 import (
 	"context"
 	"fmt"
-	"gofermart/internal/gofermart/models"
-	"gofermart/pkg/zaplog"
+	"loyalty-gophermart/internal/gofermart/models"
+	"loyalty-gophermart/pkg/zaplog"
 
 	"github.com/jackc/pgx/v4"
 	"go.uber.org/zap"

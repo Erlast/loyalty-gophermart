@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gofermart/internal/gofermart/models"
-	"gofermart/internal/gofermart/storage"
-	"gofermart/pkg/validators"
+	"loyalty-gophermart/internal/gofermart/models"
+	"loyalty-gophermart/internal/gofermart/storage"
+	"loyalty-gophermart/pkg/validators"
 )
 
 var (

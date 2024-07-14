@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"context"
-	"gofermart/internal/gofermart/middleware"
-	"gofermart/internal/gofermart/services"
-	"gofermart/pkg/zaplog"
+	"loyalty-gophermart/internal/gofermart/middleware"
+	"loyalty-gophermart/internal/gofermart/services"
+	"loyalty-gophermart/pkg/zaplog"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"

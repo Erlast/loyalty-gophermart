@@ -3,11 +3,11 @@ package handlers
 import (
 	"context"
 	"errors"
-	"gofermart/internal/gofermart/models"
-	"gofermart/internal/gofermart/services"
-	"gofermart/pkg/helpers"
-	"gofermart/pkg/validators"
 	"io"
+	"loyalty-gophermart/internal/gofermart/models"
+	"loyalty-gophermart/internal/gofermart/services"
+	"loyalty-gophermart/pkg/helpers"
+	"loyalty-gophermart/pkg/validators"
 	"net/http"
 	"time"
 

@@ -2,7 +2,7 @@ package config
 
 import (
 	"flag"
-	"gofermart/pkg/zaplog"
+	"loyalty-gophermart/pkg/zaplog"
 	"os"
 )
 

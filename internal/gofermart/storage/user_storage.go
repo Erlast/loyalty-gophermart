@@ -3,7 +3,7 @@ package storage
 import (
 	"context"
 	"fmt"
-	"gofermart/internal/gofermart/models"
+	"loyalty-gophermart/internal/gofermart/models"
 
 	"github.com/jackc/pgx/v4/pgxpool"
 )

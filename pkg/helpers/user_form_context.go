@@ -2,7 +2,7 @@ package helpers
 
 import (
 	"errors"
-	"gofermart/internal/gofermart/config"
+	"loyalty-gophermart/internal/gofermart/config"
 	"net/http"
 
 	"go.uber.org/zap"
