@@ -13,7 +13,7 @@ type Cfg struct {
 }
 
 type envCfg struct {
-	RunAddress  string `env:"RUN_ADDRESS" envDefault:"localhost:8080"`
+	RunAddress  string `env:"RUN_ADDRESS"`
 	DatabaseURI string `env:"DATABASE_URI"`
 }
 
