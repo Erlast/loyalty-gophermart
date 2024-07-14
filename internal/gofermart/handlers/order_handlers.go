@@ -3,11 +3,11 @@ package handlers
 import (
 	"context"
 	"errors"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/models"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/services"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/validators"
 	"io"
-	"loyalty-gophermart/internal/gofermart/models"
-	"loyalty-gophermart/internal/gofermart/services"
-	"loyalty-gophermart/pkg/helpers"
-	"loyalty-gophermart/pkg/validators"
 	"net/http"
 	"time"
 

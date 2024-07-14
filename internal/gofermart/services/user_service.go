@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/models"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/storage"
 	"golang.org/x/crypto/bcrypt"
-	"loyalty-gophermart/internal/gofermart/models"
-	"loyalty-gophermart/internal/gofermart/storage"
 )
 
 type UserService struct {

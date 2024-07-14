@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"loyalty-gophermart/internal/gofermart/models"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/models"
+
 	"net/http"
 	"time"
 )
