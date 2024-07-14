@@ -2,16 +2,20 @@ package routes
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/handlers"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"go.uber.org/zap"
+	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"net/http"
+	"go.uber.org/zap"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/handlers"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 )
 
-func NewAccrualRouter(ctx context.Context, _ *config.Cfg, store *storage.AccrualStorage, log *zap.SugaredLogger) *chi.Mux {
+func NewAccrualRouter(
+	ctx context.Context,
+	store *storage.AccrualStorage,
+	log *zap.SugaredLogger,
+) *chi.Mux {
 	r := chi.NewRouter()
 
 	r.Get("/api/orders/{number}", func(res http.ResponseWriter, req *http.Request) {

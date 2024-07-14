@@ -26,7 +26,7 @@ func main() {
 		newLogger.Fatalf("Unable to create storage %v: ", err)
 	}
 
-	r := routes.NewAccrualRouter(ctx, cfg, store, newLogger)
+	r := routes.NewAccrualRouter(ctx, store, newLogger)
 
 	newLogger.Infof("Start running server. Address: %s, db: %s", cfg.RunAddress, cfg.DatabaseURI)
 	err = http.ListenAndServe(cfg.RunAddress, r)

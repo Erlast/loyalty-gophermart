@@ -4,16 +4,25 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
-	models2 "github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"github.com/go-chi/chi/v5"
-	"go.uber.org/zap"
+	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
+	"go.uber.org/zap"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 )
 
-func GetAccrualOrderHandler(_ context.Context, res http.ResponseWriter, req *http.Request, store *storage.AccrualStorage, log *zap.SugaredLogger) {
+func GetAccrualOrderHandler(
+	_ context.Context,
+	res http.ResponseWriter,
+	req *http.Request,
+	store *storage.AccrualStorage,
+	log *zap.SugaredLogger,
+) {
 	orderNumber := chi.URLParam(req, "number")
 
 	order, err := store.GetByOrderNumber(req.Context(), orderNumber)
@@ -41,34 +50,22 @@ func GetAccrualOrderHandler(_ context.Context, res http.ResponseWriter, req *htt
 	}
 }
 
-func PostAccrualOrderHandler(_ context.Context, res http.ResponseWriter, req *http.Request, store *storage.AccrualStorage, log *zap.SugaredLogger) {
-	if req.Body == http.NoBody {
-		http.Error(res, "Empty body!", http.StatusBadRequest)
-		return
-	}
-	var bodyReq models2.OrderItem
+func PostAccrualOrderHandler(
+	ctx context.Context,
+	res http.ResponseWriter,
+	req *http.Request,
+	store *storage.AccrualStorage,
+	log *zap.SugaredLogger,
+) {
+	var bodyReq models.OrderItem
 
-	body, err := io.ReadAll(req.Body)
-
-	if err != nil {
-		log.Errorf("failed to read the request body: %v", err)
-		http.Error(res, "", http.StatusInternalServerError)
-		return
-	}
-	err = json.Unmarshal(body, &bodyReq)
+	err := prepareBody(req, res, log, &bodyReq)
 
 	if err != nil {
-		log.Errorf("failed to marshal result: %v", err)
-		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
 
-	if err := bodyReq.Validate(); err != nil {
-		http.Error(res, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	err = store.SaveOrderItems(req.Context(), bodyReq)
+	err = store.SaveOrderItems(ctx, bodyReq)
 
 	if err != nil {
 		var conflictErr *helpers.ConflictError
@@ -76,43 +73,30 @@ func PostAccrualOrderHandler(_ context.Context, res http.ResponseWriter, req *ht
 			res.WriteHeader(http.StatusConflict)
 			return
 		}
-		log.Errorf("failed to save order: %v", err)
+		log.Errorf("failed to save goods: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
 
 	res.WriteHeader(http.StatusAccepted)
-
 }
 
-func PostAccrualGoodsHandler(_ context.Context, res http.ResponseWriter, req *http.Request, store *storage.AccrualStorage, log *zap.SugaredLogger) {
-	if req.Body == http.NoBody {
-		http.Error(res, "Empty body!", http.StatusBadRequest)
-		return
-	}
-	var bodyReq models2.Goods
+func PostAccrualGoodsHandler(
+	ctx context.Context,
+	res http.ResponseWriter,
+	req *http.Request,
+	store *storage.AccrualStorage,
+	log *zap.SugaredLogger,
+) {
+	var bodyReq models.Goods
 
-	body, err := io.ReadAll(req.Body)
-
-	if err != nil {
-		log.Errorf("failed to read the request body: %v", err)
-		http.Error(res, "", http.StatusInternalServerError)
-		return
-	}
-	err = json.Unmarshal(body, &bodyReq)
+	err := prepareBody(req, res, log, &bodyReq)
 
 	if err != nil {
-		log.Errorf("failed to marshal result: %v", err)
-		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
 
-	if err := bodyReq.Validate(); err != nil {
-		http.Error(res, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	err = store.SaveGoods(req.Context(), bodyReq)
+	err = store.SaveGoods(ctx, bodyReq)
 
 	if err != nil {
 		var conflictErr *helpers.ConflictError
@@ -120,11 +104,40 @@ func PostAccrualGoodsHandler(_ context.Context, res http.ResponseWriter, req *ht
 			res.WriteHeader(http.StatusConflict)
 			return
 		}
-		log.Errorf("failed to save order: %v", err)
+		log.Errorf("failed to save goods: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
 
 	res.WriteHeader(http.StatusOK)
+}
 
+func prepareBody(req *http.Request, res http.ResponseWriter, log *zap.SugaredLogger, bodyReq models.Model) error {
+	if req.Body == http.NoBody {
+		http.Error(res, "Empty body!", http.StatusBadRequest)
+		return errors.New("empty body")
+	}
+
+	body, err := io.ReadAll(req.Body)
+
+	if err != nil {
+		log.Errorf("failed to read the request body: %v", err)
+		http.Error(res, "", http.StatusInternalServerError)
+		return fmt.Errorf("read request body: %w", err)
+	}
+
+	err = json.Unmarshal(body, &bodyReq)
+
+	if err != nil {
+		log.Errorf("failed to marshal result: %v", err)
+		http.Error(res, "", http.StatusInternalServerError)
+		return fmt.Errorf("marashal result: %w", err)
+	}
+
+	if err := bodyReq.Validate(); err != nil {
+		http.Error(res, err.Error(), http.StatusBadRequest)
+		return fmt.Errorf("validation result: %w", err)
+	}
+
+	return nil
 }

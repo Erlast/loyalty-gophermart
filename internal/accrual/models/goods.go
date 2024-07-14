@@ -3,9 +3,9 @@ package models
 import "errors"
 
 type Goods struct {
+	RewardType string `json:"reward_type"`
 	Match      string `json:"match"`
 	Reward     int64  `json:"reward"`
-	RewardType string `json:"reward_type"`
 }
 
 func (o *Goods) Validate() error {

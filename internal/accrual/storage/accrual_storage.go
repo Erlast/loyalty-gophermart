@@ -6,10 +6,8 @@ import (
 	"embed"
 	"errors"
 	"fmt"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/components"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
-	helpers2 "github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
-	models2 "github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
+	"time"
+
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
@@ -18,24 +16,23 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/zap"
-	"time"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/components"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 )
 
 type AccrualStorage struct {
 	db *pgxpool.Pool
 }
 
-//const StatusRegistered = "REGISTERED"
-//const STATUS_INVALID = "INVALID"
-//const StatusProcessing = "PROCESSING"
-//const StatusProcessed = "PROCESSED"
-
 //go:embed migrations/*.sql
 var migrationsDir embed.FS
 
 func NewAccrualStorage(ctx context.Context, cfg *config.Cfg, log *zap.SugaredLogger) (*AccrualStorage, error) {
 	if cfg.DatabaseURI == "" {
-		return nil, fmt.Errorf("database uri is empty")
+		return nil, errors.New("database uri is empty")
 	}
 
 	if err := runMigrations(cfg.DatabaseURI); err != nil {
@@ -52,8 +49,8 @@ func NewAccrualStorage(ctx context.Context, cfg *config.Cfg, log *zap.SugaredLog
 	return &AccrualStorage{db: conn}, nil
 }
 
-func (store *AccrualStorage) GetByOrderNumber(ctx context.Context, orderNumber string) (*models2.Order, error) {
-	var order models2.Order
+func (store *AccrualStorage) GetByOrderNumber(ctx context.Context, orderNumber string) (*models.Order, error) {
+	var order models.Order
 	err := store.db.QueryRow(ctx, "SELECT uuid, status,accrual FROM orders WHERE uuid = $1", orderNumber).Scan(
 		&order.UUID,
 		&order.Status,
@@ -79,24 +76,24 @@ func (store *AccrualStorage) IsExists(ctx context.Context, orderNumber string) b
 }
 
 func (store *AccrualStorage) SaveOrder(ctx context.Context, orderNumber string) (int64, error) {
-	var orderId int64
+	var orderID int64
 	sqlString := "INSERT INTO orders(uuid, status, accrual, uploaded_at) VALUES ($1, $2, $3, $4) RETURNING id"
-	err := store.db.QueryRow(ctx, sqlString, orderNumber, helpers2.StatusRegistered, 0, time.Now()).Scan(&orderId)
+	err := store.db.QueryRow(ctx, sqlString, orderNumber, helpers.StatusRegistered, 0, time.Now()).Scan(&orderID)
 
 	if err != nil {
 		var pgsErr *pgconn.PgError
 		if errors.As(err, &pgsErr) && pgsErr.Code == pgerrcode.UniqueViolation {
-			return 0, &helpers2.ConflictError{
+			return 0, &helpers.ConflictError{
 				OrderNumber: orderNumber,
 				Err:         err,
 			}
 		}
 		return 0, fmt.Errorf("unable to save order: %w", err)
 	}
-	return orderId, nil
+	return orderID, nil
 }
 
-func (store *AccrualStorage) SaveOrderItems(ctx context.Context, order models2.OrderItem) error {
+func (store *AccrualStorage) SaveOrderItems(ctx context.Context, order models.OrderItem) error {
 	id, err := store.SaveOrder(ctx, order.UUID)
 	if err != nil {
 		return fmt.Errorf("unable to save order: %w", err)
@@ -140,14 +137,14 @@ func (store *AccrualStorage) SaveOrderItems(ctx context.Context, order models2.O
 	return nil
 }
 
-func (store *AccrualStorage) SaveGoods(ctx context.Context, goods models2.Goods) error {
+func (store *AccrualStorage) SaveGoods(ctx context.Context, goods models.Goods) error {
 	sqlString := "INSERT INTO accrual_rules(match, reward, reward_type) VALUES ($1, $2, $3)"
 	_, err := store.db.Exec(ctx, sqlString, goods.Match, goods.Reward, goods.RewardType)
 
 	if err != nil {
 		var pgsErr *pgconn.PgError
 		if errors.As(err, &pgsErr) && pgsErr.Code == pgerrcode.UniqueViolation {
-			return &helpers2.ConflictError{
+			return &helpers.ConflictError{
 				OrderNumber: "0",
 				Err:         err,
 			}
