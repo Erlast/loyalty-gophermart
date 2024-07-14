@@ -14,7 +14,7 @@ import (
 
 func main() {
 	ctx := context.Background()
-	cfg := config.ParseAccrualFlags()
+	cfg := config.ParseFlags()
 
 	newLogger, err := logger.NewLogger("info")
 	if err != nil {

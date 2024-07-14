@@ -19,7 +19,7 @@ type envCfg struct {
 
 const defaultRunAddress = "localhost:8080"
 
-func ParseAccrualFlags() *Cfg {
+func ParseFlags() *Cfg {
 	config := &Cfg{
 		RunAddress:  defaultRunAddress,
 		DatabaseURI: "",
@@ -37,6 +37,10 @@ func ParseAccrualFlags() *Cfg {
 
 	if len(cfg.RunAddress) != 0 {
 		config.RunAddress = cfg.RunAddress
+	}
+
+	if len(cfg.DatabaseURI) != 0 {
+		config.DatabaseURI = cfg.DatabaseURI
 	}
 
 	return config
