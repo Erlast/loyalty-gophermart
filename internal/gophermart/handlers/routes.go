@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/middleware"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/services"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"net/http"
 

@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/config"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/services"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 
 	"net/http"
 	"strings"

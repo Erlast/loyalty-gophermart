@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/services"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 	"net/http"
 

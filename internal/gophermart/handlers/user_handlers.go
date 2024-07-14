@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gofermart/services"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"net/http"
 
 	"github.com/go-chi/render"
