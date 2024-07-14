@@ -12,8 +12,8 @@
 *.out
 
 # Binaries
-cmd/gophermart/main
-cmd/gophermart/gophermart
+internal/gofermart/main
+internal/gophermart/gophermart
 cmd/accrual/main
 cmd/accrual/accrual
 
@@ -23,3 +23,5 @@ vendor/
 # IDEs directories
 .idea
 .vscode
+
+golangci-lint/

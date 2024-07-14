@@ -1,3 +1,3 @@
-module github.com/Erlast/loyalty-gophermart.git
+module loyalty-gophermart
 
-go 1.22.3
+go 1.22
