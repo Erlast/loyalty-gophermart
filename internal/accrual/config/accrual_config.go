@@ -2,8 +2,9 @@ package config
 
 import (
 	"flag"
-	"github.com/caarlos0/env/v11"
 	"log"
+
+	"github.com/caarlos0/env/v11"
 )
 
 type Cfg struct {
@@ -19,11 +20,6 @@ type envCfg struct {
 const defaultRunAddress = ":8080"
 
 func ParseAccrualFlags() *Cfg {
-	//err := godotenv.Load()
-	//if err != nil {
-	//	log.Fatal("Error loading .env file")
-	//}
-
 	config := &Cfg{
 		RunAddress:  defaultRunAddress,
 		DatabaseURI: "",

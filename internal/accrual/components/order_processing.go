@@ -2,20 +2,25 @@ package components
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/internal/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/storage"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"go.uber.org/zap"
+	"fmt"
+
 	"strings"
 	"time"
+
+	"github.com/jackc/pgx/v5/pgxpool"
+	"go.uber.org/zap"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 )
 
 var timeSleep = 1 * time.Minute
+var percentFull int64 = 100
 
 func OrderProcessing(ctx context.Context, db *pgxpool.Pool, log *zap.SugaredLogger) {
 	for {
 		query := `Select id FROM orders WHERE status=$1`
-		rows, err := db.Query(ctx, query, storage.StatusRegistered)
+		rows, err := db.Query(ctx, query, helpers.StatusRegistered)
 		if err != nil {
 			log.Errorf("ошибка при удалении мягко удалённых записей: %v", err)
 		}
@@ -32,7 +37,7 @@ func OrderProcessing(ctx context.Context, db *pgxpool.Pool, log *zap.SugaredLogg
 				log.Errorf("ошибка при получение заказа %v", err)
 			}
 
-			_, err := db.Exec(ctx, "Update orders set status=$1 where id=$2", storage.StatusProcessing, id)
+			_, err := db.Exec(ctx, "Update orders set status=$1 where id=$2", helpers.StatusProcessing, id)
 
 			if err != nil {
 				log.Errorf("ошибка при обработке заказа %v", err)
@@ -50,7 +55,7 @@ func OrderProcessing(ctx context.Context, db *pgxpool.Pool, log *zap.SugaredLogg
 					if strings.Contains(product.Description, rule.Match) {
 						switch rule.RewardType {
 						case "%":
-							points[i] += (product.Price * rule.Reward) / 100
+							points[i] += (product.Price * rule.Reward) / percentFull
 						case "pt":
 							points[i] += rule.Reward
 						default:
@@ -63,7 +68,6 @@ func OrderProcessing(ctx context.Context, db *pgxpool.Pool, log *zap.SugaredLogg
 			if err != nil {
 				log.Error("не могу сохранить информацию о заказе")
 			}
-
 		}
 
 		time.Sleep(timeSleep)
@@ -71,22 +75,23 @@ func OrderProcessing(ctx context.Context, db *pgxpool.Pool, log *zap.SugaredLogg
 }
 
 func FetchRewardRules(ctx context.Context, db *pgxpool.Pool) ([]models.Goods, error) {
+	var rules []models.Goods
 	rows, err := db.Query(ctx, "SELECT match,reward, reward_type FROM accrual_rules")
+
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("can't get rules. %w", err)
 	}
 	defer rows.Close()
 
-	var rules []models.Goods
 	for rows.Next() {
 		var r models.Goods
 		if err := rows.Scan(&r.Match, &r.Reward, &r.RewardType); err != nil {
-			return nil, err
+			return nil, fmt.Errorf("can't parse rule. %w", err)
 		}
 		rules = append(rules, r)
 	}
-	if err = rows.Err(); err != nil {
-		return nil, err
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("can't parse error row. %w", err)
 	}
 	return rules, nil
 }
@@ -94,7 +99,7 @@ func FetchRewardRules(ctx context.Context, db *pgxpool.Pool) ([]models.Goods, er
 func FetchProducts(ctx context.Context, db *pgxpool.Pool, orderID int64) ([]models.Items, error) {
 	rows, err := db.Query(ctx, "SELECT desciption, price FROM order_items WHERE order_id = $1", orderID)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("can't get products. %w", err)
 	}
 	defer rows.Close()
 
@@ -102,12 +107,12 @@ func FetchProducts(ctx context.Context, db *pgxpool.Pool, orderID int64) ([]mode
 	for rows.Next() {
 		var p models.Items
 		if err := rows.Scan(&p.Description, &p.Price); err != nil {
-			return nil, err
+			return nil, fmt.Errorf("can't parse product. %w", err)
 		}
 		products = append(products, p)
 	}
-	if err = rows.Err(); err != nil {
-		return nil, err
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("can't parse error row. %w", err)
 	}
 	return products, nil
 }
@@ -118,9 +123,15 @@ func SaveOrderPoints(ctx context.Context, db *pgxpool.Pool, orderID int64, point
 		totalPoints += p
 	}
 
-	_, err := db.Exec(ctx, "UPDATE orders SET status=$1,accrual=$2 where order_id=$3", storage.StatusProcessed, totalPoints, orderID)
+	_, err := db.Exec(
+		ctx,
+		"UPDATE orders SET status=$1,accrual=$2 where order_id=$3",
+		helpers.StatusProcessed,
+		totalPoints,
+		orderID,
+	)
 	if err != nil {
-		return err
+		return fmt.Errorf("can't update orders. %w", err)
 	}
 
 	return nil

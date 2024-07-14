@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/Erlast/loyalty-gophermart.git/internal/helpers"
-	"github.com/Erlast/loyalty-gophermart.git/internal/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/storage"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
+	models2 "github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 	"io"
@@ -46,7 +46,7 @@ func PostAccrualOrderHandler(_ context.Context, res http.ResponseWriter, req *ht
 		http.Error(res, "Empty body!", http.StatusBadRequest)
 		return
 	}
-	var bodyReq models.OrderItem
+	var bodyReq models2.OrderItem
 
 	body, err := io.ReadAll(req.Body)
 
@@ -90,7 +90,7 @@ func PostAccrualGoodsHandler(_ context.Context, res http.ResponseWriter, req *ht
 		http.Error(res, "Empty body!", http.StatusBadRequest)
 		return
 	}
-	var bodyReq models.Goods
+	var bodyReq models2.Goods
 
 	body, err := io.ReadAll(req.Body)
 
