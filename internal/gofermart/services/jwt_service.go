@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"gofermart/internal/gofermart/config"
 	"time"
 
@@ -21,7 +22,11 @@ func GenerateJWT(userID int64) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(config.GetConfig().JWTSecret))
+	signedJWT, err := token.SignedString([]byte(config.GetConfig().JWTSecret))
+	if err != nil {
+		return "", fmt.Errorf("error while signing JWT: %w", err)
+	}
+	return signedJWT, nil
 }
 
 // ParseJWT jwt.ParseWithClaims — это метод из библиотеки github.com/dgrijalva/jwt-go
@@ -34,7 +39,7 @@ func ParseJWT(tokenStr string) (*JWTClaim, error) {
 	})
 
 	if err != nil || !token.Valid {
-		return nil, err
+		return nil, fmt.Errorf("error while parsing JWT: %w", err)
 	}
 
 	return claims, nil

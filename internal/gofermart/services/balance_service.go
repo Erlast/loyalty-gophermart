@@ -23,7 +23,11 @@ func NewBalanceService(balanceStorage *storage.BalanceStorage) *BalanceService {
 }
 
 func (s *BalanceService) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {
-	return s.storage.GetBalanceByUserID(ctx, userID)
+	balance, err := s.storage.GetBalanceByUserID(ctx, userID)
+	if err != nil {
+		return nil, fmt.Errorf("error getting balance by user id %d: %w", userID, err)
+	}
+	return balance, nil
 }
 
 func (s *BalanceService) Withdraw(ctx context.Context, withdrawal *models.WithdrawalRequest) error {
@@ -40,9 +44,17 @@ func (s *BalanceService) Withdraw(ctx context.Context, withdrawal *models.Withdr
 		return ErrInvalidOrderNumber
 	}
 
-	return s.storage.Withdraw(ctx, withdrawal)
+	err = s.storage.Withdraw(ctx, withdrawal)
+	if err != nil {
+		return fmt.Errorf("error withdraw: %w", err)
+	}
+	return nil
 }
 
 func (s *BalanceService) GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error) {
-	return s.storage.GetWithdrawalsByUserID(ctx, userID)
+	withdrawal, err := s.storage.GetWithdrawalsByUserID(ctx, userID)
+	if err != nil {
+		return nil, fmt.Errorf("error getting withdrawals by user id %d: %w", userID, err)
+	}
+	return withdrawal, nil
 }

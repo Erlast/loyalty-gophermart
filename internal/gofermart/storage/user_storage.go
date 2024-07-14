@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"gofermart/internal/gofermart/models"
 
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -17,7 +18,11 @@ func NewUserStorage(db *pgxpool.Pool) *UserStorage {
 
 func (s *UserStorage) CreateUser(ctx context.Context, user *models.User) error {
 	query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
-	return s.db.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
+	err := s.db.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
+	if err != nil {
+		return fmt.Errorf("could not create user: %w", err)
+	}
+	return nil
 }
 
 func (s *UserStorage) GetUserByLogin(ctx context.Context, login string) (*models.User, error) {
@@ -25,7 +30,7 @@ func (s *UserStorage) GetUserByLogin(ctx context.Context, login string) (*models
 	user := &models.User{}
 	err := s.db.QueryRow(ctx, query, login).Scan(&user.ID, &user.Login, &user.Password, &user.CreatedAt, &user.UpdatedAt)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error getting user by login: %w", err)
 	}
 	return user, nil
 }
