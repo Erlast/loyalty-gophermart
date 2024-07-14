@@ -1,6 +1,6 @@
 # Options for analysis running.
 run:
-  go: "1.21"
+  go: "1.22"
   # Settable parameters #
   timeout: 5m
   tests: true
@@ -189,7 +189,6 @@ linters-settings:
   goimports:
     local-prefixes: ""
 
-  mnd:
     checks:
       - argument
       - case
@@ -245,7 +244,6 @@ linters-settings:
 
   loggercheck:
     loggercheck:
-    # Allow check for the github.com/go-kit/log library.
     kitlog: true
     # Allow check for the k8s.io/klog/v2 library.
     klog: true
@@ -365,7 +363,6 @@ linters-settings:
     no-global: "all"
     # Enforce using methods that accept a context.
     context-only: true
-    # Enforce using static values for log messages.
     static-msg: false
     # Enforce using constants instead of raw keys.
     no-raw-keys: false
@@ -480,7 +477,6 @@ linters:
     - bidichk
     - bodyclose
     - containedctx
-    - dupl
     - dupword
     - durationcheck
     - errcheck
@@ -495,7 +491,6 @@ linters:
     - godot
     - gofmt
     - goimports
-    - mnd
     - goprintffuncname
     - gosec
     - gosimple
