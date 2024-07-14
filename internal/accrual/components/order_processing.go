@@ -22,7 +22,7 @@ func OrderProcessing(ctx context.Context, db *pgxpool.Pool, log *zap.SugaredLogg
 		query := `Select id FROM orders WHERE status=$1`
 		rows, err := db.Query(ctx, query, helpers.StatusRegistered)
 		if err != nil {
-			log.Errorf("ошибка при удалении мягко удалённых записей: %v", err)
+			log.Errorf("ошибка при попытке выбрать новые заказы: %v", err)
 		}
 
 		rules, err := FetchRewardRules(ctx, db)
@@ -31,23 +31,27 @@ func OrderProcessing(ctx context.Context, db *pgxpool.Pool, log *zap.SugaredLogg
 		}
 
 		for rows.Next() {
-			var id int64
-			err = rows.Scan(&id)
+			var orderID int64
+			err = rows.Scan(&orderID)
 			if err != nil {
 				log.Errorf("ошибка при получение заказа %v", err)
 			}
 
-			_, err := db.Exec(ctx, "Update orders set status=$1 where id=$2", helpers.StatusProcessing, id)
-
+			err = UpdateOrderStatus(ctx, db, orderID, helpers.StatusProcessing)
 			if err != nil {
-				log.Errorf("ошибка при обработке заказа %v", err)
+				log.Error("невозможно обновоить статус заказа")
 			}
 
-			products, err := FetchProducts(ctx, db, id)
+			products, err := FetchProducts(ctx, db, orderID)
 
 			if err != nil {
-				log.Error("не могу получить товары из заказа")
+				log.Error("не могу получить товары из заказа", err)
+				err = UpdateOrderStatus(ctx, db, orderID, helpers.StatusInvalid)
+				if err != nil {
+					log.Error("невозможно обновоить статус заказа", err)
+				}
 			}
+
 			points := make([]int64, len(products))
 
 			for i, product := range products {
@@ -64,9 +68,14 @@ func OrderProcessing(ctx context.Context, db *pgxpool.Pool, log *zap.SugaredLogg
 					}
 				}
 			}
-			err = SaveOrderPoints(ctx, db, id, points)
+
+			err = SaveOrderPoints(ctx, db, orderID, points)
 			if err != nil {
-				log.Error("не могу сохранить информацию о заказе")
+				log.Error("не могу сохранить информацию о заказе. ", err)
+				err = UpdateOrderStatus(ctx, db, orderID, helpers.StatusInvalid)
+				if err != nil {
+					log.Error("невозможно обновоить статус заказа", err)
+				}
 			}
 		}
 
@@ -97,7 +106,7 @@ func FetchRewardRules(ctx context.Context, db *pgxpool.Pool) ([]models.Goods, er
 }
 
 func FetchProducts(ctx context.Context, db *pgxpool.Pool, orderID int64) ([]models.Items, error) {
-	rows, err := db.Query(ctx, "SELECT desciption, price FROM order_items WHERE order_id = $1", orderID)
+	rows, err := db.Query(ctx, "SELECT description, price FROM order_items WHERE order_id = $1", orderID)
 	if err != nil {
 		return nil, fmt.Errorf("can't get products. %w", err)
 	}
@@ -125,7 +134,7 @@ func SaveOrderPoints(ctx context.Context, db *pgxpool.Pool, orderID int64, point
 
 	_, err := db.Exec(
 		ctx,
-		"UPDATE orders SET status=$1,accrual=$2 where order_id=$3",
+		"UPDATE orders SET status=$1,accrual=$2 where id=$3",
 		helpers.StatusProcessed,
 		totalPoints,
 		orderID,
@@ -134,5 +143,14 @@ func SaveOrderPoints(ctx context.Context, db *pgxpool.Pool, orderID int64, point
 		return fmt.Errorf("can't update orders. %w", err)
 	}
 
+	return nil
+}
+
+func UpdateOrderStatus(ctx context.Context, db *pgxpool.Pool, orderID int64, status string) error {
+	_, err := db.Exec(ctx, "Update orders set status=$1 where id=$2", status, orderID)
+
+	if err != nil {
+		return fmt.Errorf("can't update order. %w", err)
+	}
 	return nil
 }
