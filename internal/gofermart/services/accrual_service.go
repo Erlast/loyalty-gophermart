@@ -25,7 +25,7 @@ func (s *AccrualService) GetAccrualInfo(orderNumber string) (*models.AccrualResp
 	url := fmt.Sprintf("%s/api/orders/%s", s.AccrualSystemAddress, orderNumber)
 	resp, err := s.Client.Get(url)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("could not get accrual info from %s: %w", url, err)
 	}
 	defer resp.Body.Close() //nolint:errcheck // later change
 
@@ -39,7 +39,7 @@ func (s *AccrualService) GetAccrualInfo(orderNumber string) (*models.AccrualResp
 
 	var accrualResp models.AccrualResponse
 	if err := json.NewDecoder(resp.Body).Decode(&accrualResp); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("could not parse accrual info from %s: %w", url, err)
 	}
 
 	return &accrualResp, nil

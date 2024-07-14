@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"errors"
+	"fmt"
 	"gofermart/internal/gofermart/models"
 	"gofermart/internal/gofermart/storage"
 	"gofermart/pkg/validators"
@@ -28,7 +29,7 @@ func (s *BalanceService) GetBalanceByUserID(ctx context.Context, userID int64) (
 func (s *BalanceService) Withdraw(ctx context.Context, withdrawal *models.WithdrawalRequest) error {
 	balance, err := s.storage.GetBalanceByUserID(ctx, withdrawal.UserID)
 	if err != nil {
-		return err
+		return fmt.Errorf("error withdraw balance: %w", err)
 	}
 
 	if balance.CurrentBalance < withdrawal.Amount {

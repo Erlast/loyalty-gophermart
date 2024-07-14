@@ -534,7 +534,7 @@ linters:
     - usestdlibvars
     - wastedassign
     - whitespace
-#    - wrapcheck
+    - wrapcheck
     - zerologlint
   # Run only fast linters from enabled linters set (first run won't be fast).
   fast: false
