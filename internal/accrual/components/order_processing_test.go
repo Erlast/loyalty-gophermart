@@ -2,27 +2,20 @@ package components
 
 import (
 	"context"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"testing"
 	"time"
-
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestOrderProcessing(t *testing.T) {
 	store := &storage.MockStorage{}
-	logger := zap.NewExample().Sugar()
-	defer func(logger *zap.SugaredLogger) {
-		err := logger.Sync()
-		if err != nil {
-			t.Errorf("failed to initialize logger: %v", err)
-		}
-	}(logger)
+	zaplog.InitLogger()
 
 	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
 	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
@@ -40,7 +33,7 @@ func TestOrderProcessing(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	go OrderProcessing(ctx, store, logger)
+	go OrderProcessing(ctx, store)
 
 	time.Sleep(2 * time.Second)
 

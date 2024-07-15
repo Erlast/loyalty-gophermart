@@ -1,6 +1,9 @@
 package models
 
-import "errors"
+import (
+	"errors"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/validators"
+)
 
 type Order struct {
 	UUID    string `json:"order"`
@@ -16,6 +19,10 @@ type OrderItem struct {
 func (o *OrderItem) Validate() error {
 	if o.UUID == "" {
 		return errors.New("order number is required")
+	}
+
+	if validators.ValidateOrderNumber(o.UUID) == false {
+		return errors.New("order number is invalid")
 	}
 
 	if len(o.Goods) == 0 {

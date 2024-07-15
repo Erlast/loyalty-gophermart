@@ -5,45 +5,38 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/stretchr/testify/assert"
-	"go.uber.org/zap"
-
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
+	"github.com/go-chi/chi/v5"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetAccrualOrderHandler(t *testing.T) {
 	store := &storage.MockStorage{}
-	logger := zap.NewExample().Sugar()
-	defer func(logger *zap.SugaredLogger) {
-		err := logger.Sync()
-		if err != nil {
-			t.Errorf("failed to initialize logger: %v", err)
-		}
-	}(logger)
+	zaplog.InitLogger()
 
-	req := httptest.NewRequest(http.MethodGet, "/orders/123", http.NoBody)
+	req := httptest.NewRequest(http.MethodGet, "/orders/1234567812345670", http.NoBody)
 	req = req.WithContext(context.WithValue(req.Context(), chi.RouteCtxKey, &chi.Context{
 		URLParams: chi.RouteParams{
 			Keys:   []string{"number"},
-			Values: []string{"123"},
+			Values: []string{"1234567812345670"},
 		},
 	}))
 
 	res := httptest.NewRecorder()
 
-	store.On("GetByOrderNumber", req.Context(), "123").Return(&models.Order{
-		UUID:   "123",
+	store.On("GetByOrderNumber", req.Context(), "1234567812345670").Return(&models.Order{
+		UUID:   "1234567812345670",
 		Status: "PROCESSED",
 	}, nil)
 
-	GetAccrualOrderHandler(context.Background(), res, req, store, logger)
+	GetAccrualOrderHandler(context.Background(), res, req, store)
 
 	assert.Equal(t, http.StatusOK, res.Code)
 
@@ -52,19 +45,13 @@ func TestGetAccrualOrderHandler(t *testing.T) {
 	var order models.Order
 	err := json.NewDecoder(res.Body).Decode(&order)
 	assert.NoError(t, err)
-	assert.Equal(t, "123", order.UUID)
+	assert.Equal(t, "1234567812345670", order.UUID)
 	assert.Equal(t, "PROCESSED", order.Status)
 }
 
 func TestPostAccrualOrderHandler(t *testing.T) {
 	store := &storage.MockStorage{}
-	logger := zap.NewExample().Sugar()
-	defer func(logger *zap.SugaredLogger) {
-		err := logger.Sync()
-		if err != nil {
-			t.Errorf("failed to initialize logger: %v", err)
-		}
-	}(logger)
+	zaplog.InitLogger()
 
 	var goods []models.Items
 
@@ -73,7 +60,7 @@ func TestPostAccrualOrderHandler(t *testing.T) {
 		Price:       700,
 	})
 	orderItem := models.OrderItem{
-		UUID:  "1245",
+		UUID:  "1234567812345670",
 		Goods: goods,
 	}
 	body, _ := json.Marshal(orderItem)
@@ -84,7 +71,7 @@ func TestPostAccrualOrderHandler(t *testing.T) {
 
 	store.On("SaveOrderItems", req.Context(), orderItem).Return(nil)
 
-	PostAccrualOrderHandler(context.Background(), res, req, store, logger)
+	PostAccrualOrderHandler(context.Background(), res, req, store)
 
 	assert.Equal(t, http.StatusAccepted, res.Code)
 
@@ -93,13 +80,7 @@ func TestPostAccrualOrderHandler(t *testing.T) {
 
 func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 	store := &storage.MockStorage{}
-	logger := zap.NewExample().Sugar()
-	defer func(logger *zap.SugaredLogger) {
-		err := logger.Sync()
-		if err != nil {
-			t.Errorf("failed to initialize logger: %v", err)
-		}
-	}(logger)
+	zaplog.InitLogger()
 
 	var goods []models.Items
 
@@ -108,7 +89,7 @@ func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 		Price:       700,
 	})
 	orderItem := models.OrderItem{
-		UUID:  "1245",
+		UUID:  "1234567812345670",
 		Goods: goods,
 	}
 	body, _ := json.Marshal(orderItem)
@@ -119,7 +100,7 @@ func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 
 	store.On("SaveOrderItems", req.Context(), orderItem).Return(&helpers.ConflictError{})
 
-	PostAccrualOrderHandler(context.Background(), res, req, store, logger)
+	PostAccrualOrderHandler(context.Background(), res, req, store)
 
 	assert.Equal(t, http.StatusConflict, res.Code)
 
@@ -128,13 +109,7 @@ func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 
 func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 	store := &storage.MockStorage{}
-	logger := zap.NewExample().Sugar()
-	defer func(logger *zap.SugaredLogger) {
-		err := logger.Sync()
-		if err != nil {
-			t.Errorf("failed to initialize logger: %v", err)
-		}
-	}(logger)
+	zaplog.InitLogger()
 
 	var goods []models.Items
 
@@ -143,7 +118,7 @@ func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 		Price:       700,
 	})
 	orderItem := models.OrderItem{
-		UUID:  "1245",
+		UUID:  "1234567812345670",
 		Goods: goods,
 	}
 	body, _ := json.Marshal(orderItem)
@@ -154,7 +129,7 @@ func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 
 	store.On("SaveOrderItems", req.Context(), orderItem).Return(errors.New("internal error"))
 
-	PostAccrualOrderHandler(context.Background(), res, req, store, logger)
+	PostAccrualOrderHandler(context.Background(), res, req, store)
 
 	assert.Equal(t, http.StatusInternalServerError, res.Code)
 
@@ -163,13 +138,7 @@ func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 
 func TestPostAccrualGoodsHandler(t *testing.T) {
 	store := &storage.MockStorage{}
-	logger := zap.NewExample().Sugar()
-	defer func(logger *zap.SugaredLogger) {
-		err := logger.Sync()
-		if err != nil {
-			t.Errorf("failed to initialize logger: %v", err)
-		}
-	}(logger)
+	zaplog.InitLogger()
 
 	goods := models.Goods{
 		Match:      "somebrand",
@@ -184,7 +153,7 @@ func TestPostAccrualGoodsHandler(t *testing.T) {
 
 	store.On("SaveGoods", req.Context(), goods).Return(nil)
 
-	PostAccrualGoodsHandler(context.Background(), res, req, store, logger)
+	PostAccrualGoodsHandler(context.Background(), res, req, store)
 
 	assert.Equal(t, http.StatusOK, res.Code)
 
@@ -193,13 +162,7 @@ func TestPostAccrualGoodsHandler(t *testing.T) {
 
 func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 	store := &storage.MockStorage{}
-	logger := zap.NewExample().Sugar()
-	defer func(logger *zap.SugaredLogger) {
-		err := logger.Sync()
-		if err != nil {
-			t.Errorf("failed to initialize logger: %v", err)
-		}
-	}(logger)
+	zaplog.InitLogger()
 
 	goods := models.Goods{
 		Match:      "somebrand",
@@ -214,7 +177,7 @@ func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 
 	store.On("SaveGoods", req.Context(), goods).Return(&helpers.ConflictError{})
 
-	PostAccrualGoodsHandler(context.Background(), res, req, store, logger)
+	PostAccrualGoodsHandler(context.Background(), res, req, store)
 
 	assert.Equal(t, http.StatusConflict, res.Code)
 
@@ -223,13 +186,7 @@ func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 
 func TestPostAccrualGoodsHandler_InternalServerError(t *testing.T) {
 	store := &storage.MockStorage{}
-	logger := zap.NewExample().Sugar()
-	defer func(logger *zap.SugaredLogger) {
-		err := logger.Sync()
-		if err != nil {
-			t.Errorf("failed to initialize logger: %v", err)
-		}
-	}(logger)
+	zaplog.InitLogger()
 
 	goods := models.Goods{
 		Match:      "somebrand",
@@ -244,7 +201,7 @@ func TestPostAccrualGoodsHandler_InternalServerError(t *testing.T) {
 
 	store.On("SaveGoods", req.Context(), goods).Return(errors.New("internal error"))
 
-	PostAccrualGoodsHandler(context.Background(), res, req, store, logger)
+	PostAccrualGoodsHandler(context.Background(), res, req, store)
 
 	assert.Equal(t, http.StatusInternalServerError, res.Code)
 
