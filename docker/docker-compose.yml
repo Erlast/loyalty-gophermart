@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  postgres:
+  gophermart_postgres:
     image: postgres:16.3
     container_name: gophermart_postgres
     environment:
@@ -20,13 +20,25 @@ services:
     container_name: gophermart
     environment:
       - RUN_ADDRESS=:8080
-      - DATABASE_URI=postgres://user:password@postgres:5432/gophermart?sslmode=disable
+      - DATABASE_URI=postgres://user:password@gophermart_postgres:5432/gophermart?sslmode=disable
       - ACCRUAL_SYSTEM_ADDRESS=http://accrual:8090
       - JWT_SECRET=secret_key
     depends_on:
-      - postgres
+      - gophermart_postgres
     ports:
       - "8080:8080"
+
+  accrual_postgres:
+    image: postgres:16.3
+    container_name: accrual_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: accrual
+    ports:
+      - "54321:5432"
+    volumes:
+      - accrual_data:/var/lib/postgresql/data
 
   accrual:
     build:
@@ -34,12 +46,13 @@ services:
       dockerfile: docker/accrual/Dockerfile
     container_name: accrual
     environment:
-      - RUN_ADDRESS=:8090
-      - DATABASE_URI=postgres://user:password@postgres:5432/gophermart?sslmode=disable
+      - RUN_ADDRESS=:8080
+      - DATABASE_URI=postgres://user:password@accrual_postgres:5432/accrual?sslmode=disable
     depends_on:
-      - postgres
+      - accrual_postgres
     ports:
-      - "8090:8090"
+      - "8081:8080"
 
 volumes:
   gophermart_data:
+  accrual_data:
