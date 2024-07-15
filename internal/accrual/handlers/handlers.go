@@ -5,14 +5,15 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"io"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"github.com/go-chi/chi/v5"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 )
 
 func GetAccrualOrderHandler(

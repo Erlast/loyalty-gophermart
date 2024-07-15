@@ -2,8 +2,7 @@ package config
 
 import (
 	"flag"
-	"log"
-
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"github.com/caarlos0/env/v11"
 )
 
@@ -32,7 +31,7 @@ func ParseFlags() *Cfg {
 	cfg := envCfg{}
 
 	if err := env.Parse(&cfg); err != nil {
-		log.Fatalf("can't parse")
+		zaplog.Logger.Fatalf("can't parse env")
 	}
 
 	if len(cfg.RunAddress) != 0 {

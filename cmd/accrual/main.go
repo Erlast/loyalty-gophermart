@@ -13,9 +13,8 @@ import (
 
 func main() {
 	ctx := context.Background()
-	cfg := config.ParseFlags()
-
 	zaplog.InitLogger()
+	cfg := config.ParseFlags()
 
 	store, err := storage.NewAccrualStorage(ctx, cfg)
 	if err != nil {

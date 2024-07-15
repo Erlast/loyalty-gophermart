@@ -8,9 +8,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
@@ -18,6 +15,10 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 )
 
 type Storage interface {
@@ -31,12 +32,12 @@ type Storage interface {
 	SaveOrderPoints(ctx context.Context, orderID int64, points []int64) error
 }
 
+//go:embed migrations/*.sql
+var migrationsDir embed.FS
+
 type AccrualStorage struct {
 	db *pgxpool.Pool
 }
-
-//go:embed migrations/*.sql
-var migrationsDir embed.FS
 
 func NewAccrualStorage(ctx context.Context, cfg *config.Cfg) (*AccrualStorage, error) {
 	if cfg.DatabaseURI == "" {
@@ -70,15 +71,6 @@ func (store *AccrualStorage) GetByOrderNumber(ctx context.Context, orderNumber s
 	}
 
 	return &order, nil
-}
-
-func (store *AccrualStorage) IsExists(ctx context.Context, orderNumber string) bool {
-	var count int
-	err := store.db.QueryRow(ctx, "SELECT count(uuid) FROM orders WHERE uuid = $1", orderNumber).Scan(&count)
-	if err != nil {
-		_ = fmt.Errorf("failed to get query: %w", err)
-	}
-	return count != 0
 }
 
 func (store *AccrualStorage) SaveOrder(ctx context.Context, orderNumber string) (int64, error) {
