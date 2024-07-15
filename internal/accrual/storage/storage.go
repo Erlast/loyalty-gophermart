@@ -8,6 +8,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
@@ -15,13 +18,18 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"go.uber.org/zap"
-
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/components"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 )
+
+type Storage interface {
+	GetByOrderNumber(ctx context.Context, orderNumber string) (*models.Order, error)
+	SaveOrderItems(ctx context.Context, items models.OrderItem) error
+	SaveGoods(ctx context.Context, goods models.Goods) error
+	GetRegisteredOrders(ctx context.Context) ([]int64, error)
+	FetchRewardRules(ctx context.Context) ([]models.Goods, error)
+	UpdateOrderStatus(ctx context.Context, orderNumber int64, status string) error
+	FetchProducts(ctx context.Context, orderID int64) ([]models.Items, error)
+	SaveOrderPoints(ctx context.Context, orderID int64, points []int64) error
+}
 
 type AccrualStorage struct {
 	db *pgxpool.Pool
@@ -30,7 +38,7 @@ type AccrualStorage struct {
 //go:embed migrations/*.sql
 var migrationsDir embed.FS
 
-func NewAccrualStorage(ctx context.Context, cfg *config.Cfg, log *zap.SugaredLogger) (*AccrualStorage, error) {
+func NewAccrualStorage(ctx context.Context, cfg *config.Cfg) (*AccrualStorage, error) {
 	if cfg.DatabaseURI == "" {
 		return nil, errors.New("database uri is empty")
 	}
@@ -43,8 +51,6 @@ func NewAccrualStorage(ctx context.Context, cfg *config.Cfg, log *zap.SugaredLog
 	if err != nil {
 		return nil, fmt.Errorf("unable to connect database: %w", err)
 	}
-
-	go components.OrderProcessing(ctx, conn, log)
 
 	return &AccrualStorage{db: conn}, nil
 }
@@ -150,6 +156,99 @@ func (store *AccrualStorage) SaveGoods(ctx context.Context, goods models.Goods) 
 			}
 		}
 		return fmt.Errorf("unable to save goods: %w", err)
+	}
+	return nil
+}
+
+func (store *AccrualStorage) GetRegisteredOrders(ctx context.Context) ([]int64, error) {
+	query := `Select id FROM orders WHERE status=$1`
+	rows, err := store.db.Query(ctx, query, helpers.StatusRegistered)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get registered orders: %w", err)
+	}
+
+	var orders []int64
+
+	for rows.Next() {
+		var orderID int64
+		err = rows.Scan(&orderID)
+		if err != nil {
+			return nil, fmt.Errorf("unable to get order id: %w", err)
+		}
+		orders = append(orders, orderID)
+	}
+
+	return orders, nil
+}
+
+func (store *AccrualStorage) FetchRewardRules(ctx context.Context) ([]models.Goods, error) {
+	var rules []models.Goods
+	rows, err := store.db.Query(ctx, "SELECT match, reward, reward_type FROM accrual_rules")
+
+	if err != nil {
+		return nil, fmt.Errorf("can't get rules. %w", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var r models.Goods
+		if err := rows.Scan(&r.Match, &r.Reward, &r.RewardType); err != nil {
+			return nil, fmt.Errorf("can't parse rule. %w", err)
+		}
+		rules = append(rules, r)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("can't parse error row. %w", err)
+	}
+	return rules, nil
+}
+
+func (store *AccrualStorage) FetchProducts(ctx context.Context, orderID int64) ([]models.Items, error) {
+	rows, err := store.db.Query(ctx, "SELECT description, price FROM order_items WHERE order_id = $1", orderID)
+	if err != nil {
+		return nil, fmt.Errorf("can't get products. %w", err)
+	}
+	defer rows.Close()
+
+	var products []models.Items
+	for rows.Next() {
+		var p models.Items
+		if err := rows.Scan(&p.Description, &p.Price); err != nil {
+			return nil, fmt.Errorf("can't parse product. %w", err)
+		}
+		products = append(products, p)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("can't parse error row. %w", err)
+	}
+	return products, nil
+}
+
+func (store *AccrualStorage) SaveOrderPoints(ctx context.Context, orderID int64, points []int64) error {
+	var totalPoints int64
+	for _, p := range points {
+		totalPoints += p
+	}
+
+	_, err := store.db.Exec(
+		ctx,
+		"UPDATE orders SET status=$1,accrual=$2 where id=$3",
+		helpers.StatusProcessed,
+		totalPoints,
+		orderID,
+	)
+	if err != nil {
+		return fmt.Errorf("can't update orders. %w", err)
+	}
+
+	return nil
+}
+
+func (store *AccrualStorage) UpdateOrderStatus(ctx context.Context, orderID int64, status string) error {
+	_, err := store.db.Exec(ctx, "Update orders set status=$1 where id=$2", status, orderID)
+
+	if err != nil {
+		return fmt.Errorf("can't update order. %w", err)
 	}
 	return nil
 }

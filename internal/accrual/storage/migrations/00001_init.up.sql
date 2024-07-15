@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS orders
 CREATE TABLE IF NOT EXISTS order_items
 (
     id          SERIAL PRIMARY KEY,
-    order_id    int          NOT NULL,
-    price       int          NOT NULL,
+    order_id    INT          NOT NULL,
+    price       REAL         NOT NULL,
     description VARCHAR(255) NOT NULL
 );
 
