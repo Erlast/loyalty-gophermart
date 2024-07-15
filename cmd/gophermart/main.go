@@ -43,7 +43,7 @@ func main() {
 	orderStorage := storage.NewOrderStorage(storage.DB)
 	balanceStorage := storage.NewBalanceStorage(storage.DB)
 	accrualService := services.NewAccrualService(cfg.AccrualSystemAddress)
-	userService := services.NewUserService(userStorage)
+	userService := services.NewUserService(userStorage, balanceStorage)
 	orderService := services.NewOrderService(orderStorage, accrualService)
 	balanceService := services.NewBalanceService(balanceStorage)
 

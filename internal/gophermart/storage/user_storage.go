@@ -27,6 +27,11 @@ func (s *UserStorage) CreateUser(ctx context.Context, user *models.User) error {
 	return nil
 }
 
+func (s *UserStorage) CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.User) error {
+	query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
+	return tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
+}
+
 func (s *UserStorage) GetUserByLogin(ctx context.Context, login string) (*models.User, error) {
 	query := `SELECT id, login, password, created_at, updated_at FROM users WHERE login=$1`
 	user := &models.User{}
