@@ -6,7 +6,6 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-// MockStorage - мок хранилища
 type MockStorage struct {
 	mock.Mock
 }
@@ -17,8 +16,8 @@ func (m *MockStorage) GetByOrderNumber(ctx context.Context, orderNumber string) 
 }
 
 func (m *MockStorage) SaveOrderItems(ctx context.Context, items models.OrderItem) error {
-	//args := m.Called(ctx, orderNumber)
-	return nil
+	args := m.Called(ctx, items)
+	return args.Error(0)
 }
 
 func (m *MockStorage) SaveGoods(ctx context.Context, goods models.Goods) error {
