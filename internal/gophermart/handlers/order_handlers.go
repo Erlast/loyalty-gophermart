@@ -3,13 +3,14 @@ package handlers
 import (
 	"context"
 	"errors"
+	"io"
+	"net/http"
+	"time"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/validators"
-	"io"
-	"net/http"
-	"time"
 
 	"github.com/go-chi/chi/v5"
 

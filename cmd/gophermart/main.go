@@ -3,6 +3,12 @@ package main
 import (
 	"context"
 	"errors"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"time"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
@@ -10,13 +16,6 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
-	"log"
-
-	"net/http"
-	"os"
-	"os/signal"
-	"time"
-
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 )

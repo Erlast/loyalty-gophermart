@@ -5,6 +5,7 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 
 	"github.com/golang-migrate/migrate/v4"

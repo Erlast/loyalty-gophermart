@@ -2,8 +2,9 @@ package helpers
 
 import (
 	"errors"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 	"net/http"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 
 	"go.uber.org/zap"
 )

@@ -2,8 +2,9 @@ package config
 
 import (
 	"flag"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"os"
+
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 )
 
 type Config struct {

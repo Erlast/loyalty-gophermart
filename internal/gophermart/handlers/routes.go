@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
-	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
