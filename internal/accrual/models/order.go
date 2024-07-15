@@ -21,7 +21,7 @@ func (o *OrderItem) Validate() error {
 		return errors.New("order number is required")
 	}
 
-	if validators.ValidateOrderNumber(o.UUID) == false {
+	if !validators.ValidateOrderNumber(o.UUID) {
 		return errors.New("order number is invalid")
 	}
 
