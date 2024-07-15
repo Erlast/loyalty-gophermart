@@ -28,6 +28,7 @@ func NewOrderHandler(service *services.OrderService, logger *zap.SugaredLogger) 
 }
 
 func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	h.logger.Info("LoadOrder called")
 	op := "order handlers method load order"
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
@@ -35,7 +36,7 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 		http.Error(w, "", http.StatusUnauthorized)
 		return
 	}
-
+	h.logger.Infof("User id from context: %v", userID)
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		h.logger.Error("Error reading request body", zap.Error(err))
@@ -44,6 +45,8 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 	}
 	defer r.Body.Close() //nolint:errcheck //later change
 
+	h.logger.Infof("Request body: %v", string(body))
+
 	orderNumber := string(body)
 
 	if !validators.ValidateOrderNumber(orderNumber) { // Assuming you have a function to validate the order number
@@ -51,7 +54,7 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 		http.Error(w, "", http.StatusUnprocessableEntity)
 		return
 	}
-
+	h.logger.Infof("Validate order number: %v", orderNumber)
 	order := models.Order{
 		UserID:     userID,
 		Number:     orderNumber,
@@ -59,6 +62,7 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 		UploadedAt: time.Now(),
 	}
 
+	h.logger.Infof("Struct Order: %v", order)
 	err = h.service.CreateOrder(ctx, &order)
 	if err != nil {
 		switch {
@@ -93,6 +97,8 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 		}
 		return
 	}
+
+	h.logger.Infof("Created order: %v", order)
 
 	w.WriteHeader(http.StatusAccepted)
 }

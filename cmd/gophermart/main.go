@@ -11,7 +11,6 @@ import (
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
@@ -50,7 +49,6 @@ func main() {
 
 	// Инициализация роутера
 	router := chi.NewRouter()
-	router.Use(middleware.AuthMiddleware(zaplog.Logger))
 
 	// Регистрация маршрутов
 	handlers.RegisterRoutes(ctx, router, userService, orderService, balanceService, zaplog.Logger)

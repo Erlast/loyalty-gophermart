@@ -28,15 +28,9 @@ func NewOrderService(orderStorage *storage.OrderStorage, accrualService *Accrual
 }
 
 func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) error {
-	existingOrder, err := s.storage.GetOrder(ctx, order.Number)
-	if err != nil {
-		return fmt.Errorf("error getting existing order: %w", err)
-	}
+	existOrder, err := s.storage.CheckOrder(ctx, order.Number)
 
-	if existingOrder != nil {
-		if existingOrder.UserID == order.UserID {
-			return ErrOrderAlreadyLoadedBySameUser
-		}
+	if existOrder == true {
 		return ErrOrderAlreadyLoadedByDifferentUser
 	}
 

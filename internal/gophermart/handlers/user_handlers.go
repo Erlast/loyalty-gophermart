@@ -22,6 +22,7 @@ func NewUserHandler(service *services.UserService, logger *zap.SugaredLogger) *U
 }
 
 func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
+	h.logger.Info("Register user")
 	var user models.User
 	if err := render.Bind(r, &user); err != nil {
 		h.logger.Error("Error binding request", zap.Error(err))
@@ -30,7 +31,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 			h.logger.Errorf("Error rendering request: %v", err)
 		}
 	}
-
+	h.logger.Info("User created")
 	if err := h.service.Register(r.Context(), &user); err != nil {
 		h.logger.Error("Error registering user", zap.Error(err))
 		err := render.Render(w, r, ErrInternalServerError(err))
@@ -38,7 +39,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 			h.logger.Errorf(errorRenderingError, err)
 		}
 	}
-
+	h.logger.Info("User registered")
 	token, err := services.GenerateJWT(user.ID)
 	if err != nil {
 		h.logger.Error("Error generating JWT", zap.Error(err))
@@ -47,6 +48,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 			h.logger.Errorf(errorRenderingError, err)
 		}
 	}
+	h.logger.Info("Token generated", zap.String("token", token))
 
 	render.Status(r, http.StatusCreated)
 	render.JSON(w, r, map[string]string{"Authorization": token})
@@ -72,6 +74,8 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token, err := services.GenerateJWT(user.ID)
+	claims, err := services.ParseJWT(token)
+	h.logger.Infof("Token generated %v", claims)
 	if err != nil {
 		h.logger.Error("Error generating JWT", zap.Error(err))
 		err := render.Render(w, r, ErrInternalServerError(err))

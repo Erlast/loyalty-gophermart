@@ -2,9 +2,8 @@ package services
 
 import (
 	"fmt"
-
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
-
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -16,6 +15,7 @@ type JWTClaim struct {
 }
 
 func GenerateJWT(userID int64) (string, error) {
+	zaplog.Logger.Infof("User ID: %v", userID)
 	claims := &JWTClaim{
 		UserID: userID,
 		StandardClaims: jwt.StandardClaims{
@@ -23,7 +23,9 @@ func GenerateJWT(userID int64) (string, error) {
 		},
 	}
 
+	zaplog.Logger.Infof("JWT: %v", claims)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	zaplog.Logger.Infof("token: %v", token)
 	signedJWT, err := token.SignedString([]byte(config.GetConfig().JWTSecret))
 	if err != nil {
 		return "", fmt.Errorf("error while signing JWT: %w", err)

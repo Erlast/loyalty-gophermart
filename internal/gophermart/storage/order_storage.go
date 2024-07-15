@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
+	"github.com/jackc/pgx/v5"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-
-	"github.com/jackc/pgx/v5"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -27,17 +27,35 @@ func (s *OrderStorage) GetOrder(ctx context.Context, number string) (*models.Ord
 	err := row.Scan(&order.UserID, &order.Number)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, errors.New("no rows in result set")
+			return nil, fmt.Errorf("order not found: %w", err)
 		}
 		return nil, fmt.Errorf("error order storage getting order: %w", err)
 	}
 	return &order, nil
 }
 
+func (s *OrderStorage) CheckOrder(ctx context.Context, number string) (bool, error) {
+	query := "SELECT 1 FROM orders WHERE number=$1"
+	row := s.db.QueryRow(ctx, query, number)
+	var exists int
+	err := row.Scan(&exists)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return false, nil
+		}
+		return false, fmt.Errorf("error checking order existence: %w", err)
+	}
+	return true, nil
+}
+
 func (s *OrderStorage) CreateOrder(ctx context.Context, order *models.Order) error {
 	query := "INSERT INTO orders (user_id, number, status, uploaded_at) VALUES ($1, $2, $3, $4)"
+	zaplog.Logger.Infof("inserting new order: %v,%v,%v,%v", order.UserID, order.Number, order.Status, order.UploadedAt)
 	_, err := s.db.Exec(ctx, query, order.UserID, order.Number, order.Status, order.UploadedAt)
-	return fmt.Errorf("error order storage create order: %w", err)
+	if err != nil {
+		return fmt.Errorf("error order storage create order: %w", err)
+	}
+	return nil
 }
 
 func (s *OrderStorage) GetOrdersByUserID(ctx context.Context, userID int64) ([]models.Order, error) {
