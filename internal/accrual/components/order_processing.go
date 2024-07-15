@@ -2,12 +2,12 @@ package components
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"strings"
 	"time"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 )
 
 var timeSleep = 1 * time.Minute

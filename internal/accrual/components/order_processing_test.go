@@ -2,15 +2,16 @@ package components
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 )
 
 func TestOrderProcessing(t *testing.T) {
