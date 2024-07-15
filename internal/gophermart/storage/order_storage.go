@@ -71,7 +71,7 @@ func (s *OrderStorage) GetOrdersByUserID(ctx context.Context, userID int64) ([]m
 
 func (s *OrderStorage) GetOrdersByStatus(ctx context.Context, statuses ...models.OrderStatus) ([]models.Order, error) {
 	var orders []models.Order
-	query := "SELECT user_id, number, status, accrual, created_at, updated_at FROM orders WHERE status = ANY($1)"
+	query := "SELECT user_id, number, status, accrual, uploaded_at FROM orders WHERE status = ANY($1)"
 	rows, err := s.db.Query(ctx, query, statuses)
 	if err != nil {
 		return nil, fmt.Errorf("error order storage get orders by status: %w", err)
