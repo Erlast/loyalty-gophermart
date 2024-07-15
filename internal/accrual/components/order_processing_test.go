@@ -33,7 +33,7 @@ func TestOrderProcessing(t *testing.T) {
 		store.On("UpdateOrderStatus", mock.Anything, int64(1), helpers.StatusInvalid).Return(nil)
 	*/
 	store.On("FetchProducts", mock.Anything, int64(1)).Return([]models.Items{
-		{Description: "test product", Price: 100},
+		{Description: "test product", Price: 100.00},
 	}, nil)
 	store.On("SaveOrderPoints", mock.Anything, int64(1), []int64{10}).Return(nil)
 	/*store.On("UpdateOrderStatus", mock.Anything, int64(1), helpers.StatusProcessed).Return(nil)*/
@@ -71,7 +71,7 @@ func TestFetchProducts(t *testing.T) {
 	ctx := context.Background()
 
 	store.On("FetchProducts", ctx, int64(1)).Return([]models.Items{
-		{Description: "test product", Price: 100},
+		{Description: "test product", Price: 100.00},
 	}, nil)
 
 	products, err := store.FetchProducts(ctx, int64(1))
@@ -79,7 +79,7 @@ func TestFetchProducts(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Len(t, products, 1)
 	assert.Equal(t, "test product", products[0].Description)
-	assert.Equal(t, int64(100), products[0].Price)
+	assert.Equal(t, float64(100), products[0].Price)
 
 	store.AssertExpectations(t)
 }

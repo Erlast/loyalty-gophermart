@@ -49,7 +49,7 @@ func OrderProcessing(ctx context.Context, store storage.Storage, log *zap.Sugare
 					if strings.Contains(product.Description, rule.Match) {
 						switch rule.RewardType {
 						case "%":
-							points[i] += (product.Price * rule.Reward) / percentFull
+							points[i] += int64((product.Price * float64(rule.Reward)) / float64(percentFull))
 						case "pt":
 							points[i] += rule.Reward
 						default:

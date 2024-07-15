@@ -183,7 +183,7 @@ func (store *AccrualStorage) GetRegisteredOrders(ctx context.Context) ([]int64, 
 
 func (store *AccrualStorage) FetchRewardRules(ctx context.Context) ([]models.Goods, error) {
 	var rules []models.Goods
-	rows, err := store.db.Query(ctx, "SELECT match,reward, reward_type FROM accrual_rules")
+	rows, err := store.db.Query(ctx, "SELECT match, reward, reward_type FROM accrual_rules")
 
 	if err != nil {
 		return nil, fmt.Errorf("can't get rules. %w", err)
