@@ -7,14 +7,14 @@ RUN go mod download
 
 COPY ../.. .
 
-RUN go build -o /gofermart ./cmd/gofermart/main.go
+RUN go build -o /gophermart ./cmd/gophermart/main.go
 
 FROM gcr.io/distroless/base-debian10
 
 WORKDIR /
 
-COPY --from=builder /gofermart /gofermart
+COPY --from=builder /gophermart /gophermart
 
 EXPOSE 8080
 
-ENTRYPOINT ["/gofermart"]
+ENTRYPOINT ["/gophermart"]

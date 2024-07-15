@@ -31,7 +31,7 @@ User --> PointsCalcSystem:POST /api/goods — регистрация инфор�
 
 accrual
 
-gofermart
+gophermart
     //регистрация
         /login
         /registration

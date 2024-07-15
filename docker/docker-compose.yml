@@ -2,27 +2,27 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:16
-    container_name: gofermart_postgres
+    image: postgres:16.3
+    container_name: gophermart_postgres
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: gofermart
+      POSTGRES_DB: gophermart
     ports:
       - "5432:5432"
     volumes:
-      - gofermart_data:/var/lib/postgresql/data
+      - gophermart_data:/var/lib/postgresql/data
 
-  gofermart:
+  gophermart:
     build:
       context: ..
-      dockerfile: docker/gofermart/Dockerfile
-    container_name: gofermart
+      dockerfile: docker/gophermart/Dockerfile
+    container_name: gophermart
     environment:
       - RUN_ADDRESS=:8080
-      - DATABASE_URI=postgres://user:password@postgres:5432/gofermart?sslmode=disable
+      - DATABASE_URI=postgres://user:password@postgres:5432/gophermart?sslmode=disable
       - ACCRUAL_SYSTEM_ADDRESS=http://accrual:8090
-      - JWT_SECRET=your_jwt_secret_key
+      - JWT_SECRET=secret_key
     depends_on:
       - postgres
     ports:
@@ -35,11 +35,11 @@ services:
     container_name: accrual
     environment:
       - RUN_ADDRESS=:8090
-      - DATABASE_URI=postgres://user:password@postgres:5432/gofermart?sslmode=disable
+      - DATABASE_URI=postgres://user:password@postgres:5432/gophermart?sslmode=disable
     depends_on:
       - postgres
     ports:
       - "8090:8090"
 
 volumes:
-  postgres_data:
+  gophermart_data:

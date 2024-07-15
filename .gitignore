@@ -12,7 +12,7 @@
 *.out
 
 # Binaries
-internal/gofermart/main
+internal/gophermart/main
 internal/gophermart/gophermart
 cmd/accrual/main
 cmd/accrual/accrual

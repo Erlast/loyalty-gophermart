@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o /accrual ./cmd/accrual-system/main.go
+RUN go build -o /accrual ./cmd/accrual/main.go
 
 FROM gcr.io/distroless/base-debian10
 

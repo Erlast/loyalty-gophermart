@@ -40,12 +40,12 @@ test:
 	go test ./...
 
 # Параметры контейнера и образа
-CONTAINER_NAME=gofermart_postgres
+CONTAINER_NAME=gophermart_postgres
 IMAGE=postgres:16.3
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
-POSTGRES_DB=gofermart
-VOLUME_NAME=gofermart_data
+POSTGRES_DB=gophermart
+VOLUME_NAME=gophermart_data
 
 # Команда для запуска контейнера PostgreSQL
 db:

@@ -1,4 +1,4 @@
-package gofermart
+package gophermart
 
 import "embed"
 
