@@ -92,3 +92,12 @@ func (s *BalanceStorage) GetWithdrawalsByUserID(ctx context.Context, userID int6
 
 	return withdrawals, nil
 }
+
+func (s *BalanceStorage) CreateBalance(ctx context.Context, userID int64) error {
+	query := "INSERT INTO balances (user_id, balance) VALUES ($1, $2)"
+	_, err := s.db.Exec(ctx, query, userID, 0.0)
+	if err != nil {
+		return fmt.Errorf("error creating balance: %w", err)
+	}
+	return nil
+}

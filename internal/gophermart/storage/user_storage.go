@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"fmt"
+	"github.com/jackc/pgx/v5"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 
@@ -34,4 +35,8 @@ func (s *UserStorage) GetUserByLogin(ctx context.Context, login string) (*models
 		return nil, fmt.Errorf("error getting user by login: %w", err)
 	}
 	return user, nil
+}
+
+func (s *UserStorage) BeginTx(ctx context.Context) (pgx.Tx, error) {
+	return s.db.Begin(ctx)
 }
