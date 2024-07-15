@@ -23,6 +23,12 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 )
 
+type Storage interface {
+	GetByOrderNumber(ctx context.Context, orderNumber string) (*models.Order, error)
+	SaveOrderItems(ctx context.Context, items models.OrderItem) error
+	SaveGoods(ctx context.Context, goods models.Goods) error
+}
+
 type AccrualStorage struct {
 	db *pgxpool.Pool
 }

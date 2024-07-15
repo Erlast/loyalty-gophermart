@@ -20,7 +20,7 @@ func GetAccrualOrderHandler(
 	_ context.Context,
 	res http.ResponseWriter,
 	req *http.Request,
-	store *storage.AccrualStorage,
+	store storage.Storage,
 	log *zap.SugaredLogger,
 ) {
 	orderNumber := chi.URLParam(req, "number")
@@ -54,7 +54,7 @@ func PostAccrualOrderHandler(
 	ctx context.Context,
 	res http.ResponseWriter,
 	req *http.Request,
-	store *storage.AccrualStorage,
+	store storage.Storage,
 	log *zap.SugaredLogger,
 ) {
 	var bodyReq models.OrderItem
@@ -85,7 +85,7 @@ func PostAccrualGoodsHandler(
 	ctx context.Context,
 	res http.ResponseWriter,
 	req *http.Request,
-	store *storage.AccrualStorage,
+	store storage.Storage,
 	log *zap.SugaredLogger,
 ) {
 	var bodyReq models.Goods
