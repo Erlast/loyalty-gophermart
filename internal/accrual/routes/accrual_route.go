@@ -13,7 +13,7 @@ import (
 
 func NewAccrualRouter(
 	ctx context.Context,
-	store *storage.AccrualStorage,
+	store storage.Storage,
 	log *zap.SugaredLogger,
 ) *chi.Mux {
 	r := chi.NewRouter()

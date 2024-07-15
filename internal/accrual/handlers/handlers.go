@@ -20,7 +20,7 @@ func GetAccrualOrderHandler(
 	_ context.Context,
 	res http.ResponseWriter,
 	req *http.Request,
-	store *storage.AccrualStorage,
+	store storage.Storage,
 	log *zap.SugaredLogger,
 ) {
 	orderNumber := chi.URLParam(req, "number")
@@ -54,7 +54,7 @@ func PostAccrualOrderHandler(
 	ctx context.Context,
 	res http.ResponseWriter,
 	req *http.Request,
-	store *storage.AccrualStorage,
+	store storage.Storage,
 	log *zap.SugaredLogger,
 ) {
 	var bodyReq models.OrderItem
@@ -85,7 +85,7 @@ func PostAccrualGoodsHandler(
 	ctx context.Context,
 	res http.ResponseWriter,
 	req *http.Request,
-	store *storage.AccrualStorage,
+	store storage.Storage,
 	log *zap.SugaredLogger,
 ) {
 	var bodyReq models.Goods
@@ -96,18 +96,18 @@ func PostAccrualGoodsHandler(
 		return
 	}
 
-	//err = store.SaveGoods(ctx, bodyReq)
-	//
-	//if err != nil {
-	//	var conflictErr *helpers.ConflictError
-	//	if errors.As(err, &conflictErr) {
-	//		res.WriteHeader(http.StatusConflict)
-	//		return
-	//	}
-	//	log.Errorf("failed to save goods: %v", err)
-	//	http.Error(res, "", http.StatusInternalServerError)
-	//	return
-	//}
+	err = store.SaveGoods(ctx, bodyReq)
+
+	if err != nil {
+		var conflictErr *helpers.ConflictError
+		if errors.As(err, &conflictErr) {
+			res.WriteHeader(http.StatusConflict)
+			return
+		}
+		log.Errorf("failed to save goods: %v", err)
+		http.Error(res, "", http.StatusInternalServerError)
+		return
+	}
 
 	res.WriteHeader(http.StatusOK)
 }

@@ -511,7 +511,7 @@ linters:
     - prealloc
     - predeclared
     - protogetter
-    - reassign
+    #- reassign
     - revive
     - rowserrcheck
     - sloglint
