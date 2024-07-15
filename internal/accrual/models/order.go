@@ -1,6 +1,8 @@
 package models
 
-import "errors"
+import (
+	"errors"
+)
 
 type Order struct {
 	UUID    string `json:"order"`

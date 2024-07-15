@@ -3,24 +3,12 @@ package config
 import (
 	"flag"
 	"os"
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestParseAccrualFlags(t *testing.T) {
-	oldEnv := os.Environ()
-	defer func() {
-		for _, e := range oldEnv {
-			parts := strings.SplitN(e, "=", 2)
-			err := os.Setenv(parts[0], parts[1])
-			if err != nil {
-				t.Errorf("failed to set env: %v", err)
-			}
-		}
-	}()
-
 	os.Args = []string{"cmd", "-a", "127.0.0.1:9090", "-d", "postgres://user:pass@localhost/db"}
 
 	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)

@@ -2,45 +2,34 @@ package components
 
 import (
 	"context"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"testing"
 	"time"
-
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestOrderProcessing(t *testing.T) {
 	store := &storage.MockStorage{}
-	logger := zap.NewExample().Sugar()
-	defer func(logger *zap.SugaredLogger) {
-		err := logger.Sync()
-		if err != nil {
-			t.Errorf("failed to initialize logger: %v", err)
-		}
-	}(logger)
+	zaplog.InitLogger()
 
 	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
 	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
 		{Match: "test", Reward: 10, RewardType: "%"},
 	}, nil)
 	store.On("UpdateOrderStatus", mock.Anything, int64(1), helpers.StatusProcessing).Return(nil)
-	/*
-		store.On("UpdateOrderStatus", mock.Anything, int64(1), helpers.StatusInvalid).Return(nil)
-	*/
 	store.On("FetchProducts", mock.Anything, int64(1)).Return([]models.Items{
 		{Description: "test product", Price: 100.00},
 	}, nil)
 	store.On("SaveOrderPoints", mock.Anything, int64(1), []int64{10}).Return(nil)
-	/*store.On("UpdateOrderStatus", mock.Anything, int64(1), helpers.StatusProcessed).Return(nil)*/
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	go OrderProcessing(ctx, store, logger)
+	go OrderProcessing(ctx, store)
 
 	time.Sleep(2 * time.Second)
 
