@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/migrations"
 	"log"
 	"net/http"
 	"os"
@@ -12,7 +13,6 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/migrations"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
@@ -34,7 +34,7 @@ func main() {
 	cfg := config.LoadConfig()
 	zaplog.Logger.Infof("Config: %v", cfg)
 
-	err := storage.InitDB(ctx, cfg, migrations.Files)
+	err := storage.InitDB(ctx, cfg, migrations.FS)
 	if err != nil {
 		zaplog.Logger.Fatalf("Error initializing database: %s", err)
 	}

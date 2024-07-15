@@ -1,6 +1,8 @@
 package migrations
 
-import "embed"
+import (
+	"embed"
+)
 
 //go:embed *.sql
-var Files embed.FS
+var FS embed.FS
