@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"embed"
 	"errors"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/migrations"
 	"log"
 	"net/http"
 	"os"
@@ -20,9 +20,6 @@ import (
 	"go.uber.org/zap"
 )
 
-//go:embed internal/gophermart/migrations/*.sql
-var migrations embed.FS
-
 func main() {
 	ctx := context.Background()
 
@@ -37,7 +34,7 @@ func main() {
 	cfg := config.LoadConfig()
 	zaplog.Logger.Infof("Config: %v", cfg)
 
-	err := storage.InitDB(ctx, cfg, migrations)
+	err := storage.InitDB(ctx, cfg, migrations.FS)
 	if err != nil {
 		zaplog.Logger.Fatalf("Error initializing database: %s", err)
 	}
