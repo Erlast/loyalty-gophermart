@@ -9,14 +9,17 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 
 	"github.com/golang-migrate/migrate/v4"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
+
+//go:embed migrations/*.sql
+var migrationsDir embed.FS
 
 var DB *pgxpool.Pool
 
-func InitDB(ctx context.Context, cfg config.Config, migrationsDir embed.FS) error {
+func InitDB(ctx context.Context, cfg config.Config) error {
 	// Проверяем существование директории миграций и выводим содержимое для отладки
 	dirEntries, err := migrationsDir.ReadDir(".")
 	if err != nil {
@@ -39,7 +42,7 @@ func InitDB(ctx context.Context, cfg config.Config, migrationsDir embed.FS) erro
 	}
 
 	// Подключаемся к базе данных
-	DB, err = pgxpool.ConnectConfig(ctx, parsedConfig)
+	DB, err = pgxpool.NewWithConfig(ctx, parsedConfig)
 	if err != nil {
 		return fmt.Errorf("не удалось подключиться к базе данных: %w", err)
 	}
@@ -48,7 +51,7 @@ func InitDB(ctx context.Context, cfg config.Config, migrationsDir embed.FS) erro
 }
 
 func runMigrations(dsn string, migrationsDir embed.FS) error {
-	d, err := iofs.New(migrationsDir, "internal/gophermart/migrations")
+	d, err := iofs.New(migrationsDir, "migrations")
 	if err != nil {
 		return fmt.Errorf("failed to return an iofs driver: %w", err)
 	}

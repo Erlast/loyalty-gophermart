@@ -7,9 +7,9 @@ import (
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v5"
 
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type OrderStorage struct {

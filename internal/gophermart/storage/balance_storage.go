@@ -7,10 +7,10 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v5"
 	"go.uber.org/zap"
 
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type BalanceStorage struct {
