@@ -22,14 +22,10 @@ func TestOrderProcessing(t *testing.T) {
 		{Match: "test", Reward: 10, RewardType: "%"},
 	}, nil)
 	store.On("UpdateOrderStatus", mock.Anything, int64(1), helpers.StatusProcessing).Return(nil)
-	/*
-		store.On("UpdateOrderStatus", mock.Anything, int64(1), helpers.StatusInvalid).Return(nil)
-	*/
 	store.On("FetchProducts", mock.Anything, int64(1)).Return([]models.Items{
 		{Description: "test product", Price: 100.00},
 	}, nil)
 	store.On("SaveOrderPoints", mock.Anything, int64(1), []int64{10}).Return(nil)
-	/*store.On("UpdateOrderStatus", mock.Anything, int64(1), helpers.StatusProcessed).Return(nil)*/
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
