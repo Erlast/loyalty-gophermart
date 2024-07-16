@@ -77,6 +77,7 @@ func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 		zaplog.Logger.Infof("GetAccrualInfo number: %v", order.Number)
 		accrualInfo, err := s.accrualService.GetAccrualInfo(order.Number)
 		if err != nil {
+			zaplog.Logger.Errorf("error getting accrualInfo: %v", err)
 			continue
 		}
 
