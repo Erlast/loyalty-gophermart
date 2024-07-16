@@ -41,7 +41,7 @@ func (s *OrderStorage) CheckOrder(ctx context.Context, number string) (bool, err
 	var exists int
 	err := row.Scan(&exists)
 	if err != nil {
-		if err == pgx.ErrNoRows {
+		if errors.Is(err, pgx.ErrNoRows) {
 			return false, nil
 		}
 		return false, fmt.Errorf("error checking order existence: %w", err)

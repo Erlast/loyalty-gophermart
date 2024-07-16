@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"net/http"
+
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/components"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"

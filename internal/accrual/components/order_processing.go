@@ -17,7 +17,6 @@ func OrderProcessing(ctx context.Context, store storage.Storage) {
 	for {
 		orders, err := store.GetRegisteredOrders(ctx)
 		if err != nil {
-
 			zaplog.Logger.Errorf("ошибка при попытке выбрать новые заказы: %v", err)
 		}
 

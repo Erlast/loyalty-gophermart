@@ -40,8 +40,11 @@ func NewOrderService(
 
 func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) error {
 	existOrder, err := s.orderStorage.CheckOrder(ctx, order.Number)
+	if err != nil {
+		return fmt.Errorf("error checking order: %w", err)
+	}
 
-	if existOrder == true {
+	if existOrder {
 		return ErrOrderAlreadyLoadedByDifferentUser
 	}
 

@@ -2,6 +2,7 @@ package config
 
 import (
 	"flag"
+
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"github.com/caarlos0/env/v11"
 )

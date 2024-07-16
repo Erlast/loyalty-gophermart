@@ -30,7 +30,7 @@ func (s *UserStorage) CreateUser(ctx context.Context, user *models.User) error {
 
 func (s *UserStorage) CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.User) error {
 	query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
-	return tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
+	return tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID) //nolint:wrapcheck // change later
 }
 
 func (s *UserStorage) GetUserByLogin(ctx context.Context, login string) (*models.User, error) {
@@ -44,5 +44,9 @@ func (s *UserStorage) GetUserByLogin(ctx context.Context, login string) (*models
 }
 
 func (s *UserStorage) BeginTx(ctx context.Context) (pgx.Tx, error) {
-	return s.db.Begin(ctx)
+	tx, err := s.db.Begin(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("could not begin transaction: %w", err)
+	}
+	return tx, nil
 }

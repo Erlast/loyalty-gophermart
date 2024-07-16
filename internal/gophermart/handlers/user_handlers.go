@@ -16,8 +16,6 @@ type UserHandler struct {
 	logger  *zap.SugaredLogger
 }
 
-const errorRenderingError = "Error rendering error : %v"
-
 func NewUserHandler(service *services.UserService, logger *zap.SugaredLogger) *UserHandler {
 	return &UserHandler{service: service, logger: logger}
 }
