@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"github.com/jackc/pgx/v5"
 

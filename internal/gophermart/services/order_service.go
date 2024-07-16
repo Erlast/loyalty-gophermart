@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
@@ -96,7 +97,6 @@ func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 				return fmt.Errorf("error updating balance: %w", err)
 			}
 		}
-
 	}
 
 	return nil

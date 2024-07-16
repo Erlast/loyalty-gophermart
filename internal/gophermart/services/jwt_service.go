@@ -2,9 +2,10 @@ package services
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
