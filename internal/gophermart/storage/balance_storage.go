@@ -106,3 +106,17 @@ func (s *BalanceStorage) CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID 
 	query := "INSERT INTO balances (user_id, current_balance, total_withdrawn) VALUES ($1, $2, $3)"
 	tx.QueryRow(ctx, query, userID, 0, 0)
 }
+
+func (s *BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount float64) error {
+	zaplog.Logger.Info("Updating balance", zap.Int64("user_id", userID))
+	query := `
+        UPDATE balances
+        SET current_balance = current_balance + $1
+        WHERE user_id = $2`
+	_, err := s.db.Exec(ctx, query, amount, userID)
+	if err != nil {
+		return fmt.Errorf("error updating balance: %w", err)
+	}
+	zaplog.Logger.Info("Updated balance")
+	return nil
+}

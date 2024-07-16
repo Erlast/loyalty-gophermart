@@ -44,7 +44,7 @@ func main() {
 	balanceStorage := storage.NewBalanceStorage(storage.DB)
 	accrualService := services.NewAccrualService(cfg.AccrualSystemAddress)
 	userService := services.NewUserService(userStorage, balanceStorage)
-	orderService := services.NewOrderService(orderStorage, accrualService)
+	orderService := services.NewOrderService(orderStorage, balanceStorage, accrualService)
 	balanceService := services.NewBalanceService(balanceStorage)
 
 	// Инициализация роутера
@@ -60,6 +60,7 @@ func main() {
 		for {
 			select {
 			case <-ticker.C:
+				zaplog.Logger.Error("UpdateOrderStatuses called")
 				if err := orderService.UpdateOrderStatuses(ctx); err != nil {
 					zaplog.Logger.Error("Error updating order statuses", zap.Error(err))
 				}

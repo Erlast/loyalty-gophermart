@@ -21,7 +21,7 @@ POST http://localhost:8080/api/user/orders
 Content-Type: text/plain
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
 
-12345678903
+1122334455667788
 
 ### получение списка загруженных номеров заказов
 GET http://localhost:8080/api/user/orders
@@ -48,3 +48,6 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVz
 ### получение информации о выводе средств (нет ни одного списания)
 GET http://localhost:8080/api/user/withdrawals
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzNzUxMjEsInVzZXJfaWQiOjIzfQ.OVX6j06sFOQkWpS_gOfzZZRwowt_wNx8x1TD1gURn64
+
+### получение информации о расчёте начислений баллов лояльности
+GET http://localhost:8081/api/orders/1234567812345670

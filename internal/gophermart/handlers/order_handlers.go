@@ -12,8 +12,6 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/validators"
 
-	"github.com/go-chi/chi/v5"
-
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
 )
@@ -119,26 +117,4 @@ func (h *OrderHandler) ListOrders(ctx context.Context, w http.ResponseWriter, r 
 	}
 
 	render.JSON(w, r, orders)
-}
-
-func (h *OrderHandler) GetOrderAccrual(w http.ResponseWriter, r *http.Request) {
-	orderNumber := chi.URLParam(r, "number")
-
-	if !validators.ValidateOrderNumber(orderNumber) {
-		http.Error(w, InvalidOrderFormatMsg, http.StatusUnprocessableEntity)
-		return
-	}
-
-	accrualInfo, err := h.service.GetOrderAccrualInfo(r.Context(), orderNumber)
-	if err != nil {
-		if errors.Is(err, models.ErrOrderNotFound) {
-			http.Error(w, "Order not found", http.StatusNoContent)
-			return
-		}
-		h.logger.Error("Error getting order accrual info", zap.Error(err))
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
-		return
-	}
-
-	render.JSON(w, r, accrualInfo)
 }

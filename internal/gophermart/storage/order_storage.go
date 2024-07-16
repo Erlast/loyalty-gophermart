@@ -112,7 +112,10 @@ func (s *OrderStorage) GetOrdersByStatus(ctx context.Context, statuses ...models
 }
 
 func (s *OrderStorage) UpdateOrder(ctx context.Context, order *models.Order) error {
-	query := "UPDATE orders SET status=$1, accrual=$2, updated_at=$3 WHERE number=$4"
+	query := "UPDATE orders SET status=$1, accrual=$2, uploaded_at=$3 WHERE number=$4"
 	_, err := s.db.Exec(ctx, query, order.Status, order.Accrual, order.UploadedAt, order.Number)
-	return fmt.Errorf("error order storage update order: %w", err)
+	if err != nil {
+		return fmt.Errorf("error order storage update order: %w", err)
+	}
+	return nil
 }

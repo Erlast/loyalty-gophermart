@@ -20,16 +20,6 @@ var migrationsDir embed.FS
 var DB *pgxpool.Pool
 
 func InitDB(ctx context.Context, cfg config.Config) error {
-	// Проверяем существование директории миграций и выводим содержимое для отладки
-	dirEntries, err := migrationsDir.ReadDir(".")
-	if err != nil {
-		return fmt.Errorf("не удалось прочитать директорию миграций: %w", err)
-	}
-	fmt.Println("Встроенные файлы:")
-	for _, entry := range dirEntries {
-		fmt.Println("-", entry.Name())
-	}
-
 	// Запускаем миграции
 	if err := runMigrations(cfg.DatabaseURI, migrationsDir); err != nil {
 		return fmt.Errorf("не удалось выполнить миграции в базу данных: %w", err)

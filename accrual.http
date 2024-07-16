@@ -1,0 +1,56 @@
+### добавления правил расчета баллов
+POST http://localhost:8081/api/goods
+Content-Type: application/json
+
+{
+  "match": "Bork",
+  "reward": 5,
+  "reward_type": "%"
+}
+
+### добавления правил расчета баллов
+POST http://localhost:8081/api/goods
+Content-Type: application/json
+
+{
+  "match": "Чайник",
+  "reward": 10,
+  "reward_type": "%"
+}
+
+### добавления правил расчета баллов
+POST http://localhost:8081/api/goods
+Content-Type: application/json
+
+{
+  "match": "Moulinex",
+  "reward": 5,
+  "reward_type": "pt"
+}
+
+### сам заказ
+POST http://localhost:8081/api/orders
+Content-Type: application/json
+
+{
+  "order": "1122334455667788",
+  "goods": [
+    {
+      "description": "Чайник Bork",
+      "price": 10000
+    },
+    {
+      "description": "Тостер Moulinex",
+      "price": 5000
+    }
+  ]
+}
+
+###
+
+
+
+
+
+
+

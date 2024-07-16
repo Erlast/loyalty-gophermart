@@ -21,7 +21,7 @@ services:
     environment:
       - RUN_ADDRESS=:8080
       - DATABASE_URI=postgres://user:password@gophermart_postgres:5432/gophermart?sslmode=disable
-      - ACCRUAL_SYSTEM_ADDRESS=http://accrual:8081
+      - ACCRUAL_SYSTEM_ADDRESS=http://accrual:8080
       - JWT_SECRET=secret_key
     depends_on:
       - gophermart_postgres
