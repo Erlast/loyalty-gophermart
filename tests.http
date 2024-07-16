@@ -3,8 +3,8 @@ POST  http://localhost:8080/api/user/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "login": "admin7",
-  "password": "god"
+  "login": "admin",
+  "password": "admin"
 }
 
 ### авторизация
@@ -30,3 +30,8 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVz
 ### получение текущего баланса пользователя
 GET http://localhost:8080/api/user/balance
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
+
+### запрос на списание баллов с накопительного счёта
+POST http://localhost:8080/api/user/balance/withdraw
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
+

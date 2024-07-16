@@ -27,20 +27,25 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 	if err := render.Bind(r, &user); err != nil {
 		h.logger.Error("Error binding request", zap.Error(err))
-		http.Error(w, "", http.StatusBadRequest)
+		http.Error(w, "Invalid request format", http.StatusBadRequest)
 		return
 	}
 	h.logger.Info("User created")
 	if err := h.service.Register(r.Context(), &user); err != nil {
+		if services.IsDuplicateError(err) {
+			h.logger.Error("Username already taken", zap.Error(err))
+			http.Error(w, "Username already taken", http.StatusConflict)
+			return
+		}
 		h.logger.Error("Error registering user", zap.Error(err))
-		http.Error(w, "", http.StatusInternalServerError)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 	h.logger.Info("User registered")
 	token, err := services.GenerateJWT(user.ID)
 	if err != nil {
 		h.logger.Error("Error generating JWT", zap.Error(err))
-		http.Error(w, "", http.StatusInternalServerError)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 	h.logger.Info("Token generated", zap.String("token", token))

@@ -7,7 +7,13 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
+	"github.com/jackc/pgx/v5/pgconn"
 	"golang.org/x/crypto/bcrypt"
+)
+
+const (
+	errorDescription    = "%s: %w"
+	errorDescriptionLog = "%s: %v"
 )
 
 type UserService struct {
@@ -27,7 +33,7 @@ func (s *UserService) Register(ctx context.Context, user *models.User) error {
 	// Хэширование пароля
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return fmt.Errorf("%s: %w", op, err)
+		return fmt.Errorf(errorDescription, op, err)
 	}
 
 	user.Password = string(hashedPassword)
@@ -40,8 +46,8 @@ func (s *UserService) Register(ctx context.Context, user *models.User) error {
 
 	err = s.balanceStorage.CreateBalance(ctx, user.ID)
 	if err != nil {
-		zaplog.Logger.Errorf("%s: %w", op, err)
-		return fmt.Errorf("%s: %w", op, err)
+		zaplog.Logger.Errorf(errorDescriptionLog, op, err)
+		return fmt.Errorf(errorDescription, op, err)
 	}
 
 	return nil
@@ -59,4 +65,13 @@ func (s *UserService) Login(ctx context.Context, credentials models.Credentials)
 	}
 
 	return user, nil
+}
+
+// IsDuplicateError checks if the error is a duplicate entry error.
+func IsDuplicateError(err error) bool {
+	var pgErr *pgconn.PgError
+	if errors.As(err, &pgErr) {
+		return pgErr.Code == "23505" // Unique violation error code in PostgreSQL
+	}
+	return false
 }
