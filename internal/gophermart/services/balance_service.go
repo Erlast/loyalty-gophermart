@@ -53,9 +53,9 @@ func (s *BalanceService) Withdraw(ctx context.Context, withdrawal *models.Withdr
 }
 
 func (s *BalanceService) GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error) {
-	withdrawal, err := s.storage.GetWithdrawalsByUserID(ctx, userID)
+	withdrawals, err := s.storage.GetWithdrawalsByUserID(ctx, userID)
 	if err != nil {
 		return nil, fmt.Errorf("error getting withdrawals by user id %d: %w", userID, err)
 	}
-	return withdrawal, nil
+	return withdrawals, nil
 }

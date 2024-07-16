@@ -1,23 +1,23 @@
 ### регистрация
-POST  http://localhost:8080/api/user/register HTTP/1.1
+POST  http://localhost:8080/api/user/register
 Content-Type: application/json
 
 {
-  "login": "admin",
-  "password": "admin"
+  "login": "admin10",
+  "password": "admin10"
 }
 
 ### авторизация
-POST http://localhost:8080/api/user/login HTTP/1.1
+POST http://localhost:8080/api/user/login
 Content-Type: application/json
 
 {
-  "login": "admin",
-  "password": "admin"
+  "login": "admin10",
+  "password": "admin10"
 }
 
 ### загрузка заказа
-POST http://localhost:8080/api/user/orders HTTP/1.1
+POST http://localhost:8080/api/user/orders
 Content-Type: text/plain
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
 
@@ -33,5 +33,18 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVz
 
 ### запрос на списание баллов с накопительного счёта
 POST http://localhost:8080/api/user/balance/withdraw
+Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
 
+{
+  "order": "12345678111",
+  "sum": 15
+}
+
+### получение информации о выводе средств
+GET http://localhost:8080/api/user/withdrawals
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
+
+### получение информации о выводе средств (нет ни одного списания)
+GET http://localhost:8080/api/user/withdrawals
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzNzUxMjEsInVzZXJfaWQiOjIzfQ.OVX6j06sFOQkWpS_gOfzZZRwowt_wNx8x1TD1gURn64

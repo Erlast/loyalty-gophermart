@@ -47,14 +47,14 @@ func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r 
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
 		h.logger.Error("Unauthorized user", zap.Error(err))
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		http.Error(w, "", http.StatusUnauthorized)
 		return
 	}
 
 	var withdrawal models.WithdrawalRequest
 	if err := json.NewDecoder(r.Body).Decode(&withdrawal); err != nil {
 		h.logger.Error("Error decoding request body", zap.Error(err))
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		http.Error(w, "", http.StatusBadRequest)
 		return
 	}
 
@@ -69,7 +69,7 @@ func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r 
 			http.Error(w, InvalidOrderFormatMsg, http.StatusUnprocessableEntity)
 		default:
 			h.logger.Error("Error withdrawing balance", zap.Error(err))
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			http.Error(w, "", http.StatusInternalServerError)
 		}
 		return
 	}
