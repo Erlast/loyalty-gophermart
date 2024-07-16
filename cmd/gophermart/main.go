@@ -22,6 +22,7 @@ func main() {
 	ctx := context.Background()
 
 	zaplog.InitLogger()
+	zaplog.Logger.Infof("Logger started at %s", time.Now)
 	defer func(Logger *zap.SugaredLogger) {
 		err := Logger.Sync()
 		if err != nil {
