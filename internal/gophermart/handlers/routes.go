@@ -6,8 +6,6 @@ import (
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
-
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 )
@@ -30,7 +28,7 @@ func RegisterRoutes(
 	r.Post("/api/user/login", userHandler.Login)
 
 	r.Group(func(r chi.Router) {
-		r.Use(middleware.AuthMiddleware(zaplog.Logger))
+		r.Use(middleware.AuthMiddleware(logger))
 
 		// загрузка пользователем номера заказа для расчёта балов
 		r.Post("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
@@ -16,11 +17,18 @@ var (
 )
 
 type BalanceService struct {
+	logger  *zap.SugaredLogger
 	storage *storage.BalanceStorage
 }
 
-func NewBalanceService(balanceStorage *storage.BalanceStorage) *BalanceService {
-	return &BalanceService{storage: balanceStorage}
+func NewBalanceService(
+	balanceStorage *storage.BalanceStorage,
+	logger *zap.SugaredLogger,
+) *BalanceService {
+	return &BalanceService{
+		logger:  logger,
+		storage: balanceStorage,
+	}
 }
 
 func (s *BalanceService) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {

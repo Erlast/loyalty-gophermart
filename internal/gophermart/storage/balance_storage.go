@@ -5,8 +5,6 @@ import (
 	"fmt"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
-
 	"github.com/jackc/pgx/v5"
 	"go.uber.org/zap"
 
@@ -14,11 +12,18 @@ import (
 )
 
 type BalanceStorage struct {
-	db *pgxpool.Pool
+	logger *zap.SugaredLogger
+	db     *pgxpool.Pool
 }
 
-func NewBalanceStorage(db *pgxpool.Pool) *BalanceStorage {
-	return &BalanceStorage{db: db}
+func NewBalanceStorage(
+	db *pgxpool.Pool,
+	logger *zap.SugaredLogger,
+) *BalanceStorage {
+	return &BalanceStorage{
+		logger: logger,
+		db:     db,
+	}
 }
 
 func (s *BalanceStorage) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {
@@ -41,7 +46,7 @@ func (s *BalanceStorage) Withdraw(ctx context.Context, withdrawal *models.Withdr
 	defer func(tx pgx.Tx, ctx context.Context) {
 		err := tx.Rollback(ctx)
 		if err != nil {
-			zaplog.Logger.Error("Rollback failed", zap.Error(err))
+			s.logger.Error("Rollback failed", zap.Error(err))
 		}
 	}(tx, ctx)
 
@@ -93,22 +98,17 @@ func (s *BalanceStorage) GetWithdrawalsByUserID(ctx context.Context, userID int6
 	return withdrawals, nil
 }
 
-func (s *BalanceStorage) CreateBalance(ctx context.Context, userID int64) error {
+func (s *BalanceStorage) CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64) error {
 	query := "INSERT INTO balances (user_id, current_balance, total_withdrawn) VALUES ($1, $2, $3)"
-	_, err := s.db.Exec(ctx, query, userID, 0, 0)
+	_, err := tx.Exec(ctx, query, userID, 0, 0)
 	if err != nil {
-		return fmt.Errorf("error creating balance: %w", err)
+		return fmt.Errorf("ошибка при создании баланса: %v", err)
 	}
 	return nil
 }
 
-func (s *BalanceStorage) CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64) {
-	query := "INSERT INTO balances (user_id, current_balance, total_withdrawn) VALUES ($1, $2, $3)"
-	tx.QueryRow(ctx, query, userID, 0, 0)
-}
-
 func (s *BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount float64) error {
-	zaplog.Logger.Info("Updating balance", zap.Int64("user_id", userID))
+	s.logger.Info("Updating balance", zap.Int64("user_id", userID))
 	query := `
         UPDATE balances
         SET current_balance = current_balance + $1
@@ -117,6 +117,6 @@ func (s *BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount
 	if err != nil {
 		return fmt.Errorf("error updating balance: %w", err)
 	}
-	zaplog.Logger.Info("Updated balance")
+	s.logger.Info("Updated balance")
 	return nil
 }

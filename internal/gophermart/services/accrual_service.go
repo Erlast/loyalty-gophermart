@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 
@@ -12,12 +13,17 @@ import (
 )
 
 type AccrualService struct {
+	logger               *zap.SugaredLogger
 	Client               *http.Client
 	AccrualSystemAddress string
 }
 
-func NewAccrualService(address string) *AccrualService {
+func NewAccrualService(
+	address string,
+	logger *zap.SugaredLogger,
+) *AccrualService {
 	return &AccrualService{
+		logger:               logger,
 		AccrualSystemAddress: address,
 		Client:               &http.Client{Timeout: 10 * time.Second}, //nolint:mnd // Timeout 10 секунд
 	}

@@ -4,8 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
+	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
@@ -21,6 +20,7 @@ var (
 )
 
 type OrderService struct {
+	logger         *zap.SugaredLogger
 	orderStorage   *storage.OrderStorage
 	balanceStorage *storage.BalanceStorage
 	accrualService *AccrualService
@@ -30,8 +30,10 @@ func NewOrderService(
 	orderStorage *storage.OrderStorage,
 	balanceStorage *storage.BalanceStorage,
 	accrualService *AccrualService,
+	logger *zap.SugaredLogger,
 ) *OrderService {
 	return &OrderService{
+		logger:         logger,
 		orderStorage:   orderStorage,
 		balanceStorage: balanceStorage,
 		accrualService: accrualService,
@@ -68,16 +70,16 @@ func (s *OrderService) GetOrdersByUserID(ctx context.Context, userID int64) ([]m
 
 func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 	orders, err := s.orderStorage.GetOrdersByStatus(ctx, models.OrderStatusNew, models.OrderStatusProcessing)
-	zaplog.Logger.Infof("orders: %v", orders)
+	s.logger.Infof("orders: %v", orders)
 	if err != nil {
 		return fmt.Errorf("error getting orders: %w", err)
 	}
 
 	for _, order := range orders {
-		zaplog.Logger.Infof("GetAccrualInfo number: %v", order.Number)
+		s.logger.Infof("GetAccrualInfo number: %v", order.Number)
 		accrualInfo, err := s.accrualService.GetAccrualInfo(order.Number)
 		if err != nil {
-			zaplog.Logger.Errorf("error getting accrualInfo: %v", err)
+			s.logger.Errorf("error getting accrualInfo: %v", err)
 			continue
 		}
 
@@ -88,7 +90,7 @@ func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 		order.Status = accrualInfo.Status
 		order.Accrual = &accrualInfo.Accrual
 		order.UploadedAt = time.Now()
-		zaplog.Logger.Infof("Order struct for update: %v", order)
+		s.logger.Infof("Order struct for update: %v", order)
 
 		if err := s.orderStorage.UpdateOrder(ctx, &order); err != nil {
 			return fmt.Errorf("error updating order: %w", err)
@@ -97,7 +99,7 @@ func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 		if order.Status == string(models.OrderStatusProcessed) {
 			err := s.balanceStorage.UpdateBalance(ctx, order.UserID, *order.Accrual)
 			if err != nil {
-				zaplog.Logger.Infof("Error updating balance: %v", err)
+				s.logger.Infof("Error updating balance: %v", err)
 				return fmt.Errorf("error updating balance: %w", err)
 			}
 		}

@@ -16,8 +16,14 @@ type UserHandler struct {
 	logger  *zap.SugaredLogger
 }
 
-func NewUserHandler(service *services.UserService, logger *zap.SugaredLogger) *UserHandler {
-	return &UserHandler{service: service, logger: logger}
+func NewUserHandler(
+	service *services.UserService,
+	logger *zap.SugaredLogger,
+) *UserHandler {
+	return &UserHandler{
+		service: service,
+		logger:  logger,
+	}
 }
 
 func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
@@ -29,6 +35,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	h.logger.Info("User created")
+
 	if err := h.service.Register(r.Context(), &user); err != nil {
 		if services.IsDuplicateError(err) {
 			h.logger.Error("Username already taken", zap.Error(err))
@@ -40,6 +47,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	h.logger.Info("User registered")
+
 	token, err := services.GenerateJWT(user.ID)
 	if err != nil {
 		h.logger.Error("Error generating JWT", zap.Error(err))

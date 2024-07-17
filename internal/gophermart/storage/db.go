@@ -17,27 +17,25 @@ import (
 //go:embed migrations/*.sql
 var migrationsDir embed.FS
 
-var DB *pgxpool.Pool
-
-func InitDB(ctx context.Context, cfg config.Config) error {
+func InitDB(ctx context.Context, cfg config.Config) (*pgxpool.Pool, error) {
 	// Запускаем миграции
 	if err := runMigrations(cfg.DatabaseURI, migrationsDir); err != nil {
-		return fmt.Errorf("не удалось выполнить миграции в базу данных: %w", err)
+		return nil, fmt.Errorf("не удалось выполнить миграции в базу данных: %w", err)
 	}
 
 	// Парсим URI базы данных
 	parsedConfig, err := pgxpool.ParseConfig(cfg.DatabaseURI)
 	if err != nil {
-		return fmt.Errorf("не удалось разобрать URI базы данных: %w", err)
+		return nil, fmt.Errorf("не удалось разобрать URI базы данных: %w", err)
 	}
 
 	// Подключаемся к базе данных
-	DB, err = pgxpool.NewWithConfig(ctx, parsedConfig)
+	db, err := pgxpool.NewWithConfig(ctx, parsedConfig)
 	if err != nil {
-		return fmt.Errorf("не удалось подключиться к базе данных: %w", err)
+		return nil, fmt.Errorf("не удалось подключиться к базе данных: %w", err)
 	}
 
-	return nil
+	return db, nil
 }
 
 func runMigrations(dsn string, migrationsDir embed.FS) error {

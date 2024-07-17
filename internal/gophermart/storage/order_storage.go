@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"github.com/jackc/pgx/v5"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
@@ -14,11 +14,18 @@ import (
 )
 
 type OrderStorage struct {
-	db *pgxpool.Pool
+	logger *zap.SugaredLogger
+	db     *pgxpool.Pool
 }
 
-func NewOrderStorage(db *pgxpool.Pool) *OrderStorage {
-	return &OrderStorage{db: db}
+func NewOrderStorage(
+	db *pgxpool.Pool,
+	logger *zap.SugaredLogger,
+) *OrderStorage {
+	return &OrderStorage{
+		logger: logger,
+		db:     db,
+	}
 }
 
 func (s *OrderStorage) GetOrder(ctx context.Context, number string) (*models.Order, error) {
@@ -51,7 +58,7 @@ func (s *OrderStorage) CheckOrder(ctx context.Context, number string) (bool, err
 
 func (s *OrderStorage) CreateOrder(ctx context.Context, order *models.Order) error {
 	query := "INSERT INTO orders (user_id, number, status, uploaded_at) VALUES ($1, $2, $3, $4)"
-	zaplog.Logger.Infof("inserting new order: %v,%v,%v,%v", order.UserID, order.Number, order.Status, order.UploadedAt)
+	s.logger.Infof("inserting new order: %v,%v,%v,%v", order.UserID, order.Number, order.Status, order.UploadedAt)
 	_, err := s.db.Exec(ctx, query, order.UserID, order.Number, order.Status, order.UploadedAt)
 	if err != nil {
 		return fmt.Errorf("error order storage create order: %w", err)
