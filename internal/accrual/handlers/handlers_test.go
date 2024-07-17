@@ -20,7 +20,7 @@ import (
 
 func TestGetAccrualOrderHandler(t *testing.T) {
 	store := &storage.MockStorage{}
-	zaplog.InitLogger()
+	newLogger := zaplog.InitLogger()
 
 	req := httptest.NewRequest(http.MethodGet, "/orders/1234567812345670", http.NoBody)
 	req = req.WithContext(context.WithValue(req.Context(), chi.RouteCtxKey, &chi.Context{
@@ -37,7 +37,7 @@ func TestGetAccrualOrderHandler(t *testing.T) {
 		Status: "PROCESSED",
 	}, nil)
 
-	GetAccrualOrderHandler(context.Background(), res, req, store)
+	GetAccrualOrderHandler(context.Background(), res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusOK, res.Code)
 
@@ -52,7 +52,7 @@ func TestGetAccrualOrderHandler(t *testing.T) {
 
 func TestPostAccrualOrderHandler(t *testing.T) {
 	store := &storage.MockStorage{}
-	zaplog.InitLogger()
+	newLogger := zaplog.InitLogger()
 
 	var goods []models.Items
 
@@ -72,7 +72,7 @@ func TestPostAccrualOrderHandler(t *testing.T) {
 
 	store.On("SaveOrderItems", req.Context(), orderItem).Return(nil)
 
-	PostAccrualOrderHandler(context.Background(), res, req, store)
+	PostAccrualOrderHandler(context.Background(), res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusAccepted, res.Code)
 
@@ -81,7 +81,7 @@ func TestPostAccrualOrderHandler(t *testing.T) {
 
 func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 	store := &storage.MockStorage{}
-	zaplog.InitLogger()
+	newLogger := zaplog.InitLogger()
 
 	var goods []models.Items
 
@@ -101,7 +101,7 @@ func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 
 	store.On("SaveOrderItems", req.Context(), orderItem).Return(&helpers.ConflictError{})
 
-	PostAccrualOrderHandler(context.Background(), res, req, store)
+	PostAccrualOrderHandler(context.Background(), res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusConflict, res.Code)
 
@@ -110,7 +110,7 @@ func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 
 func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 	store := &storage.MockStorage{}
-	zaplog.InitLogger()
+	newLogger := zaplog.InitLogger()
 
 	var goods []models.Items
 
@@ -130,7 +130,7 @@ func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 
 	store.On("SaveOrderItems", req.Context(), orderItem).Return(errors.New("internal error"))
 
-	PostAccrualOrderHandler(context.Background(), res, req, store)
+	PostAccrualOrderHandler(context.Background(), res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusInternalServerError, res.Code)
 
@@ -139,7 +139,7 @@ func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 
 func TestPostAccrualGoodsHandler(t *testing.T) {
 	store := &storage.MockStorage{}
-	zaplog.InitLogger()
+	newLogger := zaplog.InitLogger()
 
 	goods := models.Goods{
 		Match:      "somebrand",
@@ -154,7 +154,7 @@ func TestPostAccrualGoodsHandler(t *testing.T) {
 
 	store.On("SaveGoods", req.Context(), goods).Return(nil)
 
-	PostAccrualGoodsHandler(context.Background(), res, req, store)
+	PostAccrualGoodsHandler(context.Background(), res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusOK, res.Code)
 
@@ -163,7 +163,7 @@ func TestPostAccrualGoodsHandler(t *testing.T) {
 
 func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 	store := &storage.MockStorage{}
-	zaplog.InitLogger()
+	newLogger := zaplog.InitLogger()
 
 	goods := models.Goods{
 		Match:      "somebrand",
@@ -178,7 +178,7 @@ func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 
 	store.On("SaveGoods", req.Context(), goods).Return(&helpers.ConflictError{})
 
-	PostAccrualGoodsHandler(context.Background(), res, req, store)
+	PostAccrualGoodsHandler(context.Background(), res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusConflict, res.Code)
 
@@ -187,7 +187,7 @@ func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 
 func TestPostAccrualGoodsHandler_InternalServerError(t *testing.T) {
 	store := &storage.MockStorage{}
-	zaplog.InitLogger()
+	newLogger := zaplog.InitLogger()
 
 	goods := models.Goods{
 		Match:      "somebrand",
@@ -202,7 +202,7 @@ func TestPostAccrualGoodsHandler_InternalServerError(t *testing.T) {
 
 	store.On("SaveGoods", req.Context(), goods).Return(errors.New("internal error"))
 
-	PostAccrualGoodsHandler(context.Background(), res, req, store)
+	PostAccrualGoodsHandler(context.Background(), res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusInternalServerError, res.Code)
 

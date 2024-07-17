@@ -14,22 +14,22 @@ import (
 
 func main() {
 	ctx := context.Background()
-	zaplog.InitLogger()
-	cfg := config.ParseFlags()
+	newLogger := zaplog.InitLogger()
+	cfg := config.ParseFlags(newLogger)
 
 	store, err := storage.NewAccrualStorage(ctx, cfg)
 	if err != nil {
-		zaplog.Logger.Fatalf("Unable to create storage %v: ", err)
+		newLogger.Fatalf("Unable to create storage %v: ", err)
 	}
 
-	go components.OrderProcessing(ctx, store)
+	go components.OrderProcessing(ctx, store, newLogger)
 
-	r := routes.NewAccrualRouter(ctx, store)
+	r := routes.NewAccrualRouter(ctx, store, newLogger)
 
-	zaplog.Logger.Infof("Start running server. Address: %s, db: %s", cfg.RunAddress, cfg.DatabaseURI)
+	newLogger.Infof("Start running server. Address: %s, db: %s", cfg.RunAddress, cfg.DatabaseURI)
 	err = http.ListenAndServe(cfg.RunAddress, r)
 
 	if err != nil {
-		zaplog.Logger.Fatalf("Running server fail %s", err)
+		newLogger.Fatalf("Running server fail %s", err)
 	}
 }
