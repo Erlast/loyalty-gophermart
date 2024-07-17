@@ -120,3 +120,13 @@ func (s *BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount
 	s.logger.Info("Updated balance")
 	return nil
 }
+
+func (s *BalanceStorage) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float64) error {
+	query := "UPDATE balances SET current_balance = current_balance + $1 WHERE user_id = $2"
+	_, err := tx.Exec(ctx, query, accrual, userID)
+	if err != nil {
+		return fmt.Errorf("ошибка при обновлении баланса: %v", err)
+	}
+	s.logger.Info("Updated balance")
+	return nil
+}

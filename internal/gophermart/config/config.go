@@ -2,9 +2,8 @@ package config
 
 import (
 	"flag"
+	"go.uber.org/zap"
 	"os"
-
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 )
 
 type Config struct {
@@ -21,7 +20,7 @@ func GetConfig() *Config {
 }
 
 // LoadConfig loads configuration from environment variables and flags.
-func LoadConfig() Config {
+func LoadConfig(logger *zap.SugaredLogger) Config {
 	// Initialize default values from environment variables
 	defaultRunAddress := "localhost:8080"
 	defaultDatabaseURI := ""
@@ -50,10 +49,10 @@ func LoadConfig() Config {
 	// Parse the flags
 	flag.Parse()
 
-	zaplog.Logger.Infof("database URI: %s, accrualSystemAddres: %s", *databaseURI, *accrualSystemAddress)
+	logger.Infof("database URI: %s, accrualSystemAddres: %s", *databaseURI, *accrualSystemAddress)
 	// Ensure that the required parameters are provided
 	if *databaseURI == "" || *accrualSystemAddress == "" {
-		zaplog.Logger.Fatal("DATABASE URI and ACCRUAL SYSTEM ADDRESS must be provided")
+		logger.Fatal("DATABASE URI and ACCRUAL SYSTEM ADDRESS must be provided")
 	}
 
 	config = Config{

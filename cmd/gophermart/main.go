@@ -30,7 +30,7 @@ func main() {
 		}
 	}(logger)
 
-	cfg := config.LoadConfig()
+	cfg := config.LoadConfig(logger)
 	logger.Infof("Config: %v", cfg)
 
 	db, err := storage.InitDB(ctx, cfg)

@@ -4,13 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/jackc/pgx/v5"
 	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/validators"
-
-	"time"
 )
 
 var (
@@ -75,6 +74,17 @@ func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 		return fmt.Errorf("error getting orders: %w", err)
 	}
 
+	tx, err := s.orderStorage.BeginTx(ctx)
+	if err != nil {
+		return fmt.Errorf("error starting transaction: %w", err)
+	}
+	defer func(tx pgx.Tx, ctx context.Context) {
+		err := tx.Rollback(ctx)
+		if err != nil {
+			s.logger.Infof("Error rolling back transaction: %v", err)
+		}
+	}(tx, ctx)
+
 	for _, order := range orders {
 		s.logger.Infof("GetAccrualInfo number: %v", order.Number)
 		accrualInfo, err := s.accrualService.GetAccrualInfo(order.Number)
@@ -89,7 +99,49 @@ func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 
 		order.Status = accrualInfo.Status
 		order.Accrual = &accrualInfo.Accrual
-		order.UploadedAt = time.Now()
+		s.logger.Infof("Order struct for update: %v", order)
+
+		if err := s.orderStorage.UpdateOrderTx(ctx, tx, &order); err != nil {
+			return fmt.Errorf("error updating order: %w", err)
+		}
+
+		if order.Status == string(models.OrderStatusProcessed) {
+			err := s.balanceStorage.UpdateBalanceTx(ctx, tx, order.UserID, *order.Accrual)
+			if err != nil {
+				s.logger.Infof("Error updating balance: %v", err)
+				return fmt.Errorf("error updating balance: %w", err)
+			}
+		}
+	}
+	err = tx.Commit(ctx)
+	if err != nil {
+		return fmt.Errorf("error committing transaction: %w", err)
+	}
+
+	return nil
+}
+
+func (s *OrderService) UpdateOrderStatusesOld(ctx context.Context) error {
+	orders, err := s.orderStorage.GetOrdersByStatus(ctx, models.OrderStatusNew, models.OrderStatusProcessing)
+	s.logger.Infof("orders: %v", orders)
+	if err != nil {
+		return fmt.Errorf("error getting orders: %w", err)
+	}
+
+	for _, order := range orders {
+		s.logger.Infof("GetAccrualInfo number: %v", order.Number)
+		accrualInfo, err := s.accrualService.GetAccrualInfo(order.Number)
+		if err != nil {
+			s.logger.Errorf("error getting accrualInfo: %v", err)
+			continue
+		}
+
+		if accrualInfo == nil {
+			continue
+		}
+
+		order.Status = accrualInfo.Status
+		order.Accrual = &accrualInfo.Accrual
 		s.logger.Infof("Order struct for update: %v", order)
 
 		if err := s.orderStorage.UpdateOrder(ctx, &order); err != nil {

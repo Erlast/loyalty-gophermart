@@ -120,10 +120,27 @@ func (s *OrderStorage) GetOrdersByStatus(ctx context.Context, statuses ...models
 }
 
 func (s *OrderStorage) UpdateOrder(ctx context.Context, order *models.Order) error {
-	query := "UPDATE orders SET status=$1, accrual=$2, uploaded_at=$3 WHERE number=$4"
-	_, err := s.db.Exec(ctx, query, order.Status, order.Accrual, order.UploadedAt, order.Number)
+	query := "UPDATE orders SET status=$1, accrual=$2 WHERE number=$4"
+	_, err := s.db.Exec(ctx, query, order.Status, order.Accrual, order.Number)
 	if err != nil {
 		return fmt.Errorf("error order storage update order: %w", err)
 	}
 	return nil
+}
+
+func (s *OrderStorage) UpdateOrderTx(ctx context.Context, tx pgx.Tx, order *models.Order) error {
+	query := "UPDATE orders SET status=$1, accrual=$2 WHERE number=$3"
+	_, err := tx.Exec(ctx, query, order.Status, order.Accrual, order.Number)
+	if err != nil {
+		return fmt.Errorf("error updating order: %v", err)
+	}
+	return nil
+}
+
+func (s *OrderStorage) BeginTx(ctx context.Context) (pgx.Tx, error) {
+	tx, err := s.db.Begin(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("error begin transaction from order storage: %w", err)
+	}
+	return tx, nil
 }

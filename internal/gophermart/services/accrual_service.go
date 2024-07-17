@@ -5,6 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"go.uber.org/zap"
+	"io"
+	"net/url"
+	"path"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 
@@ -30,24 +33,36 @@ func NewAccrualService(
 }
 
 func (s *AccrualService) GetAccrualInfo(orderNumber string) (*models.AccrualResponse, error) {
-	url := fmt.Sprintf("%s/api/orders/%s", s.AccrualSystemAddress, orderNumber)
-	resp, err := s.Client.Get(url)
+	baseURL, err := url.Parse(s.AccrualSystemAddress)
 	if err != nil {
-		return nil, fmt.Errorf("could not get accrual info from %s: %w", url, err)
+		return nil, fmt.Errorf("не удалось разобрать базовый адрес %s: %w", s.AccrualSystemAddress, err)
 	}
-	defer resp.Body.Close() //nolint:errcheck // later change
+
+	// Добавляем путь к базовому URL
+	baseURL.Path = path.Join(baseURL.Path, "api/orders", orderNumber)
+
+	resp, err := s.Client.Get(baseURL.String())
+	if err != nil {
+		return nil, fmt.Errorf("не удалось получить информацию о начислениях с %s: %w", baseURL.String(), err)
+	}
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			s.logger.Errorf("не удалось закрыть body ответа от %s: %w", baseURL.String(), err)
+		}
+	}(resp.Body)
 
 	if resp.StatusCode == http.StatusNoContent {
-		return nil, errors.New("no content")
+		return nil, errors.New("нет содержимого")
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("failed to get accrual info: status %d", resp.StatusCode)
+		return nil, fmt.Errorf("не удалось получить информацию о начислениях: статус %d", resp.StatusCode)
 	}
 
 	var accrualResp models.AccrualResponse
 	if err := json.NewDecoder(resp.Body).Decode(&accrualResp); err != nil {
-		return nil, fmt.Errorf("could not parse accrual info from %s: %w", url, err)
+		return nil, fmt.Errorf("не удалось разобрать информацию о начислениях с %s: %w", baseURL.String(), err)
 	}
 
 	return &accrualResp, nil

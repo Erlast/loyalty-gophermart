@@ -48,7 +48,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	}
 	h.logger.Info("User registered")
 
-	token, err := services.GenerateJWT(user.ID)
+	token, err := services.GenerateJWT(user.ID, h.logger)
 	if err != nil {
 		h.logger.Error("Error generating JWT", zap.Error(err))
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
@@ -75,7 +75,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := services.GenerateJWT(user.ID)
+	token, err := services.GenerateJWT(user.ID, h.logger)
 	if err != nil {
 		h.logger.Error("Error generating JWT", zap.Error(err))
 		http.Error(w, "", http.StatusInternalServerError)
