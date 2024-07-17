@@ -64,9 +64,9 @@ func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r 
 	if err != nil {
 		switch {
 		case errors.Is(err, services.ErrInsufficientBalance):
-			http.Error(w, "Insufficient balance", http.StatusPaymentRequired)
+			http.Error(w, "", http.StatusPaymentRequired)
 		case errors.Is(err, services.ErrInvalidOrderNumber):
-			http.Error(w, InvalidOrderFormatMsg, http.StatusUnprocessableEntity)
+			http.Error(w, "", http.StatusUnprocessableEntity)
 		default:
 			h.logger.Error("Error withdrawing balance", zap.Error(err))
 			http.Error(w, "", http.StatusInternalServerError)
