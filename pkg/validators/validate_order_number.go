@@ -2,8 +2,7 @@ package validators
 
 import (
 	"regexp"
-	"strconv"
-	"strings"
+	"unicode"
 )
 
 func ValidateOrderNumber(orderNumber string) bool {
@@ -12,22 +11,28 @@ func ValidateOrderNumber(orderNumber string) bool {
 	return re.MatchString(orderNumber)
 }
 
-func ValidateOrderNumberLuna(orderNumber string) bool {
+func ValidateOrderNumberLuhn(orderNumber string) bool {
 	// Удаляем пробелы из номера заказа
-	orderNumber = strings.ReplaceAll(orderNumber, " ", "")
+	var cleaned string
+	for _, r := range orderNumber {
+		if unicode.IsDigit(r) {
+			cleaned += string(r)
+		} else if !unicode.IsSpace(r) {
+			return false
+		}
+	}
 
 	// Проверяем, что номер заказа содержит только цифры
-	_, err := strconv.ParseInt(orderNumber, 10, 64)
-	if err != nil {
+	if len(cleaned) == 0 {
 		return false
 	}
 
 	// Алгоритм Луна
 	var sum int
-	length := len(orderNumber)
+	length := len(cleaned)
 	parity := length % 2
-	for i, digit := range orderNumber {
-		digit := int(digit - '0')
+	for i, r := range cleaned {
+		digit := int(r - '0')
 		if i%2 == parity {
 			digit *= 2
 			if digit > 9 {
