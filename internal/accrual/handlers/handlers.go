@@ -9,11 +9,11 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 )
 
 func GetAccrualOrderHandler(
@@ -21,6 +21,7 @@ func GetAccrualOrderHandler(
 	res http.ResponseWriter,
 	req *http.Request,
 	store storage.Storage,
+	logger *zap.SugaredLogger,
 ) {
 	orderNumber := chi.URLParam(req, "number")
 
@@ -33,7 +34,7 @@ func GetAccrualOrderHandler(
 
 	data, err := json.Marshal(order)
 	if err != nil {
-		zaplog.Logger.Errorf("failed to marshal result: %v", err)
+		logger.Errorf("failed to marshal result: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
@@ -43,7 +44,7 @@ func GetAccrualOrderHandler(
 
 	_, err = res.Write(data)
 	if err != nil {
-		zaplog.Logger.Errorf("can't write body %v", err)
+		logger.Errorf("can't write body %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
@@ -54,10 +55,11 @@ func PostAccrualOrderHandler(
 	res http.ResponseWriter,
 	req *http.Request,
 	store storage.Storage,
+	logger *zap.SugaredLogger,
 ) {
 	var bodyReq models.OrderItem
 
-	err := prepareBody(req, res, &bodyReq)
+	err := prepareBody(req, res, &bodyReq, logger)
 
 	if err != nil {
 		return
@@ -71,7 +73,7 @@ func PostAccrualOrderHandler(
 			res.WriteHeader(http.StatusConflict)
 			return
 		}
-		zaplog.Logger.Errorf("failed to save goods: %v", err)
+		logger.Errorf("failed to save goods: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
@@ -84,10 +86,11 @@ func PostAccrualGoodsHandler(
 	res http.ResponseWriter,
 	req *http.Request,
 	store storage.Storage,
+	logger *zap.SugaredLogger,
 ) {
 	var bodyReq models.Goods
 
-	err := prepareBody(req, res, &bodyReq)
+	err := prepareBody(req, res, &bodyReq, logger)
 
 	if err != nil {
 		return
@@ -101,7 +104,7 @@ func PostAccrualGoodsHandler(
 			res.WriteHeader(http.StatusConflict)
 			return
 		}
-		zaplog.Logger.Errorf("failed to save goods: %v", err)
+		logger.Errorf("failed to save goods: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
@@ -109,7 +112,7 @@ func PostAccrualGoodsHandler(
 	res.WriteHeader(http.StatusOK)
 }
 
-func prepareBody(req *http.Request, res http.ResponseWriter, bodyReq models.Model) error {
+func prepareBody(req *http.Request, res http.ResponseWriter, bodyReq models.Model, logger *zap.SugaredLogger) error {
 	if req.Body == http.NoBody {
 		http.Error(res, "Empty body!", http.StatusBadRequest)
 		return errors.New("empty body")
@@ -118,7 +121,7 @@ func prepareBody(req *http.Request, res http.ResponseWriter, bodyReq models.Mode
 	body, err := io.ReadAll(req.Body)
 
 	if err != nil {
-		zaplog.Logger.Errorf("failed to read the request body: %v", err)
+		logger.Errorf("failed to read the request body: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return fmt.Errorf("read request body: %w", err)
 	}
@@ -126,7 +129,7 @@ func prepareBody(req *http.Request, res http.ResponseWriter, bodyReq models.Mode
 	err = json.Unmarshal(body, &bodyReq)
 
 	if err != nil {
-		zaplog.Logger.Errorf("failed to marshal result: %v", err)
+		logger.Errorf("failed to marshal result: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return fmt.Errorf("marashal result: %w", err)
 	}

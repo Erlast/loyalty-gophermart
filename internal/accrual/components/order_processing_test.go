@@ -16,7 +16,7 @@ import (
 
 func TestOrderProcessing(t *testing.T) {
 	store := &storage.MockStorage{}
-	zaplog.InitLogger()
+	newLogger := zaplog.InitLogger()
 
 	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
 	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
@@ -30,7 +30,7 @@ func TestOrderProcessing(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	go OrderProcessing(ctx, store)
+	go OrderProcessing(ctx, store, newLogger)
 
 	time.Sleep(2 * time.Second)
 

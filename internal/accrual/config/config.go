@@ -3,8 +3,8 @@ package config
 import (
 	"flag"
 
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"github.com/caarlos0/env/v11"
+	"go.uber.org/zap"
 )
 
 type Cfg struct {
@@ -19,7 +19,7 @@ type envCfg struct {
 
 const defaultRunAddress = "localhost:8080"
 
-func ParseFlags() *Cfg {
+func ParseFlags(logger *zap.SugaredLogger) *Cfg {
 	config := &Cfg{
 		RunAddress:  defaultRunAddress,
 		DatabaseURI: "",
@@ -32,7 +32,7 @@ func ParseFlags() *Cfg {
 	cfg := envCfg{}
 
 	if err := env.Parse(&cfg); err != nil {
-		zaplog.Logger.Fatalf("can't parse env")
+		logger.Fatalf("can't parse env")
 	}
 
 	if len(cfg.RunAddress) != 0 {
