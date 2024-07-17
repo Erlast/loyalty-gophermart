@@ -11,6 +11,15 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
+type BalanceStore interface {
+	GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error)
+	Withdraw(ctx context.Context, withdrawal *models.WithdrawalRequest) error
+	GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error)
+	CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64) error
+	UpdateBalance(ctx context.Context, userID int64, amount float64) error
+	UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float64) error
+}
+
 type BalanceStorage struct {
 	logger *zap.SugaredLogger
 	db     *pgxpool.Pool

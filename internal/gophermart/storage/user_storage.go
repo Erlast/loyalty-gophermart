@@ -12,6 +12,12 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
+type UserStore interface {
+	CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.User) error
+	GetUserByLogin(ctx context.Context, login string) (*models.User, error)
+	BeginTx(ctx context.Context) (pgx.Tx, error)
+}
+
 type UserStorage struct {
 	logger *zap.SugaredLogger
 	db     *pgxpool.Pool

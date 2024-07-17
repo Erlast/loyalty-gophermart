@@ -14,13 +14,13 @@ import (
 
 type UserService struct {
 	logger         *zap.SugaredLogger
-	userStorage    *storage.UserStorage
-	balanceStorage *storage.BalanceStorage
+	userStorage    storage.UserStore // Используем интерфейс UserStore
+	balanceStorage storage.BalanceStore
 }
 
 func NewUserService(
-	userStorage *storage.UserStorage,
-	balanceStorage *storage.BalanceStorage,
+	userStorage storage.UserStore, // Используем интерфейс UserStore
+	balanceStorage storage.BalanceStore,
 	logger *zap.SugaredLogger,
 ) *UserService {
 	return &UserService{
