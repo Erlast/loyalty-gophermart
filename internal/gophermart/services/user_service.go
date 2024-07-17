@@ -31,12 +31,10 @@ func NewUserService(
 }
 
 func (s *UserService) Register(ctx context.Context, user *models.User) (err error) {
-	op := "user service register method"
-
 	// Хэширование пароля
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return fmt.Errorf("%s: %w", op, err)
+		return fmt.Errorf("could not hash password: %w", err)
 	}
 
 	user.Password = string(hashedPassword)
@@ -44,40 +42,39 @@ func (s *UserService) Register(ctx context.Context, user *models.User) (err erro
 	// Начало транзакции
 	tx, err := s.userStorage.BeginTx(ctx)
 	if err != nil {
-		return fmt.Errorf("%s: %w", op, err)
+		return fmt.Errorf("could not begin transaction: %w", err)
 	}
 	defer func(tx pgx.Tx, ctx context.Context) {
 		err := tx.Rollback(ctx)
 		if err != nil {
-			s.logger.Errorf("%s: %w", op, err)
+			s.logger.Errorw("Rollback failed", "err", err)
 		}
 	}(tx, ctx)
 
 	// Создание пользователя в транзакции
 	err = s.userStorage.CreateUserTx(ctx, tx, user)
 	if err != nil {
-		return fmt.Errorf("%s: %w", op, err)
+		return fmt.Errorf("could not create user: %w", err)
 	}
 
 	// Создание баланса в транзакции
 	err = s.balanceStorage.CreateBalanceTx(ctx, tx, user.ID)
 	if err != nil {
-		return fmt.Errorf("%s: %w", op, err)
+		return fmt.Errorf("error creating balance: %w", err)
 	}
 
 	err = tx.Commit(ctx)
 	if err != nil {
-		return fmt.Errorf("%s: %w", op, err)
+		return fmt.Errorf("could not commit: %w", err)
 	}
 
 	return nil
 }
 
 func (s *UserService) Login(ctx context.Context, credentials models.Credentials) (*models.User, error) {
-	op := "user service login"
 	user, err := s.userStorage.GetUserByLogin(ctx, credentials.Login)
 	if err != nil {
-		return nil, fmt.Errorf("%s:%w", op, err)
+		return nil, fmt.Errorf("could not get user by login: %w", err)
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(credentials.Password)); err != nil {
