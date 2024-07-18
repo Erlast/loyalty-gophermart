@@ -83,12 +83,14 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 }
 
 func (h *OrderHandler) ListOrders(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	h.logger.Info("List orders called")
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
 		h.logger.Errorf("Error getting user id from context: %v", err)
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
+	h.logger.Infof("User id from context: %v", userID)
 
 	orders, err := h.service.GetOrdersByUserID(ctx, userID)
 	if err != nil {
@@ -96,6 +98,8 @@ func (h *OrderHandler) ListOrders(ctx context.Context, w http.ResponseWriter, r 
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
+	h.logger.Infof("List of orders: %v", orders)
 
+	w.Header().Set("Content-Type", "application/json")
 	render.JSON(w, r, orders)
 }

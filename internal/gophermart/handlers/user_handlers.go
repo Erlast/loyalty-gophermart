@@ -56,6 +56,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	}
 	h.logger.Info("Token generated", zap.String("token", token))
 
+	w.Header().Set("Authorization", "Bearer "+token) // Setting the Authorization header with the token
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, map[string]string{"Authorization": token})
 }
