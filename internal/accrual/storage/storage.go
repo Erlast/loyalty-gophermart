@@ -30,7 +30,7 @@ type Storage interface {
 	FetchRewardRules(ctx context.Context) ([]models.Goods, error)
 	UpdateOrderStatus(ctx context.Context, orderNumber int64, status string) error
 	FetchProducts(ctx context.Context, orderID int64) ([]models.Items, error)
-	SaveOrderPoints(ctx context.Context, orderID int64, points []float32) error
+	SaveOrderPoints(ctx context.Context, orderID int64, points []float64) error
 }
 
 //go:embed migrations/*.sql
@@ -217,8 +217,8 @@ func (store *AccrualStorage) FetchProducts(ctx context.Context, orderID int64) (
 	return products, nil
 }
 
-func (store *AccrualStorage) SaveOrderPoints(ctx context.Context, orderID int64, points []float32) error {
-	var totalPoints float32
+func (store *AccrualStorage) SaveOrderPoints(ctx context.Context, orderID int64, points []float64) error {
+	var totalPoints float64
 	for _, p := range points {
 		totalPoints += p
 	}
@@ -280,7 +280,8 @@ func runMigrations(dsn string) error {
 	return nil
 }
 
-func roundTo(value float32, places int) float32 {
-	shift := float32(math.Pow(10, float64(places)))         // Приведение типа нужно для math.Pow
-	return float32(math.Ceil(float64(value*shift))) / shift // Приведение типов для math.Ceil и для арифметических операций
+func roundTo(value float64, places int) float32 {
+	shift := math.Pow(10, float64(places))
+	rounded := math.Ceil(value*shift) / shift
+	return float32(rounded)
 }

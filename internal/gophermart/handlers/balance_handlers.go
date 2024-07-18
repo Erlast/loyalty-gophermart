@@ -41,28 +41,7 @@ func (h *BalanceHandler) GetBalance(ctx context.Context, w http.ResponseWriter, 
 	}
 	h.logger.Debugf("Get Balance from handler: %v", *balance)
 
-	//render.JSON(w, r, *balance)
-	// Сериализация объекта balance в JSON
-	jsonData, err := json.Marshal(balance)
-	if err != nil {
-		http.Error(w, "Failed to serialize data", http.StatusInternalServerError)
-		return
-	}
-	h.logger.Debugf("Response jsonData: %v", string(jsonData))
-
-	// Устанавливаем заголовок Content-Type для ответа
-	w.Header().Set("Content-Type", "application/json")
-
-	// Отправляем статус-код 200 OK
-	w.WriteHeader(http.StatusOK)
-
-	// Пишем JSON данные в ResponseWriter
-	_, err = w.Write(jsonData)
-	if err != nil {
-		// В реальном приложении здесь можно было бы залогировать ошибку
-		http.Error(w, "", http.StatusInternalServerError)
-		return
-	}
+	render.JSON(w, r, *balance)
 }
 
 func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r *http.Request) {
