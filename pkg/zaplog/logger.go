@@ -9,7 +9,7 @@ import (
 // InitLogger создает и возвращает новый экземпляр zap SugaredLogger для логирования в файл.
 func InitLogger() *zap.SugaredLogger {
 	// Указываем путь к файлу лога
-	logFile := "path/to/your/logfile.log"
+	logFile := "logfile.log"
 
 	// Открываем файл для логирования
 	file, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
