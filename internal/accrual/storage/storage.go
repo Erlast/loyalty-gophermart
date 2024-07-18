@@ -6,6 +6,7 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"math"
 	"time"
 
 	"github.com/golang-migrate/migrate/v4"
@@ -226,7 +227,7 @@ func (store *AccrualStorage) SaveOrderPoints(ctx context.Context, orderID int64,
 		ctx,
 		"UPDATE orders SET status=$1,accrual=$2 where id=$3",
 		helpers.StatusProcessed,
-		totalPoints,
+		roundTo(totalPoints, 2),
 		orderID,
 	)
 	if err != nil {
@@ -277,4 +278,9 @@ func runMigrations(dsn string) error {
 		}
 	}
 	return nil
+}
+
+func roundTo(value float64, places int) float64 {
+	shift := math.Pow(10, float64(places))
+	return math.Round(value*shift) / shift
 }
