@@ -40,7 +40,7 @@ test:
 	go test ./...
 
 # Параметры контейнера и образа
-CONTAINER_NAME=gophermart_postgres
+CONTAINER_NAME=gophermart_test
 IMAGE=postgres:16.3
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
@@ -48,7 +48,7 @@ POSTGRES_DB=gophermart
 VOLUME_NAME=gophermart_data
 
 # Команда для запуска контейнера PostgreSQL
-db:
+db_g:
 	docker run -d \
         --name $(CONTAINER_NAME) \
         -e POSTGRES_USER=$(POSTGRES_USER) \
@@ -57,3 +57,25 @@ db:
         -p 5432:5432 \
         -v $(VOLUME_NAME):/var/lib/postgresql/data \
         $(IMAGE)
+
+# Параметры контейнера и образа
+CONTAINER_NAME=accrual_test
+IMAGE=postgres:16.3
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
+POSTGRES_DB=accrual
+VOLUME_NAME=accrual_data
+
+# Команда для запуска контейнера PostgreSQL
+db_a:
+	docker run -d \
+        --name $(CONTAINER_NAME) \
+        -e POSTGRES_USER=$(POSTGRES_USER) \
+        -e POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) \
+        -e POSTGRES_DB=$(POSTGRES_DB) \
+        -p 54321:5432 \
+        -v $(VOLUME_NAME):/var/lib/postgresql/data \
+        $(IMAGE)
+
+
+gophermarttest "-test.v" "-test.run=^TestGophermart$" "-gophermart-binary-path=cmd/gophermart/gophermart.exe" "-gophermart-host=localhost" "-gophermart-port=8080"  "-accrual-binary-path=cmd\accrual\accrual.exe" "-gophermart-database-uri=postgres://user:password@localhost:5432/gophermart?sslmode=disable" "-accrual-database-uri=postgres://user:password@localhost:54321/accrual?sslmode=disable" "-accrual-host=localhost" "-accrual-port=8081"
