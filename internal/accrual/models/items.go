@@ -2,5 +2,5 @@ package models
 
 type Items struct {
 	Description string  `json:"description"`
-	Price       float64 `json:"price"`
+	Price       float32 `json:"price"`
 }

@@ -51,12 +51,12 @@ func (m *MockBalanceStore) CreateBalanceTx(ctx context.Context, tx pgx.Tx, userI
 	return args.Error(0)
 }
 
-func (m *MockBalanceStore) UpdateBalance(ctx context.Context, userID int64, amount float64) error {
+func (m *MockBalanceStore) UpdateBalance(ctx context.Context, userID int64, amount float32) error {
 	args := m.Called(ctx, userID, amount)
 	return args.Error(0)
 }
 
-func (m *MockBalanceStore) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float64) error {
+func (m *MockBalanceStore) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float32) error {
 	args := m.Called(ctx, tx, userID, accrual)
 	return args.Error(0)
 }

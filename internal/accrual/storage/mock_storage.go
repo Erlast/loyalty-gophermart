@@ -75,7 +75,7 @@ func (m *MockStorage) FetchProducts(ctx context.Context, orderID int64) ([]model
 	return data, nil
 }
 
-func (m *MockStorage) SaveOrderPoints(ctx context.Context, orderID int64, points []float64) error {
+func (m *MockStorage) SaveOrderPoints(ctx context.Context, orderID int64, points []float32) error {
 	args := m.Called(ctx, orderID, points)
 	if args.Error(0) != nil {
 		return fmt.Errorf(errString, args.Error(0))

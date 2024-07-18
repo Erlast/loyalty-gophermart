@@ -16,8 +16,8 @@ type BalanceStore interface {
 	Withdraw(ctx context.Context, withdrawal *models.WithdrawalRequest) error
 	GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error)
 	CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64) error
-	UpdateBalance(ctx context.Context, userID int64, amount float64) error
-	UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float64) error
+	UpdateBalance(ctx context.Context, userID int64, amount float32) error
+	UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float32) error
 }
 
 type BalanceStorage struct {
@@ -38,12 +38,12 @@ func NewBalanceStorage(
 func (s *BalanceStorage) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {
 	query := `SELECT current_balance, total_withdrawn FROM balances WHERE user_id = $1`
 	row := s.db.QueryRow(ctx, query, userID)
-	s.logger.Warn("Getting balance", zap.Int64("user_id", userID))
+	s.logger.Debug("Getting balance", zap.Int64("user_id", userID))
 	var balance models.Balance
 	if err := row.Scan(&balance.CurrentBalance, &balance.TotalWithdrawn); err != nil {
 		return nil, fmt.Errorf("error getting balance: %w", err)
 	}
-	s.logger.Warnf("Got balance: %w", balance)
+	s.logger.Debugf("Got balance: %w", balance)
 	return &balance, nil
 }
 
@@ -120,7 +120,7 @@ func (s *BalanceStorage) CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID 
 	return nil
 }
 
-func (s *BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount float64) error {
+func (s *BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount float32) error {
 	s.logger.Info("Updating balance", zap.Int64("user_id", userID))
 	query := `
         UPDATE balances
@@ -134,7 +134,7 @@ func (s *BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount
 	return nil
 }
 
-func (s *BalanceStorage) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float64) error {
+func (s *BalanceStorage) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float32) error {
 	query := "UPDATE balances SET current_balance = current_balance + $1 WHERE user_id = $2"
 	_, err := tx.Exec(ctx, query, accrual, userID)
 	if err != nil {

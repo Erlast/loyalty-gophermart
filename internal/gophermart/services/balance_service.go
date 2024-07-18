@@ -36,6 +36,7 @@ func (s *BalanceService) GetBalanceByUserID(ctx context.Context, userID int64) (
 	if err != nil {
 		return nil, fmt.Errorf("error getting balance by user id %d: %w", userID, err)
 	}
+	s.logger.Debugf("Balance is service: %+v for user id %d", balance, userID)
 	return balance, nil
 }
 
