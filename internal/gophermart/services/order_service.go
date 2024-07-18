@@ -60,11 +60,11 @@ func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) err
 }
 
 func (s *OrderService) GetOrdersByUserID(ctx context.Context, userID int64) ([]models.Order, error) {
-	order, err := s.orderStorage.GetOrdersByUserID(ctx, userID)
+	orders, err := s.orderStorage.GetOrdersByUserID(ctx, userID)
 	if err != nil {
 		return nil, fmt.Errorf("error getting orders: %w", err)
 	}
-	return order, nil
+	return orders, nil
 }
 
 func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {

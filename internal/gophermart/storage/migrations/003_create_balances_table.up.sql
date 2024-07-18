@@ -1,6 +1,6 @@
 CREATE TABLE balances
 (
     user_id INTEGER PRIMARY KEY REFERENCES users(id),
-    current_balance FLOAT NOT NULL,
-    total_withdrawn FLOAT NOT NULL
+    current_balance REAL NOT NULL,
+    total_withdrawn REAL NOT NULL
 );

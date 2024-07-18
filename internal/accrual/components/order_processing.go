@@ -11,7 +11,7 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 )
 
-var timeSleep = 8 * time.Second
+var timeSleep = 1 * time.Second
 var percentFull int64 = 100
 
 func OrderProcessing(ctx context.Context, store storage.Storage, logger *zap.SugaredLogger) {

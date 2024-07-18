@@ -87,9 +87,6 @@ gophermart_compile:
 # удалить тестовые базы данных
 rm_db_tests: accrual_test_db_rm gophermart_test_db_rm
 
-# запустить тестовые базы данных
-init_db_tests: db_accrual db_gophermart
-
 # скомпилировать бинарники
 compile_bins: accrual_compile gophermart_compile
 
