@@ -1,19 +1,34 @@
 package zaplog
 
 import (
-	"log"
-
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"os"
 )
 
-var Logger *zap.SugaredLogger
-
-// InitLogger создает и возвращает новый экземпляр zap SugaredLogger для разработки.
+// InitLogger создает и возвращает новый экземпляр zap SugaredLogger для логирования в файл.
 func InitLogger() *zap.SugaredLogger {
-	zapLogger, err := zap.NewDevelopment()
+	// Указываем путь к файлу лога
+	logFile := "path/to/your/logfile.log"
+
+	// Открываем файл для логирования
+	file, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		log.Fatalf("Error creating zap logger: %v", err)
+		zap.L().Fatal("Failed to open log file", zap.Error(err))
 	}
-	Logger = zapLogger.Sugar()
-	return zapLogger.Sugar()
+
+	// Настраиваем Encoder для логирования
+	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.TimeKey = "time"
+	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder // Форматирование времени
+	encoder := zapcore.NewJSONEncoder(encoderConfig)
+
+	// Создаем Core для логирования в файл с уровнем логирования DebugLevel
+	core := zapcore.NewCore(encoder, zapcore.AddSync(file), zapcore.DebugLevel)
+
+	// Создаем Logger
+	zapLogger := zap.New(core)
+	SugaredLogger := zapLogger.Sugar()
+
+	return SugaredLogger
 }

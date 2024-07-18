@@ -38,12 +38,12 @@ func NewBalanceStorage(
 func (s *BalanceStorage) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {
 	query := `SELECT current_balance, total_withdrawn FROM balances WHERE user_id = $1`
 	row := s.db.QueryRow(ctx, query, userID)
-
+	s.logger.Infow("Getting balance", zap.Int64("user_id", userID))
 	var balance models.Balance
 	if err := row.Scan(&balance.CurrentBalance, &balance.TotalWithdrawn); err != nil {
 		return nil, fmt.Errorf("error getting balance: %w", err)
 	}
-
+	s.logger.Infof("Got balance: %w", balance)
 	return &balance, nil
 }
 
