@@ -29,7 +29,7 @@ type Storage interface {
 	FetchRewardRules(ctx context.Context) ([]models.Goods, error)
 	UpdateOrderStatus(ctx context.Context, orderNumber int64, status string) error
 	FetchProducts(ctx context.Context, orderID int64) ([]models.Items, error)
-	SaveOrderPoints(ctx context.Context, orderID int64, points []int64) error
+	SaveOrderPoints(ctx context.Context, orderID int64, points []float64) error
 }
 
 //go:embed migrations/*.sql
@@ -216,8 +216,8 @@ func (store *AccrualStorage) FetchProducts(ctx context.Context, orderID int64) (
 	return products, nil
 }
 
-func (store *AccrualStorage) SaveOrderPoints(ctx context.Context, orderID int64, points []int64) error {
-	var totalPoints int64
+func (store *AccrualStorage) SaveOrderPoints(ctx context.Context, orderID int64, points []float64) error {
+	var totalPoints float64
 	for _, p := range points {
 		totalPoints += p
 	}

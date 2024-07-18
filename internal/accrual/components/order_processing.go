@@ -42,16 +42,16 @@ func OrderProcessing(ctx context.Context, store storage.Storage, logger *zap.Sug
 				}
 			}
 
-			points := make([]int64, len(products))
+			points := make([]float64, len(products))
 
 			for i, product := range products {
 				for _, rule := range rules {
 					if strings.Contains(product.Description, rule.Match) {
 						switch rule.RewardType {
 						case "%":
-							points[i] += int64((product.Price * float64(rule.Reward)) / float64(percentFull))
+							points[i] += (product.Price * float64(rule.Reward)) / float64(percentFull)
 						case "pt":
-							points[i] += rule.Reward
+							points[i] += float64(rule.Reward)
 						default:
 							points[i] += 0
 						}

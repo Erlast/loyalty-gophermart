@@ -26,7 +26,7 @@ func TestOrderProcessing(t *testing.T) {
 	store.On("FetchProducts", mock.Anything, int64(1)).Return([]models.Items{
 		{Description: "test product", Price: 100.00},
 	}, nil)
-	store.On("SaveOrderPoints", mock.Anything, int64(1), []int64{10}).Return(nil)
+	store.On("SaveOrderPoints", mock.Anything, int64(1), []float64{10}).Return(nil)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -78,9 +78,9 @@ func TestSaveOrderPoints(t *testing.T) {
 	store := &storage.MockStorage{}
 	ctx := context.Background()
 
-	store.On("SaveOrderPoints", ctx, int64(1), []int64{10}).Return(nil)
+	store.On("SaveOrderPoints", ctx, int64(1), []float64{10}).Return(nil)
 
-	err := store.SaveOrderPoints(ctx, int64(1), []int64{10})
+	err := store.SaveOrderPoints(ctx, int64(1), []float64{10})
 
 	assert.NoError(t, err)
 
