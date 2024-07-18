@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/jackc/pgx/v5"
 	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
@@ -78,12 +77,16 @@ func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("error starting transaction: %w", err)
 	}
-	defer func(tx pgx.Tx, ctx context.Context) {
-		err := tx.Rollback(ctx)
-		if err != nil {
-			s.logger.Infof("Error rolling back transaction: %v", err)
+	// Определяем defer сразу после успешного начала транзакции
+	defer func() {
+		// Проверяем, была ли уже ошибка или ошибка при коммите
+		if p := recover(); p != nil || err != nil {
+			// В случае ошибки пытаемся откатить транзакцию
+			if rbErr := tx.Rollback(ctx); rbErr != nil {
+				s.logger.Errorw("Failed to rollback transaction", "err", rbErr)
+			}
 		}
-	}(tx, ctx)
+	}()
 
 	for _, order := range orders {
 		s.logger.Infof("GetAccrualInfo number: %v", order.Number)

@@ -38,12 +38,12 @@ func NewBalanceStorage(
 func (s *BalanceStorage) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {
 	query := `SELECT current_balance, total_withdrawn FROM balances WHERE user_id = $1`
 	row := s.db.QueryRow(ctx, query, userID)
-	s.logger.Infow("Getting balance", zap.Int64("user_id", userID))
+	s.logger.Warn("Getting balance", zap.Int64("user_id", userID))
 	var balance models.Balance
 	if err := row.Scan(&balance.CurrentBalance, &balance.TotalWithdrawn); err != nil {
 		return nil, fmt.Errorf("error getting balance: %w", err)
 	}
-	s.logger.Infof("Got balance: %w", balance)
+	s.logger.Warnf("Got balance: %w", balance)
 	return &balance, nil
 }
 
@@ -52,12 +52,16 @@ func (s *BalanceStorage) Withdraw(ctx context.Context, withdrawal *models.Withdr
 	if err != nil {
 		return fmt.Errorf("error starting transaction: %w", err)
 	}
-	defer func(tx pgx.Tx, ctx context.Context) {
-		err := tx.Rollback(ctx)
-		if err != nil {
-			s.logger.Error("Rollback failed", zap.Error(err))
+	// Определяем defer сразу после успешного начала транзакции
+	defer func() {
+		// Проверяем, была ли уже ошибка или ошибка при коммите
+		if p := recover(); p != nil || err != nil {
+			// В случае ошибки пытаемся откатить транзакцию
+			if rbErr := tx.Rollback(ctx); rbErr != nil {
+				s.logger.Errorw("Failed to rollback transaction", "err", rbErr)
+			}
 		}
-	}(tx, ctx)
+	}()
 
 	updateBalanceQuery := `
         UPDATE balances
