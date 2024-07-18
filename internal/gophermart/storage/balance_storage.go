@@ -140,6 +140,6 @@ func (s *BalanceStorage) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID 
 	if err != nil {
 		return fmt.Errorf("ошибка при обновлении баланса: %v", err)
 	}
-	s.logger.Info("Updated balance")
+	s.logger.Warnf("UpdateBalanceTx add to balance %v for user %v", accrual, userID)
 	return nil
 }
