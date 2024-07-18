@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
@@ -44,12 +43,16 @@ func (s *UserService) Register(ctx context.Context, user *models.User) (err erro
 	if err != nil {
 		return fmt.Errorf("could not begin transaction: %w", err)
 	}
-	defer func(tx pgx.Tx, ctx context.Context) {
-		err := tx.Rollback(ctx)
-		if err != nil {
-			s.logger.Errorw("Rollback failed", "err", err)
+	// Определяем defer сразу после успешного начала транзакции
+	defer func() {
+		// Проверяем, была ли уже ошибка или ошибка при коммите
+		if p := recover(); p != nil || err != nil {
+			// В случае ошибки пытаемся откатить транзакцию
+			if rbErr := tx.Rollback(ctx); rbErr != nil {
+				s.logger.Errorw("Failed to rollback transaction", "err", rbErr)
+			}
 		}
-	}(tx, ctx)
+	}()
 
 	// Создание пользователя в транзакции
 	err = s.userStorage.CreateUserTx(ctx, tx, user)

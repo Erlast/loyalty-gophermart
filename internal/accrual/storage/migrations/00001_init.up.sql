@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS orders
     id          SERIAL PRIMARY KEY,
     uuid        VARCHAR(255) NOT NULL UNIQUE,
     status      VARCHAR(255) NOT NULL,
-    accrual     INT          NOT NULL,
+    accrual     REAL          NOT NULL,
     uploaded_at TIMESTAMP default CURRENT_TIMESTAMP
 );
 
