@@ -14,8 +14,8 @@ func TestValidateOrderNumber(t *testing.T) {
 		{"Valid order number with spaces", "7992 7398 713", true},
 		{"Invalid order number", "79927398714", false},
 		{"Invalid characters", "7992a7398713", false},
-		{"Invalid characters", "85100440236558", false},
-		{"Invalid characters", "285033551", false},
+		{"Invalid characters", "85100440236558", true},
+		{"Invalid characters", "285033551", true},
 	}
 
 	for _, tt := range tests {
