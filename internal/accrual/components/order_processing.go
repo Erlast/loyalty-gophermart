@@ -2,6 +2,7 @@ package components
 
 import (
 	"context"
+	"math"
 	"strings"
 	"time"
 
@@ -12,7 +13,7 @@ import (
 )
 
 var timeSleep = 5 * time.Second
-var percentFull int64 = 100
+var percentFull float32 = 100
 
 func OrderProcessing(ctx context.Context, store storage.Storage, logger *zap.SugaredLogger) {
 	for {
@@ -42,16 +43,16 @@ func OrderProcessing(ctx context.Context, store storage.Storage, logger *zap.Sug
 				}
 			}
 
-			points := make([]float64, len(products))
+			points := make([]float32, len(products))
 
 			for i, product := range products {
 				for _, rule := range rules {
 					if strings.Contains(product.Description, rule.Match) {
 						switch rule.RewardType {
 						case "%":
-							points[i] += float64((product.Price * float32(rule.Reward)) / float32(percentFull))
+							points[i] += float32(math.Round(float64(product.Price*rule.Reward/percentFull*100)) / 100)
 						case "pt":
-							points[i] += float64(rule.Reward)
+							points[i] += rule.Reward
 						default:
 							points[i] += 0
 						}
