@@ -42,18 +42,18 @@ func (s *OrderStorage) GetOrder(ctx context.Context, number string) (*models.Ord
 	return &order, nil
 }
 
-func (s *OrderStorage) CheckOrder(ctx context.Context, number string) (bool, error) {
-	query := "SELECT 1 FROM orders WHERE number=$1"
+func (s *OrderStorage) CheckOrder(ctx context.Context, number string) (*models.Order, error) {
+	query := "SELECT user_id, number, status, accrual, uploaded_at FROM orders WHERE number=$1"
 	row := s.db.QueryRow(ctx, query, number)
-	var exists int
-	err := row.Scan(&exists)
+	var order models.Order
+	err := row.Scan(&order.UserID, &order.Number, &order.Status, &order.Accrual, &order.UploadedAt)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return false, nil
+			return nil, nil
 		}
-		return false, fmt.Errorf("error checking order existence: %w", err)
+		return nil, fmt.Errorf("error checking order existence: %w", err)
 	}
-	return true, nil
+	return &order, nil
 }
 
 func (s *OrderStorage) CreateOrder(ctx context.Context, order *models.Order) error {

@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/validators"
 	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/validators"
 )
 
 var (
@@ -39,17 +39,20 @@ func NewOrderService(
 }
 
 func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) error {
+	if !validators.ValidateOrderNumber(order.Number) {
+		return ErrInvalidOrderFormat
+	}
+
 	existOrder, err := s.orderStorage.CheckOrder(ctx, order.Number)
 	if err != nil {
 		return fmt.Errorf("error checking order: %w", err)
 	}
 
-	if existOrder {
+	if existOrder != nil {
+		if existOrder.UserID == order.UserID {
+			return ErrOrderAlreadyLoadedBySameUser
+		}
 		return ErrOrderAlreadyLoadedByDifferentUser
-	}
-
-	if !validators.ValidateOrderNumber(order.Number) {
-		return ErrInvalidOrderFormat
 	}
 
 	if err = s.orderStorage.CreateOrder(ctx, order); err != nil {
