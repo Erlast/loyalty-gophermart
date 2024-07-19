@@ -8,7 +8,6 @@ import (
 
 type Config struct {
 	RunAddress           string `json:"run_address"`
-	Port                 int    `json:"port"`
 	DatabaseURI          string `json:"database_uri"`
 	AccrualSystemAddress string `json:"accrual_system_address"`
 	JWTSecret            string `json:"jwt_secret"`
@@ -23,8 +22,7 @@ func GetConfig() *Config {
 // LoadConfig loads configuration from environment variables and flags.
 func LoadConfig(logger *zap.SugaredLogger) Config {
 	// Initialize default values from environment variables
-	defaultRunAddress := "localhost"
-	defaultPort := "8080"
+	defaultRunAddress := "localhost:8080"
 	defaultDatabaseURI := ""
 	defaultAccrualSystemAddress := ""
 	defaultJWTSecret := "secret"
@@ -32,11 +30,6 @@ func LoadConfig(logger *zap.SugaredLogger) Config {
 	if envRunAddress, exists := os.LookupEnv("RUN_ADDRESS"); exists {
 		defaultRunAddress = envRunAddress
 	}
-
-	if envPort, exists := os.LookupEnv("PORT"); exists {
-		defaultPort = envPort
-	}
-
 	if envDatabaseURI, exists := os.LookupEnv("DATABASE_URI"); exists {
 		defaultDatabaseURI = envDatabaseURI
 	}
@@ -49,7 +42,6 @@ func LoadConfig(logger *zap.SugaredLogger) Config {
 
 	// Define command-line flags with default values from environment variables
 	runAddress := flag.String("a", defaultRunAddress, "service run address")
-	port := flag.String("p", defaultPort, "service port")
 	databaseURI := flag.String("d", defaultDatabaseURI, "Database URI")
 	accrualSystemAddress := flag.String("r", defaultAccrualSystemAddress, "Accrual system address")
 	jwtSecret := flag.String("s", defaultJWTSecret, "JWT secret")
@@ -63,10 +55,8 @@ func LoadConfig(logger *zap.SugaredLogger) Config {
 		logger.Fatal("DATABASE URI and ACCRUAL SYSTEM ADDRESS must be provided")
 	}
 
-	runAddressWithPort := *runAddress + ":" + *port
-
 	config = Config{
-		RunAddress:           runAddressWithPort,
+		RunAddress:           *runAddress,
 		DatabaseURI:          *databaseURI,
 		AccrualSystemAddress: *accrualSystemAddress,
 		JWTSecret:            *jwtSecret,
