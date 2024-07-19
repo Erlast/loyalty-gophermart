@@ -63,7 +63,7 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 			http.Error(w, "", http.StatusOK)
 			return
 		case errors.Is(err, services.ErrOrderAlreadyLoadedByDifferentUser):
-			h.logger.Error("Order number already loaded by a different user", zap.Error(err))
+			h.logger.Errorf("Order number already loaded by a different user: %v", order)
 			http.Error(w, "", http.StatusConflict)
 			return
 		case errors.Is(err, services.ErrInvalidOrderFormat):

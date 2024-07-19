@@ -1,23 +1,17 @@
 package validators
 
 import (
-	"regexp"
 	"unicode"
 )
 
 func ValidateOrderNumber(orderNumber string) bool {
-	// Пример простой валидации: номер заказа должен содержать только цифры и быть длиной от 10 до 20 символов
-	re := regexp.MustCompile(`^\d{1,20}$`)
-	return re.MatchString(orderNumber)
-}
-
-func ValidateOrderNumberLuhn(orderNumber string) bool {
-	// Удаляем пробелы из номера заказа
+	// Удаляем пробелы и проверяем на нецифровые символы
 	var cleaned string
 	for _, r := range orderNumber {
 		if unicode.IsDigit(r) {
 			cleaned += string(r)
 		} else if !unicode.IsSpace(r) {
+			// Возвращаем false при обнаружении любого нецифрового и не пробельного символа
 			return false
 		}
 	}

@@ -84,6 +84,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Authorization", "Bearer "+token) // Setting the Authorization header with the token
 	w.WriteHeader(http.StatusOK)
 
 	response := map[string]string{"Authorization": token}
