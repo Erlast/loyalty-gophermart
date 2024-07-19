@@ -94,3 +94,8 @@ compile_bins: accrual_compile gophermart_compile
 #	gophermarttest "-test.v" "-test.run=^TestGophermart$" "-gophermart-binary-path=cmd/gophermart/gophermart.exe" "-gophermart-host=localhost" "-gophermart-port=8080"  "-accrual-binary-path=cmd\accrual\accrual.exe" "-gophermart-database-uri=postgres://user:password@localhost:5432/gophermart?sslmode=disable" "-accrual-database-uri=postgres://user:password@localhost:54321/accrual?sslmode=disable" "-accrual-host=localhost" "-accrual-port=8081"
 
 #	gophermarttest "-test.v" "-test.run=^TestGophermart$" "-gophermart-binary-path=cmd/gophermart/gophermart.exe" "-gophermart-host=localhost" "-gophermart-port=8080"  "-accrual-binary-path=cmd\accrual\accrual.exe" "-gophermart-database-uri=postgres://user:password@localhost:5432/gophermart?sslmode=disable" "-accrual-database-uri=postgres://user:password@localhost:54321/accrual?sslmode=disable" "-accrual-host=localhost" "-accrual-port=8081"
+
+run_gophermart:
+	go run .\cmd\gophermart\main.go -a=localhost:8008 -d=postgres://user:password@localhost:5432/gophermart?sslmode=disable -r=localhost:8080
+
+run_accrual:

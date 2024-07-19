@@ -39,9 +39,9 @@ func (h *BalanceHandler) GetBalance(ctx context.Context, w http.ResponseWriter, 
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
-	h.logger.Debugf("Get Balance from handler: %v", *balance)
+	h.logger.Debugf("Get Balance from handler: %v", balance)
 
-	render.JSON(w, r, *balance)
+	render.JSON(w, r, balance)
 }
 
 func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r *http.Request) {
