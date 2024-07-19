@@ -32,6 +32,7 @@ func main() {
 	r := routes.NewAccrualRouter(ctx, store, newLogger)
 
 	newLogger.Infof("Start running server. Address: %s, db: %s", cfg.RunAddress, cfg.DatabaseURI)
+
 	srv := &http.Server{
 		Addr:    cfg.RunAddress,
 		Handler: r,
@@ -42,19 +43,13 @@ func main() {
 			newLogger.Fatal("Running server fail", zap.Error(err))
 		}
 	}()
-	//err = http.ListenAndServe(cfg.RunAddress, r)
 
-	//if err != nil {
-	//	newLogger.Fatalf("Running server fail %s", err)
-	//}
-
-	// Graceful shutdown
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
 	newLogger.Info("Shutting down server...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // 5 секунд на завершение
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
