@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"net/url"
 	"path"
 
@@ -46,12 +45,11 @@ func (s *AccrualService) GetAccrualInfo(orderNumber string) (*models.AccrualResp
 	if err != nil {
 		return nil, fmt.Errorf("не удалось получить информацию о начислениях с %s: %w", baseURL.String(), err)
 	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
 			s.logger.Errorf("не удалось закрыть body ответа от %s: %w", baseURL.String(), err)
 		}
-	}(resp.Body)
+	}()
 
 	if resp.StatusCode == http.StatusNoContent {
 		return nil, errors.New("нет содержимого")

@@ -7,13 +7,17 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+const (
+	permissionForFile = 0o644
+)
+
 // InitLogger создает и возвращает новый экземпляр zap SugaredLogger для логирования в файл.
 func InitLogger() *zap.SugaredLogger {
 	// Указываем путь к файлу лога
 	logFile := "logfile.log"
 
 	// Открываем файл для логирования
-	file, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	file, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, permissionForFile)
 	if err != nil {
 		zap.L().Fatal("Failed to open log file", zap.Error(err))
 	}

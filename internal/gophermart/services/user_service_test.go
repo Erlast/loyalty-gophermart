@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
@@ -20,12 +21,20 @@ type MockTx struct {
 
 func (m *MockTx) Commit(ctx context.Context) error {
 	args := m.Called(ctx)
-	return args.Error(0)
+	err := args.Error(0)
+	if err != nil {
+		return fmt.Errorf("error MockTx Commit: %w", err)
+	}
+	return nil
 }
 
 func (m *MockTx) Rollback(ctx context.Context) error {
 	args := m.Called(ctx)
-	return args.Error(0)
+	err := args.Error(0)
+	if err != nil {
+		return fmt.Errorf("error MockTx Rollback: %w", err)
+	}
+	return nil
 }
 
 func TestUserService_Register(t *testing.T) {

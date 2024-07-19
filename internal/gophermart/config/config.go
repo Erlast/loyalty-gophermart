@@ -2,8 +2,9 @@ package config
 
 import (
 	"flag"
-	"go.uber.org/zap"
 	"os"
+
+	"go.uber.org/zap"
 )
 
 type Config struct {

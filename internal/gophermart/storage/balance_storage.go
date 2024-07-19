@@ -115,7 +115,7 @@ func (s *BalanceStorage) CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID 
 	query := "INSERT INTO balances (user_id, current_balance, total_withdrawn) VALUES ($1, $2, $3)"
 	_, err := tx.Exec(ctx, query, userID, 0, 0)
 	if err != nil {
-		return fmt.Errorf("ошибка при создании баланса: %v", err)
+		return fmt.Errorf("ошибка при создании баланса: %w", err)
 	}
 	return nil
 }
@@ -138,7 +138,7 @@ func (s *BalanceStorage) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID 
 	query := "UPDATE balances SET current_balance = current_balance + $1 WHERE user_id = $2"
 	_, err := tx.Exec(ctx, query, accrual, userID)
 	if err != nil {
-		return fmt.Errorf("ошибка при обновлении баланса: %v", err)
+		return fmt.Errorf("ошибка при обновлении баланса: %w", err)
 	}
 	s.logger.Warnf("UpdateBalanceTx add to balance %v for user %v", accrual, userID)
 	return nil
