@@ -120,7 +120,7 @@ func (s *OrderStorage) GetOrdersByStatus(ctx context.Context, statuses ...models
 }
 
 func (s *OrderStorage) UpdateOrder(ctx context.Context, order *models.Order) error {
-	query := "UPDATE orders SET status=$1, accrual=ROUND($2, 2) WHERE number=$3"
+	query := "UPDATE orders SET status=$1, accrual=$2 WHERE number=$3"
 	_, err := s.db.Exec(ctx, query, order.Status, order.Accrual, order.Number)
 	if err != nil {
 		return fmt.Errorf("error order storage update order: %w", err)
@@ -129,7 +129,7 @@ func (s *OrderStorage) UpdateOrder(ctx context.Context, order *models.Order) err
 }
 
 func (s *OrderStorage) UpdateOrderTx(ctx context.Context, tx pgx.Tx, order *models.Order) error {
-	query := "UPDATE orders SET status=$1, accrual=ROUND($2, 2) WHERE number=$3"
+	query := "UPDATE orders SET status=$1, accrual=$2 WHERE number=$3"
 	_, err := tx.Exec(ctx, query, order.Status, order.Accrual, order.Number)
 	if err != nil {
 		return fmt.Errorf("error updating order: %v", err)
