@@ -1,5 +1,7 @@
 BEGIN TRANSACTION;
 
-DROP TABLE short_urls;
+DROP TABLE order_items;
+DROP TABLE orders;
+DROP TABLE accrual_rules;
 
 COMMIT;

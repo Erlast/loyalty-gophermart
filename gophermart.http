@@ -19,9 +19,9 @@ Content-Type: application/json
 ### загрузка заказа
 POST http://localhost:8080/api/user/orders
 Content-Type: text/plain
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE1OTI3ODgsInVzZXJfaWQiOjF9.qV-0KqpfawJNfFJh75h3Fj4yBX_q9JYOoBzqIi9-nyo
 
-1122334455667788
+123452670
 
 ### получение списка загруженных номеров заказов
 GET http://localhost:8080/api/user/orders
@@ -29,7 +29,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVz
 
 ### получение текущего баланса пользователя
 GET http://localhost:8080/api/user/balance
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE1OTE2NDIsInVzZXJfaWQiOjgxfQ.Bz1VejHy8hec3VAitLxBeTMaFc3m9DYwGfpUp1gjA_c
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE1OTI3ODgsInVzZXJfaWQiOjF9.qV-0KqpfawJNfFJh75h3Fj4yBX_q9JYOoBzqIi9-nyo
 
 ### запрос на списание баллов с накопительного счёта
 POST http://localhost:8080/api/user/balance/withdraw
