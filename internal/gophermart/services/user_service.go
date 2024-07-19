@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 	"github.com/jackc/pgx/v5/pgconn"

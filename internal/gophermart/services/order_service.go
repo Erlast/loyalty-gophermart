@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/jackc/pgx/v5"
+
 	"github.com/Erlast/loyalty-gophermart.git/pkg/validators"
 	"go.uber.org/zap"
 
@@ -44,7 +46,7 @@ func (s *OrderService) CreateOrder(ctx context.Context, order *models.Order) err
 	}
 
 	existOrder, err := s.orderStorage.CheckOrder(ctx, order.Number)
-	if err != nil {
+	if err != nil && !errors.Is(err, pgx.ErrNoRows) {
 		return fmt.Errorf("error checking order: %w", err)
 	}
 

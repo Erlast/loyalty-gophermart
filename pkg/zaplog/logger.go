@@ -1,9 +1,10 @@
 package zaplog
 
 import (
+	"os"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"os"
 )
 
 // InitLogger создает и возвращает новый экземпляр zap SugaredLogger для логирования в файл.

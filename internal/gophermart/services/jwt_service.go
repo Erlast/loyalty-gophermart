@@ -2,8 +2,9 @@ package services
 
 import (
 	"fmt"
-	"go.uber.org/zap"
 	"time"
+
+	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 	"github.com/dgrijalva/jwt-go"

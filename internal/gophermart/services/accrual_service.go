@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"go.uber.org/zap"
 	"io"
 	"net/url"
 	"path"
+
+	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"

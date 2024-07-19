@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"go.uber.org/zap"
 
 	"github.com/jackc/pgx/v5"
@@ -42,6 +43,9 @@ func (s *OrderStorage) GetOrder(ctx context.Context, number string) (*models.Ord
 	return &order, nil
 }
 
+// nil, fmt.Errorf("order not found: %w", err) pgx.ErrNoRows
+// nil, fmt.Errorf("error checking order existence: %w", err) other errors
+// &order, nil
 func (s *OrderStorage) CheckOrder(ctx context.Context, number string) (*models.Order, error) {
 	query := "SELECT user_id, number, status, accrual, uploaded_at FROM orders WHERE number=$1"
 	row := s.db.QueryRow(ctx, query, number)
@@ -49,7 +53,7 @@ func (s *OrderStorage) CheckOrder(ctx context.Context, number string) (*models.O
 	err := row.Scan(&order.UserID, &order.Number, &order.Status, &order.Accrual, &order.UploadedAt)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, nil
+			return nil, fmt.Errorf("order not found: %w", err)
 		}
 		return nil, fmt.Errorf("error checking order existence: %w", err)
 	}
