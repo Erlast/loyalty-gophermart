@@ -43,7 +43,7 @@ func (s *BalanceStorage) GetBalanceByUserID(ctx context.Context, userID int64) (
 	if err := row.Scan(&balance.CurrentBalance, &balance.TotalWithdrawn); err != nil {
 		return nil, fmt.Errorf("error getting balance: %w", err)
 	}
-	s.logger.Debugf("Got balance: %w", balance)
+	s.logger.Debugf("Got balance: %v", balance)
 	return &balance, nil
 }
 
