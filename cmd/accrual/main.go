@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 	"go.uber.org/zap"
 	"net/http"
 	"os"
@@ -21,6 +22,8 @@ func main() {
 	ctx := context.Background()
 	newLogger := zaplog.InitLogger()
 	cfg := config.ParseFlags(newLogger)
+
+	opensearch.NewOpenSearchLogger()
 
 	store, err := storage.NewAccrualStorage(ctx, cfg)
 	if err != nil {

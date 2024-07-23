@@ -10,6 +10,7 @@ require (
 	github.com/golang-migrate/migrate/v4 v4.17.1
 	github.com/jackc/pgerrcode v0.0.0-20220416144525-469b46aa5efa
 	github.com/jackc/pgx/v5 v5.5.4
+	github.com/opensearch-project/opensearch-go v1.1.0
 	github.com/stretchr/testify v1.8.3
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.25.0
