@@ -10,10 +10,22 @@ import (
 	"strings"
 )
 
-func NewOpenSearchLogger() {
+type LogMessage struct {
+	Message string `json:"message"`
+	Level   string `json:"level"`
+}
+
+// Logger представляет логгер с клиентом OpenSearch
+type Logger struct {
+	client *opensearch.Client
+	Logger *zap.Logger
+	index  string
+}
+
+func NewOpenSearchLogger() (*Logger, error) {
 	client, err := opensearch.NewClient(opensearch.Config{
 		Addresses: []string{
-			"http://localhost:9200", // Адрес вашего OpenSearch кластера
+			"http://localhost:9200",
 		},
 	})
 	if err != nil {
@@ -22,37 +34,42 @@ func NewOpenSearchLogger() {
 
 	// Создание zap логгера
 	logger, _ := zap.NewProduction()
-	defer logger.Sync()
+	return &Logger{
+		client: client,
+		Logger: logger,
+		index:  "logs",
+	}, nil
+}
 
-	// Пример логгирования сообщения
-	logMessage := map[string]string{
-		"message": "Hello, OpenSearch!",
-		"level":   "info",
+func (l *Logger) SendLog(level string, message string) {
+	logMessage := LogMessage{
+		Message: message,
+		Level:   level,
 	}
 
 	// Сериализация сообщения в JSON
 	jsonMessage, err := json.Marshal(logMessage)
 	if err != nil {
-		logger.Fatal("Failed to serialize log message", zap.Error(err))
+		l.Logger.Fatal("Failed to serialize log message", zap.Error(err))
 	}
 
 	// Отправка сообщения в OpenSearch
 	req := opensearchapi.IndexRequest{
-		Index:      "logs", // Имя индекса
-		DocumentID: "",     // Если пусто, то будет автоматически создано
+		Index:      l.index, // Имя индекса
+		DocumentID: "",      // Если пусто, то будет автоматически создано
 		Body:       strings.NewReader(string(jsonMessage)),
 		Refresh:    "true",
 	}
 
-	res, err := req.Do(context.Background(), client)
+	res, err := req.Do(context.Background(), l.client)
 	if err != nil {
-		logger.Fatal("Failed to send log message to OpenSearch", zap.Error(err))
+		l.Logger.Fatal("Failed to send log message to OpenSearch", zap.Error(err))
 	}
 	defer res.Body.Close()
 
 	if res.IsError() {
-		logger.Fatal("Error indexing document", zap.String("status", res.Status()))
+		l.Logger.Fatal("Error indexing document", zap.String("status", res.Status()))
 	} else {
-		logger.Info("Document indexed successfully", zap.String("result", res.String()))
+		l.Logger.Info("Document indexed successfully", zap.String("result", res.String()))
 	}
 }

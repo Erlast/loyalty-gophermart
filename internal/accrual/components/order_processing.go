@@ -2,11 +2,11 @@ package components
 
 import (
 	"context"
+	"fmt"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 	"math"
 	"strings"
 	"time"
-
-	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
@@ -15,31 +15,35 @@ import (
 var timeSleep = 5 * time.Second
 var percentFull float32 = 100
 
-func OrderProcessing(ctx context.Context, store storage.Storage, logger *zap.SugaredLogger) {
+func OrderProcessing(ctx context.Context, store storage.Storage, logger *opensearch.Logger) {
 	for {
 		orders, err := store.GetRegisteredOrders(ctx)
 		if err != nil {
-			logger.Errorf("ошибка при попытке выбрать новые заказы: %v", err)
+			logger.SendLog("error", fmt.Sprintf("ошибка при попытке выбрать новые заказы: %v", err))
+			//logger.Errorf("ошибка при попытке выбрать новые заказы: %v", err)
 		}
 
 		rules, err := store.FetchRewardRules(ctx)
 		if err != nil {
-			logger.Error("не могу выбрать правила начислений")
+			logger.SendLog("error", "не могу выбрать правила начислений")
+			//logger.Error("не могу выбрать правила начислений")
 		}
 
 		for _, orderID := range orders {
 			err = store.UpdateOrderStatus(ctx, orderID, helpers.StatusProcessing)
 			if err != nil {
-				logger.Error("невозможно обновоить статус заказа")
+				logger.SendLog("error", "невозможно обновоить статус заказа")
 			}
 
 			products, err := store.FetchProducts(ctx, orderID)
 
 			if err != nil {
-				logger.Error("не могу получить товары из заказа", err)
+				logger.SendLog("error", fmt.Sprintf("не могу получить товары из заказа: %v", err))
+				//	logger.Error("не могу получить товары из заказа", err)
 				err = store.UpdateOrderStatus(ctx, orderID, helpers.StatusInvalid)
 				if err != nil {
-					logger.Error("невозможно обновоить статус заказа", err)
+					logger.SendLog("error", fmt.Sprintf("невозможно обновоить статус заказа: %v", err))
+					//logger.Error("невозможно обновоить статус заказа", err)
 				}
 			}
 
@@ -62,10 +66,12 @@ func OrderProcessing(ctx context.Context, store storage.Storage, logger *zap.Sug
 
 			err = store.SaveOrderPoints(ctx, orderID, points)
 			if err != nil {
-				logger.Error("не могу сохранить информацию о заказе. ", err)
+				logger.SendLog("error", fmt.Sprintf("не могу сохранить информацию о заказе: %v", err))
+				//logger.Error("не могу сохранить информацию о заказе. ", err)
 				err = store.UpdateOrderStatus(ctx, orderID, helpers.StatusInvalid)
 				if err != nil {
-					logger.Error("невозможно обновоить статус заказа", err)
+					logger.SendLog("error", fmt.Sprintf("невозможно обновоить статус заказа: %v", err))
+					//logger.Error("невозможно обновоить статус заказа", err)
 				}
 			}
 		}
