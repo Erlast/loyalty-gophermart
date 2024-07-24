@@ -2,21 +2,35 @@ package components
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 )
 
 func TestOrderProcessing(t *testing.T) {
 	store := &storage.MockStorage{}
-	newLogger := zaplog.InitLogger()
+	newLogger, err := opensearch.NewOpenSearchLogger()
+
+	if err != nil {
+		fmt.Printf("Error creating logger: %s\n", err)
+		return
+	}
+	defer func(Logger *zap.Logger) {
+		err := Logger.Sync()
+		if err != nil {
+			fmt.Printf("Error closing logger: %s\n", err)
+			return
+		}
+	}(newLogger.Logger)
 
 	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
 	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{

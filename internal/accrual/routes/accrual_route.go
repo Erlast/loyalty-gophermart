@@ -2,12 +2,13 @@ package routes
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/handlers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"github.com/go-chi/chi/v5"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 )
 
 func NewAccrualRouter(

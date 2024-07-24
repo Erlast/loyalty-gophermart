@@ -4,28 +4,36 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
-	"go.uber.org/zap"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/components"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/routes"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 )
 
 func main() {
 	ctx := context.Background()
-	//newLogger := zaplog.InitLogger()
+
 	newLogger, err := opensearch.NewOpenSearchLogger()
+
 	if err != nil {
 		fmt.Printf("Error creating logger: %s\n", err)
 		return
 	}
-	defer newLogger.Logger.Sync()
+	defer func(Logger *zap.Logger) {
+		err := Logger.Sync()
+		if err != nil {
+			fmt.Printf("Error closing logger: %s\n", err)
+			return
+		}
+	}(newLogger.Logger)
 
 	cfg := config.ParseFlags(newLogger)
 

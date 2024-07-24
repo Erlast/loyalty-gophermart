@@ -28,7 +28,7 @@ func NewAccrualService(
 	return &AccrualService{
 		logger:               logger,
 		AccrualSystemAddress: address,
-		Client:               &http.Client{Timeout: 10 * time.Second}, //nolint:mnd // Timeout 10 секунд
+		Client:               &http.Client{Timeout: 10 * time.Second},
 	}
 }
 

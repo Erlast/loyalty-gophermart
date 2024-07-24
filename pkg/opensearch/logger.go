@@ -2,20 +2,23 @@ package opensearch
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"github.com/opensearch-project/opensearch-go"
 	"github.com/opensearch-project/opensearch-go/opensearchapi"
 	"go.uber.org/zap"
 	"log"
+	"net/http"
 	"strings"
+	"time"
 )
 
 type LogMessage struct {
-	Message string `json:"message"`
-	Level   string `json:"level"`
+	Message  string `json:"message"`
+	Level    string `json:"level"`
+	DateTime string `json:"dateTime"`
 }
 
-// Logger представляет логгер с клиентом OpenSearch
 type Logger struct {
 	client *opensearch.Client
 	Logger *zap.Logger
@@ -25,14 +28,20 @@ type Logger struct {
 func NewOpenSearchLogger() (*Logger, error) {
 	client, err := opensearch.NewClient(opensearch.Config{
 		Addresses: []string{
-			"http://localhost:9200",
+			"https://localhost:9200",
+		},
+		Username: "admin",
+		Password: "yourStrongPassword123!",
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
 		},
 	})
 	if err != nil {
 		log.Fatalf("Error creating the client: %s", err)
 	}
 
-	// Создание zap логгера
 	logger, _ := zap.NewProduction()
 	return &Logger{
 		client: client,
@@ -43,20 +52,19 @@ func NewOpenSearchLogger() (*Logger, error) {
 
 func (l *Logger) SendLog(level string, message string) {
 	logMessage := LogMessage{
-		Message: message,
-		Level:   level,
+		Message:  message,
+		Level:    level,
+		DateTime: time.Now().Format(time.RFC3339),
 	}
 
-	// Сериализация сообщения в JSON
 	jsonMessage, err := json.Marshal(logMessage)
 	if err != nil {
 		l.Logger.Fatal("Failed to serialize log message", zap.Error(err))
 	}
 
-	// Отправка сообщения в OpenSearch
 	req := opensearchapi.IndexRequest{
-		Index:      l.index, // Имя индекса
-		DocumentID: "",      // Если пусто, то будет автоматически создано
+		Index:      l.index,
+		DocumentID: "",
 		Body:       strings.NewReader(string(jsonMessage)),
 		Refresh:    "true",
 	}

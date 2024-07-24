@@ -2,9 +2,10 @@ package config
 
 import (
 	"flag"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 
 	"github.com/caarlos0/env/v11"
+
+	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 )
 
 type Cfg struct {
