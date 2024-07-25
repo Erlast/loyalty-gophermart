@@ -5,36 +5,22 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/assert"
-	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
+	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 )
 
 func TestGetAccrualOrderHandler(t *testing.T) {
 	store := &storage.MockStorage{}
-	newLogger, err := opensearch.NewOpenSearchLogger()
-
-	if err != nil {
-		fmt.Printf("Error creating logger: %s\n", err)
-		return
-	}
-	defer func(Logger *zap.Logger) {
-		err := Logger.Sync()
-		if err != nil {
-			fmt.Printf("Error closing logger: %s\n", err)
-			return
-		}
-	}(newLogger.Logger)
+	newLogger := zaplog.InitLogger()
 
 	req := httptest.NewRequest(http.MethodGet, "/orders/1234567812345670", http.NoBody)
 	req = req.WithContext(context.WithValue(req.Context(), chi.RouteCtxKey, &chi.Context{
@@ -58,7 +44,7 @@ func TestGetAccrualOrderHandler(t *testing.T) {
 	assert.Equal(t, "application/json", res.Header().Get("Content-Type"))
 
 	var order models.Order
-	err = json.NewDecoder(res.Body).Decode(&order)
+	err := json.NewDecoder(res.Body).Decode(&order)
 	assert.NoError(t, err)
 	assert.Equal(t, "1234567812345670", order.UUID)
 	assert.Equal(t, "PROCESSED", order.Status)
@@ -66,19 +52,7 @@ func TestGetAccrualOrderHandler(t *testing.T) {
 
 func TestPostAccrualOrderHandler(t *testing.T) {
 	store := &storage.MockStorage{}
-	newLogger, err := opensearch.NewOpenSearchLogger()
-
-	if err != nil {
-		fmt.Printf("Error creating logger: %s\n", err)
-		return
-	}
-	defer func(Logger *zap.Logger) {
-		err := Logger.Sync()
-		if err != nil {
-			fmt.Printf("Error closing logger: %s\n", err)
-			return
-		}
-	}(newLogger.Logger)
+	newLogger := zaplog.InitLogger()
 
 	var goods []models.Items
 
@@ -107,19 +81,7 @@ func TestPostAccrualOrderHandler(t *testing.T) {
 
 func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 	store := &storage.MockStorage{}
-	newLogger, err := opensearch.NewOpenSearchLogger()
-
-	if err != nil {
-		fmt.Printf("Error creating logger: %s\n", err)
-		return
-	}
-	defer func(Logger *zap.Logger) {
-		err := Logger.Sync()
-		if err != nil {
-			fmt.Printf("Error closing logger: %s\n", err)
-			return
-		}
-	}(newLogger.Logger)
+	newLogger := zaplog.InitLogger()
 
 	var goods []models.Items
 
@@ -148,19 +110,7 @@ func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 
 func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 	store := &storage.MockStorage{}
-	newLogger, err := opensearch.NewOpenSearchLogger()
-
-	if err != nil {
-		fmt.Printf("Error creating logger: %s\n", err)
-		return
-	}
-	defer func(Logger *zap.Logger) {
-		err := Logger.Sync()
-		if err != nil {
-			fmt.Printf("Error closing logger: %s\n", err)
-			return
-		}
-	}(newLogger.Logger)
+	newLogger := zaplog.InitLogger()
 
 	var goods []models.Items
 
@@ -189,19 +139,7 @@ func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 
 func TestPostAccrualGoodsHandler(t *testing.T) {
 	store := &storage.MockStorage{}
-	newLogger, err := opensearch.NewOpenSearchLogger()
-
-	if err != nil {
-		fmt.Printf("Error creating logger: %s\n", err)
-		return
-	}
-	defer func(Logger *zap.Logger) {
-		err := Logger.Sync()
-		if err != nil {
-			fmt.Printf("Error closing logger: %s\n", err)
-			return
-		}
-	}(newLogger.Logger)
+	newLogger := zaplog.InitLogger()
 
 	goods := models.Goods{
 		Match:      "somebrand",
@@ -225,19 +163,7 @@ func TestPostAccrualGoodsHandler(t *testing.T) {
 
 func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 	store := &storage.MockStorage{}
-	newLogger, err := opensearch.NewOpenSearchLogger()
-
-	if err != nil {
-		fmt.Printf("Error creating logger: %s\n", err)
-		return
-	}
-	defer func(Logger *zap.Logger) {
-		err := Logger.Sync()
-		if err != nil {
-			fmt.Printf("Error closing logger: %s\n", err)
-			return
-		}
-	}(newLogger.Logger)
+	newLogger := zaplog.InitLogger()
 
 	goods := models.Goods{
 		Match:      "somebrand",
@@ -261,19 +187,7 @@ func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 
 func TestPostAccrualGoodsHandler_InternalServerError(t *testing.T) {
 	store := &storage.MockStorage{}
-	newLogger, err := opensearch.NewOpenSearchLogger()
-
-	if err != nil {
-		fmt.Printf("Error creating logger: %s\n", err)
-		return
-	}
-	defer func(Logger *zap.Logger) {
-		err := Logger.Sync()
-		if err != nil {
-			fmt.Printf("Error closing logger: %s\n", err)
-			return
-		}
-	}(newLogger.Logger)
+	newLogger := zaplog.InitLogger()
 
 	goods := models.Goods{
 		Match:      "somebrand",

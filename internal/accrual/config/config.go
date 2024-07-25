@@ -4,8 +4,7 @@ import (
 	"flag"
 
 	"github.com/caarlos0/env/v11"
-
-	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
+	"go.uber.org/zap"
 )
 
 type Cfg struct {
@@ -20,7 +19,7 @@ type envCfg struct {
 
 const defaultRunAddress = "localhost:8080"
 
-func ParseFlags(logger *opensearch.Logger) *Cfg {
+func ParseFlags(logger *zap.SugaredLogger) *Cfg {
 	config := &Cfg{
 		RunAddress:  defaultRunAddress,
 		DatabaseURI: "",
@@ -33,8 +32,7 @@ func ParseFlags(logger *opensearch.Logger) *Cfg {
 	cfg := envCfg{}
 
 	if err := env.Parse(&cfg); err != nil {
-		logger.SendLog("fatal", "can't parse env")
-		//	logger.Fatalf("can't parse env")
+		logger.Fatalf("can't parse env")
 	}
 
 	if len(cfg.RunAddress) != 0 {

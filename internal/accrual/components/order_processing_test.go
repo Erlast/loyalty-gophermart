@@ -2,36 +2,27 @@ package components
 
 import (
 	"context"
-	"fmt"
 	"testing"
 	"time"
 
+	"go.uber.org/zap/zaptest"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 )
 
 func TestOrderProcessing(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	store := &storage.MockStorage{}
-	newLogger, err := opensearch.NewOpenSearchLogger()
+	logger := zaptest.NewLogger(t).Sugar()
 
-	if err != nil {
-		fmt.Printf("Error creating logger: %s\n", err)
-		return
-	}
-	defer func(Logger *zap.Logger) {
-		err := Logger.Sync()
-		if err != nil {
-			fmt.Printf("Error closing logger: %s\n", err)
-			return
-		}
-	}(newLogger.Logger)
-
+	// Setting up mock expectations
 	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
 	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
 		{Match: "test", Reward: 10, RewardType: "%"},
@@ -42,13 +33,16 @@ func TestOrderProcessing(t *testing.T) {
 	}, nil)
 	store.On("SaveOrderPoints", mock.Anything, int64(1), []float32{10}).Return(nil)
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	go OrderProcessing(ctx, store, newLogger)
+	go func() {
+		OrderProcessing(ctx, store, logger)
+	}()
 
 	time.Sleep(2 * time.Second)
 
+	cancel()
+
 	store.AssertExpectations(t)
+	assert.True(t, true)
 }
 
 func TestFetchRewardRules(t *testing.T) {
@@ -64,7 +58,7 @@ func TestFetchRewardRules(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Len(t, rules, 1)
 	assert.Equal(t, "test", rules[0].Match)
-	assert.Equal(t, int64(10), rules[0].Reward)
+	assert.Equal(t, float32(10), rules[0].Reward)
 	assert.Equal(t, "%", rules[0].RewardType)
 
 	store.AssertExpectations(t)

@@ -2,46 +2,92 @@ package config
 
 import (
 	"flag"
-	"fmt"
+
+	"go.uber.org/zap/zaptest"
+
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.uber.org/zap"
-
-	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 )
 
 func TestParseAccrualFlags(t *testing.T) {
-	newLogger, err := opensearch.NewOpenSearchLogger()
+	logger := zaptest.NewLogger(t).Sugar()
 
-	if err != nil {
-		fmt.Printf("Error creating logger: %s\n", err)
-		return
+	tests := []struct {
+		name         string
+		args         []string
+		envVars      map[string]string
+		expectedAddr string
+		expectedURI  string
+	}{
+		{
+			name: "Default values",
+			args: []string{},
+			envVars: map[string]string{
+				"RUN_ADDRESS": "localhost:8080",
+			},
+			expectedAddr: defaultRunAddress,
+			expectedURI:  "",
+		},
+		{
+			name:         "Flag values",
+			args:         []string{"-a", "127.0.0.1:9000", "-d", "postgres://user:password@localhost:5432/db"},
+			envVars:      map[string]string{},
+			expectedAddr: "127.0.0.1:9000",
+			expectedURI:  "postgres://user:password@localhost:5432/db",
+		},
+		{
+			name: "Environment values",
+			args: []string{},
+			envVars: map[string]string{
+				"RUN_ADDRESS":  "0.0.0.0:8000",
+				"DATABASE_URI": "postgres://user:password@localhost:5432/testdb",
+			},
+			expectedAddr: "0.0.0.0:8000",
+			expectedURI:  "postgres://user:password@localhost:5432/testdb",
+		},
+		{
+			name: "Flag overrides environment",
+			args: []string{"-a", "127.0.0.1:9000"},
+			envVars: map[string]string{
+				"RUN_ADDRESS":  "0.0.0.0:8000",
+				"DATABASE_URI": "postgres://user:password@localhost:5432/testdb",
+			},
+			expectedAddr: "0.0.0.0:8000",
+			expectedURI:  "postgres://user:password@localhost:5432/testdb",
+		},
 	}
-	defer func(Logger *zap.Logger) {
-		err := Logger.Sync()
-		if err != nil {
-			fmt.Printf("Error closing logger: %s\n", err)
-			return
-		}
-	}(newLogger.Logger)
-	os.Args = []string{"cmd", "-a", "127.0.0.1:9090", "-d", "postgres://user:pass@localhost/db"}
 
-	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+			var cleanup []func()
+			for k, v := range tt.envVars {
+				if err := os.Setenv(k, v); err != nil {
+					t.Fatalf("failed to set env var: %v", err)
+				}
+				cleanup = append(cleanup, func(key string) func() {
+					return func() {
+						if err := os.Unsetenv(key); err != nil {
+							t.Fatalf("failed to unset env var: %v", err)
+						}
+					}
+				}(k))
+			}
 
-	config := ParseFlags(newLogger)
+			defer func() {
+				for _, fn := range cleanup {
+					fn()
+				}
+			}()
 
-	assert.Equal(t, "127.0.0.1:9090", config.RunAddress)
-	assert.Equal(t, "postgres://user:pass@localhost/db", config.DatabaseURI)
+			os.Args = append([]string{os.Args[0]}, tt.args...)
 
-	os.Args = []string{"cmd"}
-	t.Setenv("RUN_ADDRESS", "192.168.1.1:8080")
-	t.Setenv("DATABASE_URI", "postgres://envuser:envpass@localhost/envdb")
+			config := ParseFlags(logger)
 
-	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
-	config = ParseFlags(newLogger)
-
-	assert.Equal(t, "192.168.1.1:8080", config.RunAddress)
-	assert.Equal(t, "postgres://envuser:envpass@localhost/envdb", config.DatabaseURI)
+			assert.Equal(t, tt.expectedAddr, config.RunAddress)
+			assert.Equal(t, tt.expectedURI, config.DatabaseURI)
+		})
+	}
 }

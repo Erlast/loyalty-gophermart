@@ -9,11 +9,11 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/opensearch"
 )
 
 func GetAccrualOrderHandler(
@@ -21,7 +21,7 @@ func GetAccrualOrderHandler(
 	res http.ResponseWriter,
 	req *http.Request,
 	store storage.Storage,
-	logger *opensearch.Logger,
+	logger *zap.SugaredLogger,
 ) {
 	orderNumber := chi.URLParam(req, "number")
 
@@ -34,7 +34,7 @@ func GetAccrualOrderHandler(
 
 	data, err := json.Marshal(order)
 	if err != nil {
-		logger.SendLog("error", fmt.Sprintf("failed to marshal result: %v", err))
+		logger.Errorf("failed to marshal result: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
@@ -44,7 +44,7 @@ func GetAccrualOrderHandler(
 
 	_, err = res.Write(data)
 	if err != nil {
-		logger.SendLog("error", fmt.Sprintf("can't write body %v", err))
+		logger.Errorf("can't write body %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
@@ -55,7 +55,7 @@ func PostAccrualOrderHandler(
 	res http.ResponseWriter,
 	req *http.Request,
 	store storage.Storage,
-	logger *opensearch.Logger,
+	logger *zap.SugaredLogger,
 ) {
 	var bodyReq models.OrderItem
 
@@ -73,8 +73,7 @@ func PostAccrualOrderHandler(
 			res.WriteHeader(http.StatusConflict)
 			return
 		}
-
-		logger.SendLog("error", fmt.Sprintf("failed to save goods: %v", err))
+		logger.Errorf("failed to save goods: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
@@ -87,7 +86,7 @@ func PostAccrualGoodsHandler(
 	res http.ResponseWriter,
 	req *http.Request,
 	store storage.Storage,
-	logger *opensearch.Logger,
+	logger *zap.SugaredLogger,
 ) {
 	var bodyReq models.Goods
 
@@ -105,7 +104,7 @@ func PostAccrualGoodsHandler(
 			res.WriteHeader(http.StatusConflict)
 			return
 		}
-		logger.SendLog("error", fmt.Sprintf("failed to save goods: %v", err))
+		logger.Errorf("failed to save goods: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return
 	}
@@ -113,7 +112,7 @@ func PostAccrualGoodsHandler(
 	res.WriteHeader(http.StatusOK)
 }
 
-func prepareBody(req *http.Request, res http.ResponseWriter, bodyReq models.Model, logger *opensearch.Logger) error {
+func prepareBody(req *http.Request, res http.ResponseWriter, bodyReq models.Model, logger *zap.SugaredLogger) error {
 	if req.Body == http.NoBody {
 		http.Error(res, "Empty body!", http.StatusBadRequest)
 		return errors.New("empty body")
@@ -122,7 +121,7 @@ func prepareBody(req *http.Request, res http.ResponseWriter, bodyReq models.Mode
 	body, err := io.ReadAll(req.Body)
 
 	if err != nil {
-		logger.SendLog("error", fmt.Sprintf("failed to read the request body: %v", err))
+		logger.Errorf("failed to read the request body: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return fmt.Errorf("read request body: %w", err)
 	}
@@ -130,7 +129,7 @@ func prepareBody(req *http.Request, res http.ResponseWriter, bodyReq models.Mode
 	err = json.Unmarshal(body, &bodyReq)
 
 	if err != nil {
-		logger.SendLog("error", fmt.Sprintf("failed to marshal result: %v", err))
+		logger.Errorf("failed to marshal result: %v", err)
 		http.Error(res, "", http.StatusInternalServerError)
 		return fmt.Errorf("marashal result: %w", err)
 	}
