@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"errors"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balance"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/order"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/user"
 	"log"
 	"net/http"
 	"os"
@@ -41,9 +44,9 @@ func main() {
 	logger.Infof("Database initialized")
 
 	// Инициализация сервисов
-	userStorage := storage.NewUserStorage(db, logger)
-	orderStorage := storage.NewOrderStorage(db, logger)
-	balanceStorage := storage.NewBalanceStorage(db, logger)
+	userStorage := user.NewUserStorage(db, logger)
+	orderStorage := order.NewOrderStorage(db, logger)
+	balanceStorage := balance.NewBalanceStorage(db, logger)
 	accrualService := services.NewAccrualService(cfg.AccrualSystemAddress, logger)
 	userService := services.NewUserService(userStorage, balanceStorage, logger)
 	orderService := services.NewOrderService(orderStorage, balanceStorage, accrualService, logger)

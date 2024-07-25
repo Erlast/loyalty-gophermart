@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balance"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/order"
 
 	"github.com/jackc/pgx/v5"
 
@@ -11,7 +13,6 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 )
 
 var (
@@ -22,14 +23,14 @@ var (
 
 type OrderService struct {
 	logger         *zap.SugaredLogger
-	orderStorage   *storage.OrderStorage
-	balanceStorage *storage.BalanceStorage
+	orderStorage   *order.OrderStorage
+	balanceStorage *balance.BalanceStorage
 	accrualService *AccrualService
 }
 
 func NewOrderService(
-	orderStorage *storage.OrderStorage,
-	balanceStorage *storage.BalanceStorage,
+	orderStorage *order.OrderStorage,
+	balanceStorage *balance.BalanceStorage,
 	accrualService *AccrualService,
 	logger *zap.SugaredLogger,
 ) *OrderService {
