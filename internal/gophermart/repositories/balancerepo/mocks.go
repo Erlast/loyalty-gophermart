@@ -1,8 +1,9 @@
-package balance
+package balancerepo
 
 import (
 	"context"
 	"fmt"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/mock"

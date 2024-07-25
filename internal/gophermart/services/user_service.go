@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balance"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/user"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/userrepo"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/jackc/pgx/v5/pgconn"
@@ -15,13 +16,13 @@ import (
 
 type UserService struct {
 	logger         *zap.SugaredLogger
-	userStorage    user.UserStore // Используем интерфейс UserStore
-	balanceStorage balance.BalanceStore
+	userStorage    userrepo.UserStore // Используем интерфейс UserStore
+	balanceStorage balancerepo.BalanceStore
 }
 
 func NewUserService(
-	userStorage user.UserStore, // Используем интерфейс UserStore
-	balanceStorage balance.BalanceStore,
+	userStorage userrepo.UserStore, // Используем интерфейс UserStore
+	balanceStorage balancerepo.BalanceStore,
 	logger *zap.SugaredLogger,
 ) *UserService {
 	return &UserService{

@@ -3,21 +3,22 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balance"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"go.uber.org/zap/zaptest"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 )
 
 func TestBalanceHandler_GetBalance(t *testing.T) {
 	logger := zaptest.NewLogger(t).Sugar()
-	balanceMockStorage := new(balance.MockBalanceStore)
+	balanceMockStorage := new(balancerepo.MockBalanceStore)
 	balanceModel := models.Balance{
 		UserID:         1,
 		CurrentBalance: 100,

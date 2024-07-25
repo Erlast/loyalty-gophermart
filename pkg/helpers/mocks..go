@@ -2,9 +2,10 @@ package helpers
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/stretchr/testify/mock"
 	"go.uber.org/zap"
-	"net/http"
 )
 
 type MockFormContext struct {
@@ -22,5 +23,5 @@ func (m *MockFormContext) GetUserID(r *http.Request, logger *zap.SugaredLogger) 
 		return 0, fmt.Errorf("expected int64, got %T", args.Get(0))
 	}
 	err := args.Error(1)
-	return userID, err
+	return userID, err //nolint:wrapcheck //it's mock
 }

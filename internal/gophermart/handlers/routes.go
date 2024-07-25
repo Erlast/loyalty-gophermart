@@ -2,8 +2,9 @@ package handlers
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 	"net/http"
+
+	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
