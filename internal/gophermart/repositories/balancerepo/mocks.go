@@ -74,3 +74,12 @@ func (m *MockBalanceStore) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userI
 	}
 	return err
 }
+
+func (m *MockBalanceStore) CreateBalance(ctx context.Context, userID int64) error {
+	args := m.Called(ctx, userID)
+	err := args.Error(0)
+	if err != nil {
+		err = fmt.Errorf("error MockBalanceStore CreateBalanceTx: %w", err)
+	}
+	return err
+}

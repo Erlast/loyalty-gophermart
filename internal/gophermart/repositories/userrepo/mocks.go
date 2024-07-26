@@ -47,3 +47,12 @@ func (m *MockUserStore) BeginTx(ctx context.Context) (pgx.Tx, error) {
 	}
 	return tx, err
 }
+
+func (m *MockUserStore) CreateUser(ctx context.Context, user *models.User) error {
+	args := m.Called(ctx, user)
+	err := args.Error(0)
+	if err != nil {
+		return fmt.Errorf("error MockUserStore CreateUserTx: %w", err)
+	}
+	return nil
+}
