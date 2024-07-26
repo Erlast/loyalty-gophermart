@@ -334,3 +334,387 @@
 {"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"Request body: 388646226"}
 {"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"Struct Order: {<nil> 2024-07-26 11:21:00.1349245 +0300 MSK m=+2.771143101 388646226 NEW 0 4}"}
 {"level":"error","time":"2024-07-26T11:21:00.136+0300","msg":"Order number already loaded by a different user: {<nil> 2024-07-26 11:21:00.1349245 +0300 MSK m=+2.771143101 388646226 NEW 0 4}"}
+{"level":"info","time":"2024-07-26T14:45:57.101+0300","msg":"Start running server. Address: localhost:8081, db: postgres://postgres:@127.127.126.36:5432/loyalty_accrual?sslmode=disable"}
+{"level":"info","time":"2024-07-26T14:46:43.919+0300","msg":"Logger started at %!s(func() time.Time=0x7515c0)"}
+{"level":"info","time":"2024-07-26T14:46:43.928+0300","msg":"database URI: postgres://postgres:@127.127.126.36:5432/gophermart?sslmode=disable, accrualSystemAddres: localhost:8081"}
+{"level":"info","time":"2024-07-26T14:46:43.928+0300","msg":"Config: {localhost:8008 postgres://postgres:@127.127.126.36:5432/gophermart?sslmode=disable localhost:8081 secret}"}
+{"level":"info","time":"2024-07-26T14:46:43.964+0300","msg":"Database initialized"}
+{"level":"info","time":"2024-07-26T14:46:45.978+0300","msg":"Initializing router"}
+{"level":"info","time":"2024-07-26T14:46:45.978+0300","msg":"Routes registered"}
+{"level":"info","time":"2024-07-26T14:46:45.978+0300","msg":"Update order statuses running"}
+{"level":"info","time":"2024-07-26T14:46:45.978+0300","msg":"Server is running{address 15 0 localhost:8008 <nil>}"}
+{"level":"error","time":"2024-07-26T14:46:47.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:46:48.006+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:46:49.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:46:49.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:46:51.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:46:51.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:46:53.980+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:46:53.980+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:46:55.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:46:55.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:46:57.994+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:46:57.994+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:46:59.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:46:59.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:01.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:01.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:03.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:03.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:05.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:05.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:07.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:07.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:09.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:09.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:11.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:11.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:13.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:13.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:15.988+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:15.988+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:17.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:17.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:19.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:19.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:21.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:21.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:23.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:23.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:25.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:25.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:27.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:27.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:29.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:29.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:31.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:31.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:33.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:33.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:35.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:35.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:37.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:37.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:39.988+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:39.988+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:41.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:41.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:43.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:43.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:45.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:45.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:47.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:47.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:49.979+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:49.979+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:51.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:51.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:53.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:53.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:55.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:55.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:57.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:57.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:47:59.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:47:59.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:01.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:01.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:03.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:03.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:05.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:05.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:07.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:07.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:09.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:09.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:11.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:11.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:13.979+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:13.979+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:15.988+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:15.988+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:17.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:17.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:19.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:19.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:21.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:21.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:23.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:23.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:25.980+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:25.980+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:27.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:27.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:29.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:29.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:31.994+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:31.994+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:33.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:33.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:35.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:35.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:37.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:37.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:39.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:39.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:41.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:41.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:43.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:43.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:45.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:45.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:47.979+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:47.979+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:49.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:49.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:51.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:51.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:53.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:53.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:55.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:55.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:57.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:57.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:48:59.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:48:59.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:01.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:01.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:03.980+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:03.980+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:05.988+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:05.988+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:07.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:07.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:09.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:09.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:11.979+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:11.979+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:13.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:13.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:15.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:15.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:17.979+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:17.979+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:19.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:19.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:21.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:21.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:23.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:23.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:25.979+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:25.979+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:27.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:27.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:29.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:29.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:31.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:31.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:33.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:33.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:35.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:35.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:37.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:37.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:39.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:39.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:41.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:41.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:43.979+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:43.979+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:45.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:45.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:47.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:47.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:49.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:49.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:51.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:51.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:53.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:53.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:55.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:55.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:57.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:57.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:49:59.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:49:59.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:01.995+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:01.995+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:03.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:03.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:05.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:05.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:07.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:07.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:09.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:09.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:11.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:11.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:13.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:13.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:15.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:15.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:17.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:17.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:19.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:19.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:21.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:21.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:23.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:23.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:25.988+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:25.988+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:27.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:27.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:29.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:29.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:31.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:31.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:33.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:33.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:35.980+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:35.980+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:37.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:37.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:39.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:39.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:41.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:41.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:43.988+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:43.988+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:45.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:45.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:47.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:47.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:49.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:49.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:51.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:51.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:53.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:53.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:55.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:55.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:57.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:57.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:50:59.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:50:59.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:01.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:01.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:03.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:03.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:05.980+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:05.980+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:07.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:07.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:09.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:09.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:11.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:11.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:13.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:13.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:15.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:15.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:17.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:17.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:19.992+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:19.992+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:21.983+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:21.983+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:23.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:23.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:25.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:25.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:27.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:27.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:29.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:29.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:31.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:31.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:33.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:33.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:35.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:35.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:37.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:37.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:39.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:39.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:41.994+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:41.994+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:43.985+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:43.985+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:45.981+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:45.981+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:47.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:47.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:49.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:49.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:51.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:51.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:53.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:53.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:55.988+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:55.988+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:57.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:57.988+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:51:59.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:51:59.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:01.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:01.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:03.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:03.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:05.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:05.986+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:07.984+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:07.984+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:09.982+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:09.982+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:11.991+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:11.991+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:13.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:13.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:15.994+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:15.994+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:17.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:17.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:19.987+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:19.987+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:21.990+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:21.990+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:23.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:23.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:25.993+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:25.993+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:27.989+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:27.989+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:29.980+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:29.980+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:31.986+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:31.986+0300","msg":"orders: []"}
+{"level":"info","time":"2024-07-26T14:52:33.248+0300","msg":"Shutting down server..."}
+{"level":"info","time":"2024-07-26T14:52:33.248+0300","msg":"Server exiting"}
+{"level":"info","time":"2024-07-26T14:52:35.447+0300","msg":"Logger started at %!s(func() time.Time=0x8e15c0)"}
+{"level":"info","time":"2024-07-26T14:52:35.456+0300","msg":"database URI: postgres://postgres:@127.127.126.36:5432/gophermart?sslmode=disable, accrualSystemAddres: localhost:8081"}
+{"level":"info","time":"2024-07-26T14:52:35.456+0300","msg":"Config: {localhost:8008 postgres://postgres:@127.127.126.36:5432/gophermart?sslmode=disable localhost:8081 secret}"}
+{"level":"info","time":"2024-07-26T14:52:35.477+0300","msg":"Database initialized"}
+{"level":"info","time":"2024-07-26T14:52:37.490+0300","msg":"Initializing router"}
+{"level":"info","time":"2024-07-26T14:52:37.490+0300","msg":"Routes registered"}
+{"level":"info","time":"2024-07-26T14:52:37.490+0300","msg":"Update order statuses running"}
+{"level":"info","time":"2024-07-26T14:52:37.490+0300","msg":"Server is running{address 15 0 localhost:8008 <nil>}"}
+{"level":"error","time":"2024-07-26T14:52:39.490+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:39.506+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:41.503+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:41.503+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:43.495+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:43.495+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:45.505+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:45.505+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:47.504+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:47.504+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T14:52:49.496+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T14:52:49.496+0300","msg":"orders: []"}
+{"level":"info","time":"2024-07-26T14:52:49.734+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T14:52:49.734+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T14:52:49.793+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T14:52:49.793+0300","msg":"User ID: 1"}
+{"level":"info","time":"2024-07-26T14:52:49.793+0300","msg":"JWT: &{{ 1722253969  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T14:52:49.793+0300","msg":"token: &{ 0xc000008270 map[alg:HS256 typ:JWT] 0xc0001087e0  false}"}
+{"level":"info","time":"2024-07-26T14:52:49.793+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNTM5NjksInVzZXJfaWQiOjF9.WjZt3RYTA5XJzrsJea8rtmj3z_1zKnbuMsGGrnlVd0A <nil>}"}

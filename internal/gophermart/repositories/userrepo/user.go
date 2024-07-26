@@ -3,7 +3,6 @@ package userrepo
 import (
 	"context"
 	"fmt"
-
 	"go.uber.org/zap"
 
 	"github.com/jackc/pgx/v5"
@@ -34,9 +33,29 @@ func NewUserStorage(
 	}
 }
 
+func tableExists(ctx context.Context, db *pgxpool.Pool, tableName string) (bool, error) {
+	var exists bool
+	query := `
+		SELECT EXISTS (
+			SELECT FROM information_schema.tables 
+			WHERE table_schema = 'public' 
+			AND table_name = $1
+		);
+	`
+	err := db.QueryRow(ctx, query, tableName).Scan(&exists)
+	if err != nil {
+		return false, fmt.Errorf("could not check if table exists: %w", err)
+	}
+	return exists, nil
+}
+
 func (s *UserStorage) CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.User) error {
+	_, err := tableExists(ctx, s.db, "users")
+	if err != nil {
+		return fmt.Errorf("Error checking if table exists: %v\n", err)
+	}
 	query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
-	err := tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
+	err = tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
 	if err != nil {
 		return fmt.Errorf("could not create user: %w", err)
 	}
