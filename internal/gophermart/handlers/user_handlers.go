@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
@@ -42,6 +43,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Username already taken", http.StatusConflict)
 			return
 		}
+		fmt.Println("Error registering user", err)
 		h.logger.Error("Error registering user", zap.Error(err))
 		http.Error(w, "Internal server error", http.StatusInsufficientStorage)
 		return
