@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"log"
 	"net/http"
 	"os"
@@ -22,6 +23,22 @@ import (
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 )
+
+func tableExists(ctx context.Context, db *pgxpool.Pool, tableName string) (bool, error) {
+	var exists bool
+	query := `
+		SELECT EXISTS (
+			SELECT FROM information_schema.tables 
+			WHERE table_schema = 'public' 
+			AND table_name = $1
+		);
+	`
+	err := db.QueryRow(ctx, query, tableName).Scan(&exists)
+	if err != nil {
+		return false, fmt.Errorf("could not check if table exists: %w", err)
+	}
+	return exists, nil
+}
 
 func main() {
 	ctx := context.Background()
@@ -45,6 +62,18 @@ func main() {
 	}
 	defer db.Close()
 	logger.Infof("Database initialized")
+
+	exist, err := tableExists(ctx, db, "users")
+	if err != nil {
+		fmt.Println("error checking if table exists", err)
+	}
+
+	if !exist {
+		fmt.Println("table users doesn't exists")
+	} else {
+		fmt.Println("table exists")
+	}
+
 	time.Sleep(2 * time.Second)
 
 	// Инициализация сервисов

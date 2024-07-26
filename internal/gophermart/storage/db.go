@@ -17,22 +17,6 @@ import (
 //go:embed migrations/*.sql
 var migrationsDir embed.FS
 
-func tableExists(ctx context.Context, db *pgxpool.Pool, tableName string) (bool, error) {
-	var exists bool
-	query := `
-		SELECT EXISTS (
-			SELECT FROM information_schema.tables 
-			WHERE table_schema = 'public' 
-			AND table_name = $1
-		);
-	`
-	err := db.QueryRow(ctx, query, tableName).Scan(&exists)
-	if err != nil {
-		return false, fmt.Errorf("could not check if table exists: %w", err)
-	}
-	return exists, nil
-}
-
 func InitDB(ctx context.Context, cfg config.Config) (*pgxpool.Pool, error) {
 	// Запускаем миграции
 	if err := runMigrations(cfg.DatabaseURI); err != nil {
@@ -51,17 +35,7 @@ func InitDB(ctx context.Context, cfg config.Config) (*pgxpool.Pool, error) {
 		return nil, fmt.Errorf("не удалось подключиться к базе данных: %w", err)
 	}
 
-	exist, err := tableExists(ctx, db, "users")
-	if err != nil {
-		return db, fmt.Errorf("error checking if table exists: %w", err)
-	}
-	if !exist {
-		return db, fmt.Errorf("table users doesn't exists ")
-	} else {
-		return db, fmt.Errorf("tablle exists")
-	}
-
-	//return db, nil
+	return db, nil
 }
 
 func runMigrations(dsn string) error {
