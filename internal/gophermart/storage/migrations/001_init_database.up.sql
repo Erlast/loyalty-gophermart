@@ -37,6 +37,11 @@ CREATE TABLE IF NOT EXISTS balances (
 -- Индекс для улучшения производительности запросов по user_id в таблице balances
 CREATE INDEX idx_balances_user_id ON balances(user_id);
 
+ALTER TABLE balances
+    ADD CONSTRAINT balances_user_id
+        FOREIGN KEY (user_id)
+            REFERENCES users (id);
+
 -- Создание таблицы выводов средств
 CREATE TABLE IF NOT EXISTS withdrawals (
                                            id SERIAL PRIMARY KEY,
