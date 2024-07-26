@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -37,8 +36,6 @@ func main() {
 
 	cfg := config.LoadConfig(logger)
 	logger.Infof("Config: %v", cfg)
-
-	fmt.Println("gophermart", cfg.DatabaseURI)
 
 	db, err := storage.InitDB(ctx, cfg)
 	if err != nil {
