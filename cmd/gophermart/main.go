@@ -63,7 +63,7 @@ func main() {
 
 	// Запуск фоновой горутины для обновления статусов заказов
 	go func() {
-		ticker := time.NewTicker(5 * time.Second)
+		ticker := time.NewTicker(2 * time.Second)
 		defer ticker.Stop()
 		for {
 			select {
