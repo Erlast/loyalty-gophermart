@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -27,6 +28,8 @@ func main() {
 	if err != nil {
 		newLogger.Fatalf("Unable to create storage %v: ", err)
 	}
+
+	fmt.Println(cfg.DatabaseURI)
 
 	go components.OrderProcessing(ctx, store, newLogger)
 

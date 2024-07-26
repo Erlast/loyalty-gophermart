@@ -83,6 +83,8 @@ func main() {
 	cfg := config.LoadConfig(logger)
 	logger.Infof("Config: %v", cfg)
 
+	fmt.Println(cfg)
+
 	db, err := storage.InitDB(ctx, cfg)
 	if err != nil {
 		fmt.Println("error initializing database", err)
