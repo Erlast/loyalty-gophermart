@@ -43,7 +43,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		h.logger.Error("Error registering user", zap.Error(err))
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		http.Error(w, "Internal server error", http.StatusInsufficientStorage)
 		return
 	}
 	h.logger.Info("User registered")
