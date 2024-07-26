@@ -56,7 +56,7 @@ func InitDB(ctx context.Context, cfg config.Config) (*pgxpool.Pool, error) {
 		return nil, fmt.Errorf("error checking if table exists: %w", err)
 	}
 	if !exist {
-		return nil, fmt.Errorf("table users doesn't exists ")
+		return db, fmt.Errorf("table users doesn't exists ")
 	} else {
 		return db, fmt.Errorf("tablle exists")
 	}
