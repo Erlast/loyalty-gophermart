@@ -1,4 +1,3 @@
-
 BEGIN;
 
 CREATE TABLE IF NOT EXISTS users
@@ -10,7 +9,6 @@ CREATE TABLE IF NOT EXISTS users
     updated_at TIMESTAMP    NOT NULL DEFAULT NOW()
 );
 
-
 CREATE TABLE IF NOT EXISTS orders
 (
     id SERIAL PRIMARY KEY,
@@ -21,12 +19,16 @@ CREATE TABLE IF NOT EXISTS orders
     uploaded_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE INDEX idx_orders_user_id ON orders(user_id);
+
 CREATE TABLE balances
 (
     user_id INTEGER PRIMARY KEY REFERENCES users(id),
     current_balance REAL NOT NULL,
     total_withdrawn REAL NOT NULL
 );
+
+CREATE INDEX idx_balances_user_id ON balances(user_id);
 
 CREATE TABLE IF NOT EXISTS withdrawals
 (
@@ -37,5 +39,6 @@ CREATE TABLE IF NOT EXISTS withdrawals
     processed_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE INDEX idx_withdrawals_user_id ON withdrawals(user_id);
 
 COMMIT;
