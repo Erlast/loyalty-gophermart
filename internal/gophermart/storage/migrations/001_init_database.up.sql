@@ -22,6 +22,11 @@ CREATE TABLE IF NOT EXISTS orders (
 -- Индекс для улучшения производительности запросов по user_id в таблице orders
 CREATE INDEX idx_orders_user_id ON orders(user_id);
 
+ALTER TABLE orders
+    ADD CONSTRAINT orders_user_id
+        FOREIGN KEY (user_id)
+            REFERENCES users (id);
+
 -- Создание таблицы балансов
 CREATE TABLE IF NOT EXISTS balances (
                                         user_id INTEGER PRIMARY KEY,  -- Убрано REFERENCES users(id)

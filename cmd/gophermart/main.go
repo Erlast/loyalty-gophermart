@@ -79,7 +79,6 @@ func main() {
 	}()
 	logger.Infof("Update order statuses running")
 
-	time.Sleep(2 * time.Second)
 	// Настройка и запуск сервера
 	srv := &http.Server{
 		Addr:    config.GetConfig().RunAddress,
