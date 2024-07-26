@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
@@ -87,6 +88,7 @@ func (h *BalanceHandler) Withdrawals(ctx context.Context, w http.ResponseWriter,
 	userID, err := helpers.GetUserIDFromContext(r, h.logger)
 	if err != nil {
 		h.logger.Error(ErrorGettingUserIDFromContext, zap.Error(err))
+		fmt.Println("error getting userID from context", err)
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
@@ -94,6 +96,7 @@ func (h *BalanceHandler) Withdrawals(ctx context.Context, w http.ResponseWriter,
 	withdrawals, err := h.service.GetWithdrawalsByUserID(ctx, userID)
 	if err != nil {
 		h.logger.Error("Error getting withdrawals", zap.Error(err))
+		fmt.Println("error getting withdrawals", err)
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
