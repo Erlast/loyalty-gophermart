@@ -34,60 +34,22 @@ func NewUserStorage(
 	}
 }
 
-func tableExists(ctx context.Context, db *pgxpool.Pool, tableName string) (bool, error) {
-	var exists bool
-	query := `
-		SELECT EXISTS (
-			SELECT FROM information_schema.tables 
-			WHERE table_schema = 'public' 
-			AND table_name = $1
-		);
-	`
-	err := db.QueryRow(ctx, query, tableName).Scan(&exists)
-	if err != nil {
-		return false, fmt.Errorf("could not check if table exists: %w", err)
-	}
-	return exists, nil
-}
-
 func (s *UserStorage) CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.User) error {
-	exist, err := tableExists(ctx, s.db, "users")
+	query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
+	err := tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
 	if err != nil {
-		return fmt.Errorf("error checking if table exists: %w", err)
+		return fmt.Errorf("could not create user: %w", err)
 	}
-	if !exist {
-		return fmt.Errorf("table users doesn't exists ")
-	} else {
-		return fmt.Errorf("tablle exists")
-	}
-
-	//query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
-	//err = tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
-	//if err != nil {
-	//	return fmt.Errorf("could not create user: %w", err)
-	//}
-	//return nil
+	return nil
 }
 
 func (s *UserStorage) CreateUser(ctx context.Context, user *models.User) error {
-	// Проверяем наличие таблицы перед вставкой
-	exist, err := tableExists(ctx, s.db, "users")
+	query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
+	err := s.db.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
 	if err != nil {
-		return fmt.Errorf("error checking if table exists: %w", err)
+		return fmt.Errorf("could not create user: %w", err)
 	}
-	if !exist {
-		return fmt.Errorf("table users doesn't exists ")
-	} else {
-		return fmt.Errorf("tablle exists")
-	}
-
-	// Запрос на вставку данных пользователя в таблицу
-	//query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
-	//err = s.db.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
-	//if err != nil {
-	//	return fmt.Errorf("could not create user: %w", err)
-	//}
-	//return nil
+	return nil
 }
 
 func (s *UserStorage) GetUserByLogin(ctx context.Context, login string) (*models.User, error) {

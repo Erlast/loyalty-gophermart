@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"log"
 	"net/http"
 	"os"
@@ -23,50 +22,6 @@ import (
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 )
-
-func tableExists(ctx context.Context, db *pgxpool.Pool, tableName string) (bool, error) {
-	var exists bool
-	query := `
-		SELECT EXISTS (
-			SELECT FROM information_schema.tables 
-			WHERE table_schema = 'public' 
-			AND table_name = $1
-		);
-	`
-	err := db.QueryRow(ctx, query, tableName).Scan(&exists)
-	if err != nil {
-		return false, fmt.Errorf("could not check if table exists: %w", err)
-	}
-	return exists, nil
-}
-
-func getAllTables(ctx context.Context, db *pgxpool.Pool) ([]string, error) {
-	query := `
-		SELECT table_name
-		FROM information_schema.tables
-		WHERE table_schema = 'public'
-	`
-	rows, err := db.Query(ctx, query)
-	if err != nil {
-		return nil, fmt.Errorf("could not retrieve tables: %w", err)
-	}
-	defer rows.Close()
-
-	var tables []string
-	for rows.Next() {
-		var tableName string
-		if err := rows.Scan(&tableName); err != nil {
-			return nil, fmt.Errorf("could not scan table name: %w", err)
-		}
-		tables = append(tables, tableName)
-	}
-
-	if rows.Err() != nil {
-		return nil, fmt.Errorf("error iterating through rows: %w", rows.Err())
-	}
-
-	return tables, nil
-}
 
 func main() {
 	ctx := context.Background()
@@ -87,25 +42,10 @@ func main() {
 
 	db, err := storage.InitDB(ctx, cfg)
 	if err != nil {
-		fmt.Println("error initializing database", err)
 		logger.Fatalf("Error initializing database: %s", err)
 	}
 	defer db.Close()
 	logger.Infof("Database initialized")
-
-	tables, err := getAllTables(ctx, db)
-	if err != nil {
-		fmt.Println("error getting all tables", err)
-		log.Fatalf("Error retrieving tables: %v\n", err)
-	}
-
-	// Print the retrieved table names
-	fmt.Println("Tables in the public schema:")
-	for _, table := range tables {
-		fmt.Println(table)
-	}
-
-	time.Sleep(2 * time.Second)
 
 	// Инициализация сервисов
 	userStorage := userrepo.NewUserStorage(db, logger)

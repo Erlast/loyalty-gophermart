@@ -36,7 +36,7 @@ type Storage interface {
 var migrationsDir embed.FS
 
 type AccrualStorage struct {
-	db *pgxpool.Pool
+	Db *pgxpool.Pool
 }
 
 func NewAccrualStorage(ctx context.Context, cfg *config.Cfg) (*AccrualStorage, error) {
@@ -53,12 +53,12 @@ func NewAccrualStorage(ctx context.Context, cfg *config.Cfg) (*AccrualStorage, e
 		return nil, fmt.Errorf("unable to connect database: %w", err)
 	}
 
-	return &AccrualStorage{db: conn}, nil
+	return &AccrualStorage{Db: conn}, nil
 }
 
 func (store *AccrualStorage) GetByOrderNumber(ctx context.Context, orderNumber string) (*models.Order, error) {
 	var order models.Order
-	err := store.db.QueryRow(ctx, "SELECT uuid, status,accrual FROM a_orders WHERE uuid = $1", orderNumber).Scan(
+	err := store.Db.QueryRow(ctx, "SELECT uuid, status,accrual FROM a_orders WHERE uuid = $1", orderNumber).Scan(
 		&order.UUID,
 		&order.Status,
 		&order.Accrual,
@@ -76,7 +76,7 @@ func (store *AccrualStorage) GetByOrderNumber(ctx context.Context, orderNumber s
 func (store *AccrualStorage) SaveOrder(ctx context.Context, orderNumber string) (int64, error) {
 	var orderID int64
 	sqlString := "INSERT INTO a_orders(uuid, status, accrual, uploaded_at) VALUES ($1, $2, $3, $4) RETURNING id"
-	err := store.db.QueryRow(ctx, sqlString, orderNumber, helpers.StatusRegistered, 0, time.Now()).Scan(&orderID)
+	err := store.Db.QueryRow(ctx, sqlString, orderNumber, helpers.StatusRegistered, 0, time.Now()).Scan(&orderID)
 
 	if err != nil {
 		var pgsErr *pgconn.PgError
@@ -105,7 +105,7 @@ func (store *AccrualStorage) SaveOrderItems(ctx context.Context, order models.Or
 		batch.Queue(stmt, args)
 	}
 
-	tx, err := store.db.Begin(ctx)
+	tx, err := store.Db.Begin(ctx)
 
 	if err != nil {
 		return fmt.Errorf("failed to begin transaction: %w", err)
@@ -137,7 +137,7 @@ func (store *AccrualStorage) SaveOrderItems(ctx context.Context, order models.Or
 
 func (store *AccrualStorage) SaveGoods(ctx context.Context, goods models.Goods) error {
 	sqlString := "INSERT INTO a_accrual_rules(match, reward, reward_type) VALUES ($1, $2, $3)"
-	_, err := store.db.Exec(ctx, sqlString, goods.Match, goods.Reward, goods.RewardType)
+	_, err := store.Db.Exec(ctx, sqlString, goods.Match, goods.Reward, goods.RewardType)
 
 	if err != nil {
 		var pgsErr *pgconn.PgError
@@ -154,7 +154,7 @@ func (store *AccrualStorage) SaveGoods(ctx context.Context, goods models.Goods) 
 
 func (store *AccrualStorage) GetRegisteredOrders(ctx context.Context) ([]int64, error) {
 	query := `Select id FROM a_orders WHERE status=$1`
-	rows, err := store.db.Query(ctx, query, helpers.StatusRegistered)
+	rows, err := store.Db.Query(ctx, query, helpers.StatusRegistered)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get registered orders: %w", err)
 	}
@@ -175,7 +175,7 @@ func (store *AccrualStorage) GetRegisteredOrders(ctx context.Context) ([]int64, 
 
 func (store *AccrualStorage) FetchRewardRules(ctx context.Context) ([]models.Goods, error) {
 	var rules []models.Goods
-	rows, err := store.db.Query(ctx, "SELECT match, reward, reward_type FROM a_accrual_rules")
+	rows, err := store.Db.Query(ctx, "SELECT match, reward, reward_type FROM a_accrual_rules")
 
 	if err != nil {
 		return nil, fmt.Errorf("can't get rules. %w", err)
@@ -196,7 +196,7 @@ func (store *AccrualStorage) FetchRewardRules(ctx context.Context) ([]models.Goo
 }
 
 func (store *AccrualStorage) FetchProducts(ctx context.Context, orderID int64) ([]models.Items, error) {
-	rows, err := store.db.Query(ctx, "SELECT description, price FROM a_order_items WHERE order_id = $1", orderID)
+	rows, err := store.Db.Query(ctx, "SELECT description, price FROM a_order_items WHERE order_id = $1", orderID)
 	if err != nil {
 		return nil, fmt.Errorf("can't get products. %w", err)
 	}
@@ -222,7 +222,7 @@ func (store *AccrualStorage) SaveOrderPoints(ctx context.Context, orderID int64,
 		totalPoints += p
 	}
 
-	_, err := store.db.Exec(
+	_, err := store.Db.Exec(
 		ctx,
 		"UPDATE a_orders SET status=$1,accrual=$2 where id=$3",
 		helpers.StatusProcessed,
@@ -237,7 +237,7 @@ func (store *AccrualStorage) SaveOrderPoints(ctx context.Context, orderID int64,
 }
 
 func (store *AccrualStorage) UpdateOrderStatus(ctx context.Context, orderID int64, status string) error {
-	_, err := store.db.Exec(ctx, "Update a_orders set status=$1 where id=$2", status, orderID)
+	_, err := store.Db.Exec(ctx, "Update a_orders set status=$1 where id=$2", status, orderID)
 
 	if err != nil {
 		return fmt.Errorf("can't update order. %w", err)
