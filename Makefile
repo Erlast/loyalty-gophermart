@@ -100,3 +100,14 @@ run_gophermart:
 
 run_accrual:
 	go run .\cmd\accrual\main.go -a=localhost:8081 -d=postgres://user:password@localhost:5432/accrual?sslmode=disable
+
+run_cover:
+	 go test -coverprofile coverage.out ./...
+
+html_cover:
+	go tool cover -html coverage.out
+
+func_cover:
+	go tool cover -func=coverage.out
+
+cover: run_cover html_cover

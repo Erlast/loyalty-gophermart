@@ -84,7 +84,7 @@ func (s *UserService) Login(ctx context.Context, credentials models.Credentials)
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(credentials.Password)); err != nil {
-		return nil, errors.New("invalid credentials")
+		return nil, fmt.Errorf("could not compare password: %w", err)
 	}
 
 	return user, nil
