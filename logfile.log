@@ -718,3 +718,433 @@
 {"level":"info","time":"2024-07-26T14:52:49.793+0300","msg":"JWT: &{{ 1722253969  0  0 } 1}"}
 {"level":"info","time":"2024-07-26T14:52:49.793+0300","msg":"token: &{ 0xc000008270 map[alg:HS256 typ:JWT] 0xc0001087e0  false}"}
 {"level":"info","time":"2024-07-26T14:52:49.793+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNTM5NjksInVzZXJfaWQiOjF9.WjZt3RYTA5XJzrsJea8rtmj3z_1zKnbuMsGGrnlVd0A <nil>}"}
+{"level":"info","time":"2024-07-26T15:28:35.783+0300","msg":"Start running server. Address: localhost:8081, db: postgres://postgres:@127.127.126.36:5432/loyalty_accrual?sslmode=disable"}
+{"level":"info","time":"2024-07-26T15:28:41.822+0300","msg":"Logger started at %!s(func() time.Time=0x2615c0)"}
+{"level":"info","time":"2024-07-26T15:28:41.831+0300","msg":"database URI: postgres://postgres:@127.127.126.36:5432/gophermart?sslmode=disable, accrualSystemAddres: localhost:8081"}
+{"level":"info","time":"2024-07-26T15:28:41.831+0300","msg":"Config: {localhost:8008 postgres://postgres:@127.127.126.36:5432/gophermart?sslmode=disable localhost:8081 secret}"}
+{"level":"info","time":"2024-07-26T15:28:41.867+0300","msg":"Database initialized"}
+{"level":"info","time":"2024-07-26T15:28:43.877+0300","msg":"Initializing router"}
+{"level":"info","time":"2024-07-26T15:28:43.877+0300","msg":"Routes registered"}
+{"level":"info","time":"2024-07-26T15:28:43.877+0300","msg":"Update order statuses running"}
+{"level":"info","time":"2024-07-26T15:28:43.877+0300","msg":"Server is running{address 15 0 localhost:8008 <nil>}"}
+{"level":"error","time":"2024-07-26T15:28:45.879+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:28:45.896+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:28:47.885+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:28:47.886+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:28:49.878+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:28:49.878+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:28:51.881+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:28:51.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:28:53.878+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:28:53.878+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:28:55.881+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:28:55.881+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:28:57.885+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:28:57.885+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:28:59.887+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:28:59.887+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:01.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:01.891+0300","msg":"orders: []"}
+{"level":"info","time":"2024-07-26T15:29:02.526+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T15:29:02.526+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T15:29:02.589+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T15:29:02.589+0300","msg":"User ID: 1"}
+{"level":"info","time":"2024-07-26T15:29:02.589+0300","msg":"JWT: &{{ 1722256142  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T15:29:02.589+0300","msg":"token: &{ 0xc000110258 map[alg:HS256 typ:JWT] 0xc000176cc0  false}"}
+{"level":"info","time":"2024-07-26T15:29:02.589+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNTYxNDIsInVzZXJfaWQiOjF9.vqgmbp7GT9E98i-Yr5K5qdtrszGv3ZuanQ6mQUE6mL0 <nil>}"}
+{"level":"error","time":"2024-07-26T15:29:03.892+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:03.892+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:05.887+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:05.887+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:07.878+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:07.878+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:09.887+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:09.887+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:11.879+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:11.879+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:13.879+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:13.879+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:15.889+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:15.889+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:17.877+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:17.877+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:19.884+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:19.884+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:21.882+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:21.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:23.884+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:23.884+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:25.884+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:25.884+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:27.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:27.892+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:27.892+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error read rows get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:29.880+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:29.880+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:29.880+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:31.881+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:31.881+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:31.881+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:33.885+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:33.885+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:33.885+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:35.879+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:35.879+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:35.879+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:37.884+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:37.884+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:37.884+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:39.887+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:39.887+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:39.887+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"info","time":"2024-07-26T15:29:40.908+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T15:29:40.908+0300","msg":"User created"}
+{"level":"error","time":"2024-07-26T15:29:40.950+0300","msg":"Error registering user{error 26 0  could not create user: could not create user: ERROR: relation \"users\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:41.878+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:41.878+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:41.878+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:43.880+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:43.880+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:43.880+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:45.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:45.891+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:45.891+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:47.882+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:47.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:47.882+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:49.886+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:49.886+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:49.886+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:51.881+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:51.881+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:51.881+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:53.882+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:53.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:53.882+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:55.880+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:55.880+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:55.880+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:57.884+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:57.884+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:57.884+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:29:59.883+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:29:59.883+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:29:59.883+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:01.887+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:01.887+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:01.887+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:03.889+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:03.889+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:03.889+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:05.883+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:05.883+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:05.883+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:07.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:07.891+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:07.891+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:09.882+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:09.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:09.882+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:11.877+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:11.877+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:11.877+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:13.878+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:13.878+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:13.878+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:15.881+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:15.881+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:15.881+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:17.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:17.891+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:17.891+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:19.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:19.891+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:19.891+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:21.882+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:21.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:21.882+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:23.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:23.891+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:23.891+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:25.881+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:25.881+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:25.881+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:27.883+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:27.883+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:27.883+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:29.889+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:29.889+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:29.889+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:31.890+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:31.890+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:31.890+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:33.887+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:33.887+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:33.887+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:35.884+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:35.884+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:35.884+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:37.882+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:37.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:37.882+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:39.889+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:39.889+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:39.889+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:41.877+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:41.877+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:41.877+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:43.887+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:43.887+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:43.887+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:45.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:45.891+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:45.891+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:47.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:47.891+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:47.891+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:49.879+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:49.879+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:49.879+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:51.885+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:51.885+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:51.885+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:53.889+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:53.889+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:53.889+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:55.878+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:55.878+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:55.878+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:57.889+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:57.889+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:57.889+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:30:59.889+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:30:59.889+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:30:59.889+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:01.881+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:01.881+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:01.881+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:03.891+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:03.891+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:03.891+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:05.882+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:05.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:05.882+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:07.886+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:07.886+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:07.886+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:09.888+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:09.888+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:09.888+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:11.880+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:11.880+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:11.880+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:13.882+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:13.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:13.882+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:15.885+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:15.885+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:15.885+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:17.877+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:17.877+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:17.877+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:19.882+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:19.882+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:19.882+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:21.880+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:21.880+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:21.880+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:23.890+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:23.890+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:23.890+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:25.889+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:25.889+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:25.889+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:27.881+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:27.881+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:27.881+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:29.886+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:29.886+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:29.886+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"info","time":"2024-07-26T15:31:30.617+0300","msg":"Shutting down server..."}
+{"level":"info","time":"2024-07-26T15:31:30.617+0300","msg":"Server exiting"}
+{"level":"info","time":"2024-07-26T15:31:32.570+0300","msg":"Logger started at %!s(func() time.Time=0x9915c0)"}
+{"level":"info","time":"2024-07-26T15:31:32.580+0300","msg":"database URI: postgres://postgres:@127.127.126.36:5432/gophermart?sslmode=disable, accrualSystemAddres: localhost:8081"}
+{"level":"info","time":"2024-07-26T15:31:32.580+0300","msg":"Config: {localhost:8008 postgres://postgres:@127.127.126.36:5432/gophermart?sslmode=disable localhost:8081 secret}"}
+{"level":"info","time":"2024-07-26T15:31:32.617+0300","msg":"Database initialized"}
+{"level":"info","time":"2024-07-26T15:31:34.617+0300","msg":"Initializing router"}
+{"level":"info","time":"2024-07-26T15:31:34.617+0300","msg":"Routes registered"}
+{"level":"info","time":"2024-07-26T15:31:34.617+0300","msg":"Update order statuses running"}
+{"level":"info","time":"2024-07-26T15:31:34.617+0300","msg":"Server is running{address 15 0 localhost:8008 <nil>}"}
+{"level":"error","time":"2024-07-26T15:31:36.631+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:36.648+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:38.621+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:38.621+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:40.626+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:40.626+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:42.629+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:42.629+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:44.624+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:44.624+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:44.624+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error read rows get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:46.626+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:46.626+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:46.626+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:48.619+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:48.619+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:48.619+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:50.628+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:50.628+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:50.628+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:52.618+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:52.618+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:52.618+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:54.621+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:54.621+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:54.621+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:31:56.628+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:56.628+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:56.628+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"info","time":"2024-07-26T15:31:57.418+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T15:31:57.418+0300","msg":"User created"}
+{"level":"error","time":"2024-07-26T15:31:57.477+0300","msg":"Error registering user{error 26 0  could not create user: esists false}"}
+{"level":"error","time":"2024-07-26T15:31:58.631+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:31:58.631+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:31:58.631+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:00.631+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:00.631+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:00.631+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:02.632+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:02.632+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:02.632+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:04.626+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:04.626+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:04.626+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:06.618+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:06.618+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:06.618+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:08.622+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:08.622+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:08.622+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:10.622+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:10.622+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:10.622+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:12.629+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:12.629+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:12.629+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:14.621+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:14.621+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:14.621+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:16.632+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:16.632+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:16.632+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:18.621+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:18.621+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:18.621+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:20.629+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:20.629+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:20.629+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:22.633+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:22.633+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:22.633+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:24.624+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:24.624+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:24.624+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:26.629+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:26.629+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:26.629+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:28.621+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:28.621+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:28.621+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:30.629+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:30.629+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:30.629+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:32.619+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:32.620+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:32.620+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:34.625+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:34.625+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:34.625+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:36.630+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:36.630+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:36.630+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:38.631+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:38.631+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:38.631+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:40.625+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:40.625+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:40.625+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:42.631+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:42.631+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:42.631+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:44.623+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:44.623+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:44.623+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:46.629+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:46.629+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:46.629+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:48.631+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:48.631+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:48.631+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:50.632+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:50.632+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:50.632+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:52.621+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:52.621+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:52.621+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:54.627+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:54.627+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:54.627+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:56.627+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:56.628+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:56.628+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:32:58.632+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:32:58.632+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:32:58.632+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:00.628+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:00.628+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:00.628+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:02.620+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:02.620+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:02.620+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:04.626+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:04.626+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:04.626+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:06.629+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:06.629+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:06.629+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:08.620+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:08.620+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:08.620+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:10.622+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:10.622+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:10.622+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:12.630+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:12.630+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:12.630+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:14.627+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:14.627+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:14.627+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:16.632+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:16.632+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:16.632+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:18.621+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:18.621+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:18.621+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:20.625+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:20.625+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:20.625+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:22.621+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:22.621+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:22.621+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:24.626+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:24.626+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:24.626+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:26.632+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:26.632+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:26.632+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:28.625+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:28.625+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:28.625+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}
+{"level":"error","time":"2024-07-26T15:33:30.629+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T15:33:30.629+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T15:33:30.630+0300","msg":"Error updating order statuses{error 26 0  error getting orders: error order storage get orders by status: ERROR: relation \"orders\" does not exist (SQLSTATE 42P01)}"}

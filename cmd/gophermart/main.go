@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -39,6 +40,7 @@ func main() {
 
 	db, err := storage.InitDB(ctx, cfg)
 	if err != nil {
+		fmt.Println("error initializing database", err)
 		logger.Fatalf("Error initializing database: %s", err)
 	}
 	defer db.Close()
