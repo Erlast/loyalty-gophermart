@@ -64,10 +64,10 @@ func (s *UserService) Register(ctx context.Context, user *models.User) (err erro
 	}
 
 	// Создание баланса в транзакции
-	err = s.balanceStorage.CreateBalanceTx(ctx, tx, user.ID)
-	if err != nil {
-		return fmt.Errorf("error creating balance: %w", err)
-	}
+	//err = s.balanceStorage.CreateBalanceTx(ctx, tx, user.ID)
+	//if err != nil {
+	//	return fmt.Errorf("error creating balance: %w", err)
+	//}
 
 	err = tx.Commit(ctx)
 	if err != nil {
