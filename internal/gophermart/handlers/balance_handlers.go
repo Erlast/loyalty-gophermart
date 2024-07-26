@@ -25,8 +25,13 @@ func NewBalanceHandler(service *services.BalanceService, logger *zap.SugaredLogg
 	return &BalanceHandler{service: service, logger: logger}
 }
 
-func (h *BalanceHandler) GetBalance(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+func (h *BalanceHandler) GetBalance(
+	ctx context.Context,
+	w http.ResponseWriter,
+	r *http.Request,
+	fromContext helpers.FromContext,
+) {
+	userID, err := fromContext.GetUserID(r, h.logger)
 	if err != nil {
 		h.logger.Errorf(ErrorGettingUserIDFromContext, err)
 		http.Error(w, "", http.StatusInternalServerError)

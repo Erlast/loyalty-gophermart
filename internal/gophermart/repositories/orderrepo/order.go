@@ -1,4 +1,4 @@
-package storage
+package orderrepo
 
 import (
 	"context"
@@ -68,7 +68,7 @@ func (s *OrderStorage) CreateOrder(ctx context.Context, order *models.Order) err
 }
 
 func (s *OrderStorage) GetOrdersByUserID(ctx context.Context, userID int64) ([]models.Order, error) {
-	query := `SELECT number, status, accrual, uploaded_at FROM orders WHERE user_id = $1 ORDER BY uploaded_at`
+	query := `SELECT number, status, accrual, uploaded_at FROM orders WHERE user_id = $1`
 	rows, err := s.db.Query(ctx, query, userID)
 	if err != nil {
 		return nil, fmt.Errorf("error order storage get orders by user: %w", err)

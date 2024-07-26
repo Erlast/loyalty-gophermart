@@ -4,6 +4,8 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/go-chi/chi/v5"
@@ -21,6 +23,8 @@ func RegisterRoutes(
 	userHandler := NewUserHandler(userService, logger)
 	orderHandler := NewOrderHandler(orderService, logger)
 	balanceHandler := NewBalanceHandler(balanceService, logger)
+
+	fromContext := new(helpers.UserFormContext)
 
 	// POST /api/user/register — регистрация пользователя
 	r.Post("/api/user/register", userHandler.Register)
@@ -42,7 +46,7 @@ func RegisterRoutes(
 
 		// получение текущего баланса счёта баллов лояльности пользователя
 		r.Get("/api/user/balance", func(w http.ResponseWriter, r *http.Request) {
-			balanceHandler.GetBalance(ctx, w, r)
+			balanceHandler.GetBalance(ctx, w, r, fromContext)
 		})
 
 		// запрос на списание баллов с накопительного счёта

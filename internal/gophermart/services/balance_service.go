@@ -5,10 +5,11 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
+
 	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/validators"
 )
 
@@ -19,11 +20,11 @@ var (
 
 type BalanceService struct {
 	logger  *zap.SugaredLogger
-	storage *storage.BalanceStorage
+	storage balancerepo.BalanceStore
 }
 
 func NewBalanceService(
-	balanceStorage *storage.BalanceStorage,
+	balanceStorage balancerepo.BalanceStore,
 	logger *zap.SugaredLogger,
 ) *BalanceService {
 	return &BalanceService{

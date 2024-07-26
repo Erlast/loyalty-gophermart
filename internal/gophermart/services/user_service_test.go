@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/userrepo"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage/mocks"
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -41,8 +43,8 @@ func TestUserService_Register(t *testing.T) {
 	ctx := context.Background()
 	logger := zap.NewNop().Sugar()
 
-	mockUserStore := new(mocks.MockUserStore)
-	mockBalanceStore := new(mocks.MockBalanceStore)
+	mockUserStore := new(userrepo.MockUserStore)
+	mockBalanceStore := new(balancerepo.MockBalanceStore)
 	mockTx := new(MockTx)
 
 	userService := NewUserService(mockUserStore, mockBalanceStore, logger)
@@ -70,8 +72,8 @@ func TestUserService_Login(t *testing.T) {
 	ctx := context.Background()
 	logger := zap.NewNop().Sugar()
 
-	mockUserStore := new(mocks.MockUserStore)
-	mockBalanceStore := new(mocks.MockBalanceStore)
+	mockUserStore := new(userrepo.MockUserStore)
+	mockBalanceStore := new(balancerepo.MockBalanceStore)
 
 	userService := NewUserService(mockUserStore, mockBalanceStore, logger)
 

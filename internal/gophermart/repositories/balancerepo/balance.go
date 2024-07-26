@@ -1,4 +1,4 @@
-package storage
+package balancerepo
 
 import (
 	"context"
@@ -88,7 +88,7 @@ func (s *BalanceStorage) Withdraw(ctx context.Context, withdrawal *models.Withdr
 }
 
 func (s *BalanceStorage) GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error) {
-	query := `SELECT "order", sum, processed_at FROM withdrawals WHERE user_id = $1 ORDER BY processed_at`
+	query := `SELECT "order", sum, processed_at FROM withdrawals WHERE user_id = $1` //ORDER BY processed_at
 	rows, err := s.db.Query(ctx, query, userID)
 	if err != nil {
 		return nil, fmt.Errorf("error db query of get withdrawals by user id: %w", err)

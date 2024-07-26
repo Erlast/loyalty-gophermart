@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
@@ -42,8 +43,9 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Username already taken", http.StatusConflict)
 			return
 		}
+		fmt.Println("Error registering user", err)
 		h.logger.Error("Error registering user", zap.Error(err))
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		http.Error(w, "Internal server error", http.StatusInsufficientStorage)
 		return
 	}
 	h.logger.Info("User registered")
@@ -56,7 +58,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	}
 	h.logger.Info("Token generated", zap.String("token", token))
 
-	w.Header().Set("Authorization", "Bearer "+token) // Setting the Authorization header with the token
+	w.Header().Set("Authorization", token)
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, map[string]string{"Authorization": token})
 }

@@ -9,6 +9,10 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/orderrepo"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/userrepo"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
@@ -41,9 +45,9 @@ func main() {
 	logger.Infof("Database initialized")
 
 	// Инициализация сервисов
-	userStorage := storage.NewUserStorage(db, logger)
-	orderStorage := storage.NewOrderStorage(db, logger)
-	balanceStorage := storage.NewBalanceStorage(db, logger)
+	userStorage := userrepo.NewUserStorage(db, logger)
+	orderStorage := orderrepo.NewOrderStorage(db, logger)
+	balanceStorage := balancerepo.NewBalanceStorage(db, logger)
 	accrualService := services.NewAccrualService(cfg.AccrualSystemAddress, logger)
 	userService := services.NewUserService(userStorage, balanceStorage, logger)
 	orderService := services.NewOrderService(orderStorage, balanceStorage, accrualService, logger)
@@ -59,7 +63,7 @@ func main() {
 
 	// Запуск фоновой горутины для обновления статусов заказов
 	go func() {
-		ticker := time.NewTicker(5 * time.Second)
+		ticker := time.NewTicker(2 * time.Second)
 		defer ticker.Stop()
 		for {
 			select {
