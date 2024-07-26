@@ -40,6 +40,34 @@ func tableExists(ctx context.Context, db *pgxpool.Pool, tableName string) (bool,
 	return exists, nil
 }
 
+func getAllTables(ctx context.Context, db *pgxpool.Pool) ([]string, error) {
+	query := `
+		SELECT table_name
+		FROM information_schema.tables
+		WHERE table_schema = 'public'
+	`
+	rows, err := db.Query(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("could not retrieve tables: %w", err)
+	}
+	defer rows.Close()
+
+	var tables []string
+	for rows.Next() {
+		var tableName string
+		if err := rows.Scan(&tableName); err != nil {
+			return nil, fmt.Errorf("could not scan table name: %w", err)
+		}
+		tables = append(tables, tableName)
+	}
+
+	if rows.Err() != nil {
+		return nil, fmt.Errorf("error iterating through rows: %w", rows.Err())
+	}
+
+	return tables, nil
+}
+
 func main() {
 	ctx := context.Background()
 
@@ -63,15 +91,16 @@ func main() {
 	defer db.Close()
 	logger.Infof("Database initialized")
 
-	exist, err := tableExists(ctx, db, "users")
+	tables, err := getAllTables(ctx, db)
 	if err != nil {
-		fmt.Println("error checking if table exists", err)
+		fmt.Println("error getting all tables", err)
+		log.Fatalf("Error retrieving tables: %v\n", err)
 	}
 
-	if !exist {
-		fmt.Println("table users doesn't exists")
-	} else {
-		fmt.Println("table exists")
+	// Print the retrieved table names
+	fmt.Println("Tables in the public schema:")
+	for _, table := range tables {
+		fmt.Println(table)
 	}
 
 	time.Sleep(2 * time.Second)
