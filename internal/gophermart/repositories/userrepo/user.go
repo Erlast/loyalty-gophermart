@@ -3,6 +3,7 @@ package userrepo
 import (
 	"context"
 	"fmt"
+
 	"go.uber.org/zap"
 
 	"github.com/jackc/pgx/v5"

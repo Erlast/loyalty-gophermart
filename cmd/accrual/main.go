@@ -28,7 +28,7 @@ func main() {
 		newLogger.Fatalf("Unable to create storage %v: ", err)
 	}
 
-	defer store.Db.Close()
+	defer store.DB.Close()
 
 	go components.OrderProcessing(ctx, store, newLogger)
 
