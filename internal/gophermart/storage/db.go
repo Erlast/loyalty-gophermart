@@ -15,7 +15,7 @@ import (
 )
 
 //go:embed migrations/*.sql
-var migrationsDir embed.FS
+var migrationsDir1 embed.FS
 
 func InitDB(ctx context.Context, cfg config.Config) (*pgxpool.Pool, error) {
 	// Запускаем миграции
@@ -43,7 +43,7 @@ func InitDB(ctx context.Context, cfg config.Config) (*pgxpool.Pool, error) {
 }
 
 func runMigrations(dsn string) error {
-	d, err := iofs.New(migrationsDir, "migrations")
+	d, err := iofs.New(migrationsDir1, "migrations")
 	if err != nil {
 		return fmt.Errorf("failed to return an iofs driver: %w", err)
 	}
