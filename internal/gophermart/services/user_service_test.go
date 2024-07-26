@@ -58,7 +58,6 @@ func TestUserService_Register(t *testing.T) {
 	mockUserStore.On("CreateUserTx", mock.Anything, mockTx, user).Return(nil)
 	mockBalanceStore.On("CreateBalanceTx", mock.Anything, mockTx, user.ID).Return(nil)
 	mockTx.On("Commit", mock.Anything).Return(nil)
-	mockTx.On("Rollback", mock.Anything).Return(nil)
 
 	err := userService.Register(ctx, user)
 	assert.NoError(t, err)
