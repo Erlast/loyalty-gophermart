@@ -1,5 +1,5 @@
 BEGIN TRANSACTION;
-CREATE TABLE IF NOT EXISTS orders
+CREATE TABLE IF NOT EXISTS a_orders
 (
     id          SERIAL PRIMARY KEY,
     uuid        VARCHAR(255) NOT NULL UNIQUE,
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS orders
     uploaded_at TIMESTAMP default CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS order_items
+CREATE TABLE IF NOT EXISTS a_order_items
 (
     id          SERIAL PRIMARY KEY,
     order_id    INT          NOT NULL,
@@ -16,12 +16,12 @@ CREATE TABLE IF NOT EXISTS order_items
     description VARCHAR(255) NOT NULL
 );
 
-ALTER TABLE order_items
-    ADD CONSTRAINT orders_order_id
+ALTER TABLE a_order_items
+    ADD CONSTRAINT a_orders_order_id
         FOREIGN KEY (order_id)
-            REFERENCES orders (id);
+            REFERENCES a_orders (id);
 
-CREATE TABLE IF NOT EXISTS accrual_rules
+CREATE TABLE IF NOT EXISTS a_accrual_rules
 (
     id          SERIAL PRIMARY KEY,
     match       VARCHAR(255) NOT NULL UNIQUE,
