@@ -41,37 +41,16 @@ func (s *UserService) Register(ctx context.Context, user *models.User) (err erro
 
 	user.Password = string(hashedPassword)
 
-	// Начало транзакции
-	tx, err := s.userStorage.BeginTx(ctx)
-	if err != nil {
-		return fmt.Errorf("could not begin transaction: %w", err)
-	}
-	// Определяем defer сразу после успешного начала транзакции
-	defer func() {
-		// Проверяем, была ли уже ошибка или ошибка при коммите
-		if p := recover(); p != nil || err != nil {
-			// В случае ошибки пытаемся откатить транзакцию
-			if rbErr := tx.Rollback(ctx); rbErr != nil {
-				s.logger.Errorw("Failed to rollback transaction", "err", rbErr)
-			}
-		}
-	}()
-
 	// Создание пользователя в транзакции
-	err = s.userStorage.CreateUserTx(ctx, tx, user)
+	err = s.userStorage.CreateUser(ctx, user)
 	if err != nil {
 		return fmt.Errorf("could not create user: %w", err)
 	}
 
 	// Создание баланса в транзакции
-	//err = s.balanceStorage.CreateBalanceTx(ctx, tx, user.ID)
-	//if err != nil {
-	//	return fmt.Errorf("error creating balance: %w", err)
-	//}
-
-	err = tx.Commit(ctx)
+	err = s.balanceStorage.CreateBalance(ctx, user.ID)
 	if err != nil {
-		return fmt.Errorf("could not commit: %w", err)
+		return fmt.Errorf("error creating balance: %w", err)
 	}
 
 	return nil
