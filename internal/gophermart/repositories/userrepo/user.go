@@ -57,14 +57,16 @@ func (s *UserStorage) CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.
 	}
 	if !exist {
 		return fmt.Errorf("table users doesn't exists ")
+	} else {
+		return fmt.Errorf("tablle exists")
 	}
 
-	query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
-	err = tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
-	if err != nil {
-		return fmt.Errorf("could not create user: %w", err)
-	}
-	return nil
+	//query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
+	//err = tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
+	//if err != nil {
+	//	return fmt.Errorf("could not create user: %w", err)
+	//}
+	//return nil
 }
 
 func (s *UserStorage) CreateUser(ctx context.Context, user *models.User) error {
