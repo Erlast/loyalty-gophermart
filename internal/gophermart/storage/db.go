@@ -19,7 +19,7 @@ var migrationsDir embed.FS
 
 func InitDB(ctx context.Context, cfg config.Config) (*pgxpool.Pool, error) {
 	// Запускаем миграции
-	if err := runMigrations(cfg.DatabaseURI, migrationsDir); err != nil {
+	if err := runMigrations(cfg.DatabaseURI); err != nil {
 		return nil, fmt.Errorf("не удалось выполнить миграции в базу данных: %w", err)
 	}
 
@@ -38,7 +38,7 @@ func InitDB(ctx context.Context, cfg config.Config) (*pgxpool.Pool, error) {
 	return db, nil
 }
 
-func runMigrations(dsn string, migrationsDir embed.FS) error {
+func runMigrations(dsn string) error {
 	d, err := iofs.New(migrationsDir, "migrations")
 	if err != nil {
 		return fmt.Errorf("failed to return an iofs driver: %w", err)

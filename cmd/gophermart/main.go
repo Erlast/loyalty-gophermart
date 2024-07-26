@@ -43,6 +43,7 @@ func main() {
 	}
 	defer db.Close()
 	logger.Infof("Database initialized")
+	time.Sleep(2 * time.Second)
 
 	// Инициализация сервисов
 	userStorage := userrepo.NewUserStorage(db, logger)
