@@ -1,5 +1,3 @@
-BEGIN TRANSACTION;
-
 CREATE TABLE IF NOT EXISTS users
 (
     id         SERIAL PRIMARY KEY,
@@ -40,5 +38,3 @@ CREATE TABLE IF NOT EXISTS withdrawals
 );
 
 CREATE INDEX idx_withdrawals_user_id ON withdrawals(user_id);
-
-COMMIT;
