@@ -1,0 +1,336 @@
+{"level":"info","time":"2024-07-26T11:14:35.993+0300","msg":"Start running server. Address: localhost:8081, db: postgres://user:password@localhost:54321/accrual?sslmode=disable"}
+{"level":"info","time":"2024-07-26T11:14:36.049+0300","msg":"Logger started at %!s(func() time.Time=0xea0da0)"}
+{"level":"info","time":"2024-07-26T11:14:36.118+0300","msg":"database URI: postgres://user:password@localhost:5432/gophermart?sslmode=disable, accrualSystemAddres: http://localhost:8081"}
+{"level":"info","time":"2024-07-26T11:14:36.119+0300","msg":"Config: {localhost:8080 postgres://user:password@localhost:5432/gophermart?sslmode=disable http://localhost:8081 secret}"}
+{"level":"info","time":"2024-07-26T11:14:36.180+0300","msg":"Database initialized"}
+{"level":"info","time":"2024-07-26T11:14:36.180+0300","msg":"Initializing router"}
+{"level":"info","time":"2024-07-26T11:14:36.180+0300","msg":"Routes registered"}
+{"level":"info","time":"2024-07-26T11:14:36.180+0300","msg":"Update order statuses running"}
+{"level":"info","time":"2024-07-26T11:14:36.180+0300","msg":"Server is running{address 15 0 localhost:8080 <nil>}"}
+{"level":"error","time":"2024-07-26T11:14:38.190+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:14:38.208+0300","msg":"orders: [{<nil> 2024-07-26 11:08:31.861145 +0000 UTC 4121554556 NEW 0 3} {<nil> 2024-07-26 11:09:21.221081 +0000 UTC 21244504 NEW 0 7} {<nil> 2024-07-26 11:09:41.799484 +0000 UTC 31440370568165 NEW 0 11} {<nil> 2024-07-26 11:12:16.106344 +0000 UTC 76217629 NEW 0 15}]"}
+{"level":"info","time":"2024-07-26T11:14:38.209+0300","msg":"GetAccrualInfo number: 4121554556"}
+{"level":"error","time":"2024-07-26T11:14:38.213+0300","msg":"error getting accrualInfo: нет содержимого"}
+{"level":"info","time":"2024-07-26T11:14:38.213+0300","msg":"GetAccrualInfo number: 21244504"}
+{"level":"error","time":"2024-07-26T11:14:38.215+0300","msg":"error getting accrualInfo: нет содержимого"}
+{"level":"info","time":"2024-07-26T11:14:38.215+0300","msg":"GetAccrualInfo number: 31440370568165"}
+{"level":"error","time":"2024-07-26T11:14:38.216+0300","msg":"error getting accrualInfo: нет содержимого"}
+{"level":"info","time":"2024-07-26T11:14:38.216+0300","msg":"GetAccrualInfo number: 76217629"}
+{"level":"error","time":"2024-07-26T11:14:38.217+0300","msg":"error getting accrualInfo: нет содержимого"}
+{"level":"info","time":"2024-07-26T11:14:38.293+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:14:38.294+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:14:38.384+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:14:38.385+0300","msg":"User ID: 18"}
+{"level":"info","time":"2024-07-26T11:14:38.385+0300","msg":"JWT: &{{ 1722240878  0  0 } 18}"}
+{"level":"info","time":"2024-07-26T11:14:38.385+0300","msg":"token: &{ 0x29063a0 map[alg:HS256 typ:JWT] 0x2977a80  false}"}
+{"level":"info","time":"2024-07-26T11:14:38.385+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE4fQ.qBmAz3SZlb2La-rFgSJsodo8dvsW9mGS4ZxkA7g4cFc <nil>}"}
+{"level":"info","time":"2024-07-26T11:14:38.469+0300","msg":"User ID: 18"}
+{"level":"info","time":"2024-07-26T11:14:38.469+0300","msg":"JWT: &{{ 1722240878  0  0 } 18}"}
+{"level":"info","time":"2024-07-26T11:14:38.469+0300","msg":"token: &{ 0x29063a0 map[alg:HS256 typ:JWT] 0x288e3c0  false}"}
+{"level":"info","time":"2024-07-26T11:14:38.473+0300","msg":"Auth header: "}
+{"level":"info","time":"2024-07-26T11:14:38.475+0300","msg":"Auth header: "}
+{"level":"info","time":"2024-07-26T11:14:38.477+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:14:38.477+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:14:38.566+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:14:38.566+0300","msg":"User ID: 19"}
+{"level":"info","time":"2024-07-26T11:14:38.566+0300","msg":"JWT: &{{ 1722240878  0  0 } 19}"}
+{"level":"info","time":"2024-07-26T11:14:38.566+0300","msg":"token: &{ 0x29063a0 map[alg:HS256 typ:JWT] 0x2977b80  false}"}
+{"level":"info","time":"2024-07-26T11:14:38.566+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE5fQ.UJnIKBwNMr5q9HGeF6Xwi_KFQ9EL4XPqcm-6nBZuaZs <nil>}"}
+{"level":"info","time":"2024-07-26T11:14:38.569+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE5fQ.UJnIKBwNMr5q9HGeF6Xwi_KFQ9EL4XPqcm-6nBZuaZs"}
+{"level":"info","time":"2024-07-26T11:14:38.569+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE5fQ.UJnIKBwNMr5q9HGeF6Xwi_KFQ9EL4XPqcm-6nBZuaZs"}
+{"level":"info","time":"2024-07-26T11:14:38.569+0300","msg":"Claims: &{{ 1722240878  0  0 } 19}"}
+{"level":"info","time":"2024-07-26T11:14:38.569+0300","msg":"Getting UserID from context 19"}
+{"level":"info","time":"2024-07-26T11:14:38.569+0300","msg":"Got user ID from context{UserID 11 19  <nil>}"}
+{"level":"info","time":"2024-07-26T11:14:38.569+0300","msg":"User id from context: 19"}
+{"level":"info","time":"2024-07-26T11:14:38.569+0300","msg":"Request body: 12345678902"}
+{"level":"info","time":"2024-07-26T11:14:38.569+0300","msg":"Struct Order: {<nil> 2024-07-26 11:14:38.5693215 +0300 MSK m=+2.527888701 12345678902 NEW 0 19}"}
+{"level":"error","time":"2024-07-26T11:14:38.569+0300","msg":"Invalid order number format{error 26 0  invalid order number format}"}
+{"level":"info","time":"2024-07-26T11:14:38.571+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE5fQ.UJnIKBwNMr5q9HGeF6Xwi_KFQ9EL4XPqcm-6nBZuaZs"}
+{"level":"info","time":"2024-07-26T11:14:38.571+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE5fQ.UJnIKBwNMr5q9HGeF6Xwi_KFQ9EL4XPqcm-6nBZuaZs"}
+{"level":"info","time":"2024-07-26T11:14:38.571+0300","msg":"Claims: &{{ 1722240878  0  0 } 19}"}
+{"level":"info","time":"2024-07-26T11:14:38.571+0300","msg":"Getting UserID from context 19"}
+{"level":"info","time":"2024-07-26T11:14:38.571+0300","msg":"Got user ID from context{UserID 11 19  <nil>}"}
+{"level":"info","time":"2024-07-26T11:14:38.571+0300","msg":"User id from context: 19"}
+{"level":"info","time":"2024-07-26T11:14:38.571+0300","msg":"Request body: 5230321"}
+{"level":"info","time":"2024-07-26T11:14:38.571+0300","msg":"Struct Order: {<nil> 2024-07-26 11:14:38.5716039 +0300 MSK m=+2.530171101 5230321 NEW 0 19}"}
+{"level":"info","time":"2024-07-26T11:14:38.574+0300","msg":"inserting new order: 19,5230321,NEW,2024-07-26 11:14:38.5716039 +0300 MSK m=+2.530171101"}
+{"level":"info","time":"2024-07-26T11:14:38.578+0300","msg":"Created order: {<nil> 2024-07-26 11:14:38.5716039 +0300 MSK m=+2.530171101 5230321 NEW 0 19}"}
+{"level":"info","time":"2024-07-26T11:14:38.580+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE5fQ.UJnIKBwNMr5q9HGeF6Xwi_KFQ9EL4XPqcm-6nBZuaZs"}
+{"level":"info","time":"2024-07-26T11:14:38.580+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE5fQ.UJnIKBwNMr5q9HGeF6Xwi_KFQ9EL4XPqcm-6nBZuaZs"}
+{"level":"info","time":"2024-07-26T11:14:38.580+0300","msg":"Claims: &{{ 1722240878  0  0 } 19}"}
+{"level":"info","time":"2024-07-26T11:14:38.580+0300","msg":"Getting UserID from context 19"}
+{"level":"info","time":"2024-07-26T11:14:38.580+0300","msg":"Got user ID from context{UserID 11 19  <nil>}"}
+{"level":"info","time":"2024-07-26T11:14:38.580+0300","msg":"User id from context: 19"}
+{"level":"info","time":"2024-07-26T11:14:38.580+0300","msg":"Request body: 5230321"}
+{"level":"info","time":"2024-07-26T11:14:38.580+0300","msg":"Struct Order: {<nil> 2024-07-26 11:14:38.5807376 +0300 MSK m=+2.539304801 5230321 NEW 0 19}"}
+{"level":"error","time":"2024-07-26T11:14:38.581+0300","msg":"Order number already loaded by this user{error 26 0  order number already loaded by this user}"}
+{"level":"info","time":"2024-07-26T11:14:38.583+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE5fQ.UJnIKBwNMr5q9HGeF6Xwi_KFQ9EL4XPqcm-6nBZuaZs"}
+{"level":"info","time":"2024-07-26T11:14:38.584+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjE5fQ.UJnIKBwNMr5q9HGeF6Xwi_KFQ9EL4XPqcm-6nBZuaZs"}
+{"level":"info","time":"2024-07-26T11:14:38.584+0300","msg":"Claims: &{{ 1722240878  0  0 } 19}"}
+{"level":"info","time":"2024-07-26T11:14:38.584+0300","msg":"List orders called"}
+{"level":"info","time":"2024-07-26T11:14:38.584+0300","msg":"Getting UserID from context 19"}
+{"level":"info","time":"2024-07-26T11:14:38.584+0300","msg":"Got user ID from context{UserID 11 19  <nil>}"}
+{"level":"info","time":"2024-07-26T11:14:38.584+0300","msg":"User id from context: 19"}
+{"level":"info","time":"2024-07-26T11:14:38.586+0300","msg":"List of orders: [{<nil> 2024-07-26 11:14:38.571603 +0000 UTC 5230321 NEW 0 0}]"}
+{"level":"info","time":"2024-07-26T11:14:38.589+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:14:38.590+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:14:38.677+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:14:38.677+0300","msg":"User ID: 20"}
+{"level":"info","time":"2024-07-26T11:14:38.677+0300","msg":"JWT: &{{ 1722240878  0  0 } 20}"}
+{"level":"info","time":"2024-07-26T11:14:38.677+0300","msg":"token: &{ 0x29063a0 map[alg:HS256 typ:JWT] 0x2a80640  false}"}
+{"level":"info","time":"2024-07-26T11:14:38.677+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjIwfQ.s0ZzgPOEhSkXXMeSDUCHAotA_ku_q3M0t0uj2sHFHt8 <nil>}"}
+{"level":"info","time":"2024-07-26T11:14:38.679+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjIwfQ.s0ZzgPOEhSkXXMeSDUCHAotA_ku_q3M0t0uj2sHFHt8"}
+{"level":"info","time":"2024-07-26T11:14:38.679+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDA4NzgsInVzZXJfaWQiOjIwfQ.s0ZzgPOEhSkXXMeSDUCHAotA_ku_q3M0t0uj2sHFHt8"}
+{"level":"info","time":"2024-07-26T11:14:38.679+0300","msg":"Claims: &{{ 1722240878  0  0 } 20}"}
+{"level":"info","time":"2024-07-26T11:14:38.679+0300","msg":"Getting UserID from context 20"}
+{"level":"info","time":"2024-07-26T11:14:38.679+0300","msg":"Got user ID from context{UserID 11 20  <nil>}"}
+{"level":"info","time":"2024-07-26T11:14:38.679+0300","msg":"User id from context: 20"}
+{"level":"info","time":"2024-07-26T11:14:38.679+0300","msg":"Request body: 5230321"}
+{"level":"info","time":"2024-07-26T11:14:38.679+0300","msg":"Struct Order: {<nil> 2024-07-26 11:14:38.6798006 +0300 MSK m=+2.638367801 5230321 NEW 0 20}"}
+{"level":"error","time":"2024-07-26T11:14:38.682+0300","msg":"Order number already loaded by a different user: {<nil> 2024-07-26 11:14:38.6798006 +0300 MSK m=+2.638367801 5230321 NEW 0 20}"}
+{"level":"info","time":"2024-07-26T11:18:58.256+0300","msg":"Start running server. Address: localhost:8081, db: postgres://user:password@localhost:54321/accrual?sslmode=disable"}
+{"level":"info","time":"2024-07-26T11:18:58.258+0300","msg":"Logger started at %!s(func() time.Time=0xea0da0)"}
+{"level":"info","time":"2024-07-26T11:18:58.333+0300","msg":"database URI: postgres://user:password@localhost:5432/gophermart?sslmode=disable, accrualSystemAddres: http://localhost:8081"}
+{"level":"info","time":"2024-07-26T11:18:58.333+0300","msg":"Config: {localhost:8080 postgres://user:password@localhost:5432/gophermart?sslmode=disable http://localhost:8081 secret}"}
+{"level":"info","time":"2024-07-26T11:18:58.436+0300","msg":"Database initialized"}
+{"level":"info","time":"2024-07-26T11:18:58.436+0300","msg":"Initializing router"}
+{"level":"info","time":"2024-07-26T11:18:58.436+0300","msg":"Routes registered"}
+{"level":"info","time":"2024-07-26T11:18:58.436+0300","msg":"Update order statuses running"}
+{"level":"info","time":"2024-07-26T11:18:58.436+0300","msg":"Server is running{address 15 0 localhost:8080 <nil>}"}
+{"level":"error","time":"2024-07-26T11:19:00.441+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:00.512+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T11:19:02.446+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:02.453+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T11:19:04.447+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:04.454+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T11:19:06.438+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:06.446+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T11:19:08.445+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:08.450+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T11:19:10.446+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:10.453+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T11:19:12.446+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:12.453+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T11:19:14.447+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:14.451+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T11:19:16.439+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:16.445+0300","msg":"orders: []"}
+{"level":"error","time":"2024-07-26T11:19:18.442+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:19:18.448+0300","msg":"orders: []"}
+{"level":"info","time":"2024-07-26T11:19:18.547+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:19:18.547+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:19:18.647+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:19:18.647+0300","msg":"User ID: 2"}
+{"level":"info","time":"2024-07-26T11:19:18.647+0300","msg":"JWT: &{{ 1722241158  0  0 } 2}"}
+{"level":"info","time":"2024-07-26T11:19:18.647+0300","msg":"token: &{ 0x20083c0 map[alg:HS256 typ:JWT] 0x21965c0  false}"}
+{"level":"info","time":"2024-07-26T11:19:18.647+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjJ9.meJR5L7mDtPn_NVsuWWjvied-WHhFhFa-VvIrzzSrKY <nil>}"}
+{"level":"info","time":"2024-07-26T11:19:18.752+0300","msg":"User ID: 2"}
+{"level":"info","time":"2024-07-26T11:19:18.752+0300","msg":"JWT: &{{ 1722241158  0  0 } 2}"}
+{"level":"info","time":"2024-07-26T11:19:18.752+0300","msg":"token: &{ 0x20083c0 map[alg:HS256 typ:JWT] 0x21966c0  false}"}
+{"level":"info","time":"2024-07-26T11:19:18.756+0300","msg":"Auth header: "}
+{"level":"info","time":"2024-07-26T11:19:18.758+0300","msg":"Auth header: "}
+{"level":"info","time":"2024-07-26T11:19:18.760+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:19:18.761+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:19:18.846+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:19:18.846+0300","msg":"User ID: 3"}
+{"level":"info","time":"2024-07-26T11:19:18.846+0300","msg":"JWT: &{{ 1722241158  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:19:18.846+0300","msg":"token: &{ 0x20083c0 map[alg:HS256 typ:JWT] 0x21967c0  false}"}
+{"level":"info","time":"2024-07-26T11:19:18.847+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjN9.3iasf45pdibnpLsAKPRr9it9OB_Szzo8Ij9lbUGgSOs <nil>}"}
+{"level":"info","time":"2024-07-26T11:19:18.849+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjN9.3iasf45pdibnpLsAKPRr9it9OB_Szzo8Ij9lbUGgSOs"}
+{"level":"info","time":"2024-07-26T11:19:18.849+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjN9.3iasf45pdibnpLsAKPRr9it9OB_Szzo8Ij9lbUGgSOs"}
+{"level":"info","time":"2024-07-26T11:19:18.849+0300","msg":"Claims: &{{ 1722241158  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:19:18.849+0300","msg":"Getting UserID from context 3"}
+{"level":"info","time":"2024-07-26T11:19:18.849+0300","msg":"Got user ID from context{UserID 11 3  <nil>}"}
+{"level":"info","time":"2024-07-26T11:19:18.849+0300","msg":"User id from context: 3"}
+{"level":"info","time":"2024-07-26T11:19:18.849+0300","msg":"Request body: 12345678902"}
+{"level":"info","time":"2024-07-26T11:19:18.849+0300","msg":"Struct Order: {<nil> 2024-07-26 11:19:18.8495845 +0300 MSK m=+20.599355201 12345678902 NEW 0 3}"}
+{"level":"error","time":"2024-07-26T11:19:18.849+0300","msg":"Invalid order number format{error 26 0  invalid order number format}"}
+{"level":"info","time":"2024-07-26T11:19:18.851+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjN9.3iasf45pdibnpLsAKPRr9it9OB_Szzo8Ij9lbUGgSOs"}
+{"level":"info","time":"2024-07-26T11:19:18.851+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjN9.3iasf45pdibnpLsAKPRr9it9OB_Szzo8Ij9lbUGgSOs"}
+{"level":"info","time":"2024-07-26T11:19:18.851+0300","msg":"Claims: &{{ 1722241158  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:19:18.851+0300","msg":"Getting UserID from context 3"}
+{"level":"info","time":"2024-07-26T11:19:18.851+0300","msg":"Got user ID from context{UserID 11 3  <nil>}"}
+{"level":"info","time":"2024-07-26T11:19:18.851+0300","msg":"User id from context: 3"}
+{"level":"info","time":"2024-07-26T11:19:18.851+0300","msg":"Request body: 167505025132066"}
+{"level":"info","time":"2024-07-26T11:19:18.851+0300","msg":"Struct Order: {<nil> 2024-07-26 11:19:18.8517301 +0300 MSK m=+20.601500801 167505025132066 NEW 0 3}"}
+{"level":"info","time":"2024-07-26T11:19:18.853+0300","msg":"inserting new order: 3,167505025132066,NEW,2024-07-26 11:19:18.8517301 +0300 MSK m=+20.601500801"}
+{"level":"info","time":"2024-07-26T11:19:18.856+0300","msg":"Created order: {<nil> 2024-07-26 11:19:18.8517301 +0300 MSK m=+20.601500801 167505025132066 NEW 0 3}"}
+{"level":"info","time":"2024-07-26T11:19:18.858+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjN9.3iasf45pdibnpLsAKPRr9it9OB_Szzo8Ij9lbUGgSOs"}
+{"level":"info","time":"2024-07-26T11:19:18.858+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjN9.3iasf45pdibnpLsAKPRr9it9OB_Szzo8Ij9lbUGgSOs"}
+{"level":"info","time":"2024-07-26T11:19:18.858+0300","msg":"Claims: &{{ 1722241158  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:19:18.858+0300","msg":"Getting UserID from context 3"}
+{"level":"info","time":"2024-07-26T11:19:18.858+0300","msg":"Got user ID from context{UserID 11 3  <nil>}"}
+{"level":"info","time":"2024-07-26T11:19:18.858+0300","msg":"User id from context: 3"}
+{"level":"info","time":"2024-07-26T11:19:18.858+0300","msg":"Request body: 167505025132066"}
+{"level":"info","time":"2024-07-26T11:19:18.858+0300","msg":"Struct Order: {<nil> 2024-07-26 11:19:18.8588172 +0300 MSK m=+20.608587901 167505025132066 NEW 0 3}"}
+{"level":"error","time":"2024-07-26T11:19:18.859+0300","msg":"Order number already loaded by this user{error 26 0  order number already loaded by this user}"}
+{"level":"info","time":"2024-07-26T11:19:18.861+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjN9.3iasf45pdibnpLsAKPRr9it9OB_Szzo8Ij9lbUGgSOs"}
+{"level":"info","time":"2024-07-26T11:19:18.861+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjN9.3iasf45pdibnpLsAKPRr9it9OB_Szzo8Ij9lbUGgSOs"}
+{"level":"info","time":"2024-07-26T11:19:18.861+0300","msg":"Claims: &{{ 1722241158  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:19:18.861+0300","msg":"List orders called"}
+{"level":"info","time":"2024-07-26T11:19:18.861+0300","msg":"Getting UserID from context 3"}
+{"level":"info","time":"2024-07-26T11:19:18.861+0300","msg":"Got user ID from context{UserID 11 3  <nil>}"}
+{"level":"info","time":"2024-07-26T11:19:18.861+0300","msg":"User id from context: 3"}
+{"level":"info","time":"2024-07-26T11:19:18.863+0300","msg":"List of orders: [{<nil> 2024-07-26 11:19:18.85173 +0000 UTC 167505025132066 NEW 0 0}]"}
+{"level":"info","time":"2024-07-26T11:19:18.866+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:19:18.866+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:19:18.973+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:19:18.973+0300","msg":"User ID: 4"}
+{"level":"info","time":"2024-07-26T11:19:18.973+0300","msg":"JWT: &{{ 1722241158  0  0 } 4}"}
+{"level":"info","time":"2024-07-26T11:19:18.973+0300","msg":"token: &{ 0x20083c0 map[alg:HS256 typ:JWT] 0x2137480  false}"}
+{"level":"info","time":"2024-07-26T11:19:18.973+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjR9.xEoyuo0eOh4OYaJW4CsOhRDp38ryA-QpyggdjL14gZ8 <nil>}"}
+{"level":"info","time":"2024-07-26T11:19:18.974+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjR9.xEoyuo0eOh4OYaJW4CsOhRDp38ryA-QpyggdjL14gZ8"}
+{"level":"info","time":"2024-07-26T11:19:18.974+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDExNTgsInVzZXJfaWQiOjR9.xEoyuo0eOh4OYaJW4CsOhRDp38ryA-QpyggdjL14gZ8"}
+{"level":"info","time":"2024-07-26T11:19:18.974+0300","msg":"Claims: &{{ 1722241158  0  0 } 4}"}
+{"level":"info","time":"2024-07-26T11:19:18.975+0300","msg":"Getting UserID from context 4"}
+{"level":"info","time":"2024-07-26T11:19:18.975+0300","msg":"Got user ID from context{UserID 11 4  <nil>}"}
+{"level":"info","time":"2024-07-26T11:19:18.975+0300","msg":"User id from context: 4"}
+{"level":"info","time":"2024-07-26T11:19:18.975+0300","msg":"Request body: 167505025132066"}
+{"level":"info","time":"2024-07-26T11:19:18.975+0300","msg":"Struct Order: {<nil> 2024-07-26 11:19:18.9752334 +0300 MSK m=+20.725004101 167505025132066 NEW 0 4}"}
+{"level":"error","time":"2024-07-26T11:19:18.976+0300","msg":"Order number already loaded by a different user: {<nil> 2024-07-26 11:19:18.9752334 +0300 MSK m=+20.725004101 167505025132066 NEW 0 4}"}
+{"level":"info","time":"2024-07-26T11:20:57.309+0300","msg":"Start running server. Address: localhost:8081, db: postgres://user:password@localhost:54321/accrual?sslmode=disable"}
+{"level":"info","time":"2024-07-26T11:20:57.372+0300","msg":"Logger started at %!s(func() time.Time=0xea0da0)"}
+{"level":"info","time":"2024-07-26T11:20:57.438+0300","msg":"database URI: postgres://user:password@localhost:5432/gophermart?sslmode=disable, accrualSystemAddres: http://localhost:8081"}
+{"level":"info","time":"2024-07-26T11:20:57.438+0300","msg":"Config: {localhost:8080 postgres://user:password@localhost:5432/gophermart?sslmode=disable http://localhost:8081 secret}"}
+{"level":"info","time":"2024-07-26T11:20:57.490+0300","msg":"Database initialized"}
+{"level":"info","time":"2024-07-26T11:20:57.490+0300","msg":"Initializing router"}
+{"level":"info","time":"2024-07-26T11:20:57.490+0300","msg":"Routes registered"}
+{"level":"info","time":"2024-07-26T11:20:57.490+0300","msg":"Update order statuses running"}
+{"level":"info","time":"2024-07-26T11:20:57.490+0300","msg":"Server is running{address 15 0 localhost:8080 <nil>}"}
+{"level":"info","time":"2024-07-26T11:20:57.495+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:20:57.496+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:20:57.598+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:20:57.598+0300","msg":"User ID: 1"}
+{"level":"info","time":"2024-07-26T11:20:57.598+0300","msg":"JWT: &{{ 1722241257  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T11:20:57.598+0300","msg":"token: &{ 0x24943a0 map[alg:HS256 typ:JWT] 0x260e340  false}"}
+{"level":"info","time":"2024-07-26T11:20:57.599+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc <nil>}"}
+{"level":"info","time":"2024-07-26T11:20:57.600+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:57.601+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:57.601+0300","msg":"Claims: &{{ 1722241257  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T11:20:57.601+0300","msg":"Getting UserID from context 1"}
+{"level":"info","time":"2024-07-26T11:20:57.601+0300","msg":"Got user ID from context{UserID 11 1  <nil>}"}
+{"level":"info","time":"2024-07-26T11:20:57.601+0300","msg":"User id from context: 1"}
+{"level":"info","time":"2024-07-26T11:20:57.601+0300","msg":"Request body: 863432214234347"}
+{"level":"info","time":"2024-07-26T11:20:57.601+0300","msg":"Struct Order: {<nil> 2024-07-26 11:20:57.6012926 +0300 MSK m=+0.237511201 863432214234347 NEW 0 1}"}
+{"level":"info","time":"2024-07-26T11:20:57.604+0300","msg":"inserting new order: 1,863432214234347,NEW,2024-07-26 11:20:57.6012926 +0300 MSK m=+0.237511201"}
+{"level":"info","time":"2024-07-26T11:20:57.606+0300","msg":"Created order: {<nil> 2024-07-26 11:20:57.6012926 +0300 MSK m=+0.237511201 863432214234347 NEW 0 1}"}
+{"level":"info","time":"2024-07-26T11:20:58.616+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:58.616+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:58.616+0300","msg":"Claims: &{{ 1722241257  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T11:20:58.616+0300","msg":"List orders called"}
+{"level":"info","time":"2024-07-26T11:20:58.616+0300","msg":"Getting UserID from context 1"}
+{"level":"info","time":"2024-07-26T11:20:58.616+0300","msg":"Got user ID from context{UserID 11 1  <nil>}"}
+{"level":"info","time":"2024-07-26T11:20:58.616+0300","msg":"User id from context: 1"}
+{"level":"info","time":"2024-07-26T11:20:58.627+0300","msg":"List of orders: [{<nil> 2024-07-26 11:20:57.601292 +0000 UTC 863432214234347 NEW 0 0}]"}
+{"level":"error","time":"2024-07-26T11:20:59.497+0300","msg":"orderService.UpdateOrderStatuses called every 1 minute"}
+{"level":"info","time":"2024-07-26T11:20:59.506+0300","msg":"orders: []"}
+{"level":"info","time":"2024-07-26T11:20:59.626+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.627+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.627+0300","msg":"Claims: &{{ 1722241257  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T11:20:59.627+0300","msg":"List orders called"}
+{"level":"info","time":"2024-07-26T11:20:59.627+0300","msg":"Getting UserID from context 1"}
+{"level":"info","time":"2024-07-26T11:20:59.627+0300","msg":"Got user ID from context{UserID 11 1  <nil>}"}
+{"level":"info","time":"2024-07-26T11:20:59.627+0300","msg":"User id from context: 1"}
+{"level":"info","time":"2024-07-26T11:20:59.631+0300","msg":"List of orders: [{0x25810d0 2024-07-26 11:20:57.601292 +0000 UTC 863432214234347 PROCESSED 0 0}]"}
+{"level":"info","time":"2024-07-26T11:20:59.637+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.637+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.637+0300","msg":"Claims: &{{ 1722241257  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T11:20:59.638+0300","msg":"Getting UserID from context 1"}
+{"level":"info","time":"2024-07-26T11:20:59.638+0300","msg":"Got user ID from context{UserID 11 1  <nil>}"}
+{"level":"debug","time":"2024-07-26T11:20:59.645+0300","msg":"Getting balance{user_id 11 1  <nil>}"}
+{"level":"debug","time":"2024-07-26T11:20:59.645+0300","msg":"Got balance: {0 729.98 0}"}
+{"level":"debug","time":"2024-07-26T11:20:59.645+0300","msg":"Balance is service: &{UserID:0 CurrentBalance:729.98 TotalWithdrawn:0} for user id 1"}
+{"level":"debug","time":"2024-07-26T11:20:59.645+0300","msg":"Get Balance from handler: &{0 729.98 0}"}
+{"level":"info","time":"2024-07-26T11:20:59.650+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.650+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.651+0300","msg":"Claims: &{{ 1722241257  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T11:20:59.651+0300","msg":"Getting UserID from context 1"}
+{"level":"info","time":"2024-07-26T11:20:59.651+0300","msg":"Got user ID from context{UserID 11 1  <nil>}"}
+{"level":"debug","time":"2024-07-26T11:20:59.653+0300","msg":"Getting balance{user_id 11 1  <nil>}"}
+{"level":"debug","time":"2024-07-26T11:20:59.653+0300","msg":"Got balance: {0 729.98 0}"}
+{"level":"error","time":"2024-07-26T11:20:59.666+0300","msg":"Error withdrawing balance{error 26 0  error withdraw: error inserting withdrawal: ERROR: insert or update on table \"withdrawals\" violates foreign key constraint \"fk_order_withdrawals\" (SQLSTATE 23503)}"}
+{"level":"info","time":"2024-07-26T11:20:59.672+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.672+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.672+0300","msg":"Claims: &{{ 1722241257  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T11:20:59.672+0300","msg":"Getting UserID from context 1"}
+{"level":"info","time":"2024-07-26T11:20:59.672+0300","msg":"Got user ID from context{UserID 11 1  <nil>}"}
+{"level":"debug","time":"2024-07-26T11:20:59.674+0300","msg":"Getting balance{user_id 11 1  <nil>}"}
+{"level":"debug","time":"2024-07-26T11:20:59.674+0300","msg":"Got balance: {0 729.98 0}"}
+{"level":"debug","time":"2024-07-26T11:20:59.674+0300","msg":"Balance is service: &{UserID:0 CurrentBalance:729.98 TotalWithdrawn:0} for user id 1"}
+{"level":"debug","time":"2024-07-26T11:20:59.674+0300","msg":"Get Balance from handler: &{0 729.98 0}"}
+{"level":"info","time":"2024-07-26T11:20:59.679+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.679+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTcsInVzZXJfaWQiOjF9.e5O58wcx-OWMt_P7fWCoUDrTNUi38QfqirTzrS8hWLc"}
+{"level":"info","time":"2024-07-26T11:20:59.680+0300","msg":"Claims: &{{ 1722241257  0  0 } 1}"}
+{"level":"info","time":"2024-07-26T11:20:59.680+0300","msg":"Getting UserID from context 1"}
+{"level":"info","time":"2024-07-26T11:20:59.680+0300","msg":"Got user ID from context{UserID 11 1  <nil>}"}
+{"level":"info","time":"2024-07-26T11:20:59.691+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:20:59.691+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:20:59.813+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:20:59.813+0300","msg":"User ID: 2"}
+{"level":"info","time":"2024-07-26T11:20:59.813+0300","msg":"JWT: &{{ 1722241259  0  0 } 2}"}
+{"level":"info","time":"2024-07-26T11:20:59.813+0300","msg":"token: &{ 0x24943a0 map[alg:HS256 typ:JWT] 0x25b6900  false}"}
+{"level":"info","time":"2024-07-26T11:20:59.813+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNTksInVzZXJfaWQiOjJ9.JqODo5H0JaXDn7T_3zLkUAwgQY5HJdcp7pRcb0FS4oE <nil>}"}
+{"level":"info","time":"2024-07-26T11:20:59.934+0300","msg":"User ID: 2"}
+{"level":"info","time":"2024-07-26T11:20:59.935+0300","msg":"JWT: &{{ 1722241259  0  0 } 2}"}
+{"level":"info","time":"2024-07-26T11:20:59.935+0300","msg":"token: &{ 0x24943a0 map[alg:HS256 typ:JWT] 0x260e6c0  false}"}
+{"level":"info","time":"2024-07-26T11:20:59.939+0300","msg":"Auth header: "}
+{"level":"info","time":"2024-07-26T11:20:59.941+0300","msg":"Auth header: "}
+{"level":"info","time":"2024-07-26T11:20:59.943+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:20:59.943+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:21:00.029+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:21:00.029+0300","msg":"User ID: 3"}
+{"level":"info","time":"2024-07-26T11:21:00.029+0300","msg":"JWT: &{{ 1722241260  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:21:00.029+0300","msg":"token: &{ 0x24943a0 map[alg:HS256 typ:JWT] 0x25b6a00  false}"}
+{"level":"info","time":"2024-07-26T11:21:00.029+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjN9.T_NWnhpXRRrz6W7pNFfs0jU5Ti7cpz6WyIlTjvEyc4Q <nil>}"}
+{"level":"info","time":"2024-07-26T11:21:00.032+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjN9.T_NWnhpXRRrz6W7pNFfs0jU5Ti7cpz6WyIlTjvEyc4Q"}
+{"level":"info","time":"2024-07-26T11:21:00.032+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjN9.T_NWnhpXRRrz6W7pNFfs0jU5Ti7cpz6WyIlTjvEyc4Q"}
+{"level":"info","time":"2024-07-26T11:21:00.032+0300","msg":"Claims: &{{ 1722241260  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:21:00.032+0300","msg":"Getting UserID from context 3"}
+{"level":"info","time":"2024-07-26T11:21:00.032+0300","msg":"Got user ID from context{UserID 11 3  <nil>}"}
+{"level":"info","time":"2024-07-26T11:21:00.032+0300","msg":"User id from context: 3"}
+{"level":"info","time":"2024-07-26T11:21:00.032+0300","msg":"Request body: 12345678902"}
+{"level":"info","time":"2024-07-26T11:21:00.032+0300","msg":"Struct Order: {<nil> 2024-07-26 11:21:00.0324481 +0300 MSK m=+2.668666701 12345678902 NEW 0 3}"}
+{"level":"error","time":"2024-07-26T11:21:00.032+0300","msg":"Invalid order number format{error 26 0  invalid order number format}"}
+{"level":"info","time":"2024-07-26T11:21:00.034+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjN9.T_NWnhpXRRrz6W7pNFfs0jU5Ti7cpz6WyIlTjvEyc4Q"}
+{"level":"info","time":"2024-07-26T11:21:00.034+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjN9.T_NWnhpXRRrz6W7pNFfs0jU5Ti7cpz6WyIlTjvEyc4Q"}
+{"level":"info","time":"2024-07-26T11:21:00.034+0300","msg":"Claims: &{{ 1722241260  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:21:00.034+0300","msg":"Getting UserID from context 3"}
+{"level":"info","time":"2024-07-26T11:21:00.034+0300","msg":"Got user ID from context{UserID 11 3  <nil>}"}
+{"level":"info","time":"2024-07-26T11:21:00.034+0300","msg":"User id from context: 3"}
+{"level":"info","time":"2024-07-26T11:21:00.034+0300","msg":"Request body: 388646226"}
+{"level":"info","time":"2024-07-26T11:21:00.034+0300","msg":"Struct Order: {<nil> 2024-07-26 11:21:00.0346779 +0300 MSK m=+2.670896501 388646226 NEW 0 3}"}
+{"level":"info","time":"2024-07-26T11:21:00.035+0300","msg":"inserting new order: 3,388646226,NEW,2024-07-26 11:21:00.0346779 +0300 MSK m=+2.670896501"}
+{"level":"info","time":"2024-07-26T11:21:00.037+0300","msg":"Created order: {<nil> 2024-07-26 11:21:00.0346779 +0300 MSK m=+2.670896501 388646226 NEW 0 3}"}
+{"level":"info","time":"2024-07-26T11:21:00.040+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjN9.T_NWnhpXRRrz6W7pNFfs0jU5Ti7cpz6WyIlTjvEyc4Q"}
+{"level":"info","time":"2024-07-26T11:21:00.040+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjN9.T_NWnhpXRRrz6W7pNFfs0jU5Ti7cpz6WyIlTjvEyc4Q"}
+{"level":"info","time":"2024-07-26T11:21:00.040+0300","msg":"Claims: &{{ 1722241260  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:21:00.040+0300","msg":"Getting UserID from context 3"}
+{"level":"info","time":"2024-07-26T11:21:00.040+0300","msg":"Got user ID from context{UserID 11 3  <nil>}"}
+{"level":"info","time":"2024-07-26T11:21:00.040+0300","msg":"User id from context: 3"}
+{"level":"info","time":"2024-07-26T11:21:00.040+0300","msg":"Request body: 388646226"}
+{"level":"info","time":"2024-07-26T11:21:00.040+0300","msg":"Struct Order: {<nil> 2024-07-26 11:21:00.0401475 +0300 MSK m=+2.676366101 388646226 NEW 0 3}"}
+{"level":"error","time":"2024-07-26T11:21:00.041+0300","msg":"Order number already loaded by this user{error 26 0  order number already loaded by this user}"}
+{"level":"info","time":"2024-07-26T11:21:00.042+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjN9.T_NWnhpXRRrz6W7pNFfs0jU5Ti7cpz6WyIlTjvEyc4Q"}
+{"level":"info","time":"2024-07-26T11:21:00.042+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjN9.T_NWnhpXRRrz6W7pNFfs0jU5Ti7cpz6WyIlTjvEyc4Q"}
+{"level":"info","time":"2024-07-26T11:21:00.043+0300","msg":"Claims: &{{ 1722241260  0  0 } 3}"}
+{"level":"info","time":"2024-07-26T11:21:00.043+0300","msg":"List orders called"}
+{"level":"info","time":"2024-07-26T11:21:00.043+0300","msg":"Getting UserID from context 3"}
+{"level":"info","time":"2024-07-26T11:21:00.043+0300","msg":"Got user ID from context{UserID 11 3  <nil>}"}
+{"level":"info","time":"2024-07-26T11:21:00.043+0300","msg":"User id from context: 3"}
+{"level":"info","time":"2024-07-26T11:21:00.043+0300","msg":"List of orders: [{<nil> 2024-07-26 11:21:00.034677 +0000 UTC 388646226 NEW 0 0}]"}
+{"level":"info","time":"2024-07-26T11:21:00.046+0300","msg":"Register user"}
+{"level":"info","time":"2024-07-26T11:21:00.046+0300","msg":"User created"}
+{"level":"info","time":"2024-07-26T11:21:00.132+0300","msg":"User registered"}
+{"level":"info","time":"2024-07-26T11:21:00.132+0300","msg":"User ID: 4"}
+{"level":"info","time":"2024-07-26T11:21:00.132+0300","msg":"JWT: &{{ 1722241260  0  0 } 4}"}
+{"level":"info","time":"2024-07-26T11:21:00.132+0300","msg":"token: &{ 0x24943a0 map[alg:HS256 typ:JWT] 0x24fb300  false}"}
+{"level":"info","time":"2024-07-26T11:21:00.132+0300","msg":"Token generated{token 15 0 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjR9.4HfQaH_FuP3X7mxMfubR8tnxmyvr60Wzs13nWfT7nSI <nil>}"}
+{"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"Auth header: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjR9.4HfQaH_FuP3X7mxMfubR8tnxmyvr60Wzs13nWfT7nSI"}
+{"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjIyNDEyNjAsInVzZXJfaWQiOjR9.4HfQaH_FuP3X7mxMfubR8tnxmyvr60Wzs13nWfT7nSI"}
+{"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"Claims: &{{ 1722241260  0  0 } 4}"}
+{"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"Getting UserID from context 4"}
+{"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"Got user ID from context{UserID 11 4  <nil>}"}
+{"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"User id from context: 4"}
+{"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"Request body: 388646226"}
+{"level":"info","time":"2024-07-26T11:21:00.134+0300","msg":"Struct Order: {<nil> 2024-07-26 11:21:00.1349245 +0300 MSK m=+2.771143101 388646226 NEW 0 4}"}
+{"level":"error","time":"2024-07-26T11:21:00.136+0300","msg":"Order number already loaded by a different user: {<nil> 2024-07-26 11:21:00.1349245 +0300 MSK m=+2.771143101 388646226 NEW 0 4}"}
