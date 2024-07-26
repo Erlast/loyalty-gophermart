@@ -29,7 +29,7 @@ func main() {
 		newLogger.Fatalf("Unable to create storage %v: ", err)
 	}
 
-	fmt.Println(cfg.DatabaseURI)
+	fmt.Println("accrual", cfg.DatabaseURI)
 
 	go components.OrderProcessing(ctx, store, newLogger)
 
