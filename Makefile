@@ -91,9 +91,9 @@ rm_db_tests: accrual_test_db_rm gophermart_test_db_rm
 compile_bins: accrual_compile gophermart_compile
 
 
-#	gophermarttest "-test.v" "-test.run=^TestGophermart$" "-gophermart-binary-path=cmd/gophermart/gophermart.exe" "-gophermart-host=localhost" "-gophermart-port=8080"  "-accrual-binary-path=cmd\accrual\accrual.exe" "-gophermart-database-uri=postgres://user:password@localhost:5432/gophermart?sslmode=disable" "-accrual-database-uri=postgres://user:password@localhost:54321/accrual?sslmode=disable" "-accrual-host=localhost" "-accrual-port=8081"
+#	gophermarttest "-test.v" "-test.run=^TestGophermart$" "-gophermart-binary-path=cmd/gophermart/gophermart.exe" "-gophermart-host=localhost" "-gophermart-port=8080"  "-accrual-binary-path=cmd\accrual\accrual.exe" "-gophermart-database-uri=postgres://user:password@common_postgres:5432/common_db?sslmode=disable" "-accrual-database-uri=postgres://user:password@common_postgres:5432/common_db?sslmode=disable" "-accrual-host=localhost" "-accrual-port=8081"
 
-#	gophermarttest "-test.v" "-test.run=^TestGophermart$" "-gophermart-binary-path=cmd/gophermart/gophermart.exe" "-gophermart-host=localhost" "-gophermart-port=8080"  "-accrual-binary-path=cmd\accrual\accrual.exe" "-gophermart-database-uri=postgres://user:password@localhost:5432/gophermart?sslmode=disable" "-accrual-database-uri=postgres://user:password@localhost:54321/accrual?sslmode=disable" "-accrual-host=localhost" "-accrual-port=8081"
+#	gophermarttest "-test.v" "-test.run=^TestGophermart$" "-gophermart-binary-path=cmd/gophermart/gophermart.exe" "-gophermart-host=localhost" "-gophermart-port=8080" "-gophermart-database-uri=postgres://user:password@common_postgres:5432/common_db?sslmode=disable" "-accrual-binary-path=cmd\accrual\accrual.exe"  "-accrual-host=localhost" "-accrual-port=8081" "-accrual-database-uri=postgres://user:password@common_postgres:5432/common_db?sslmode=disable"
 
 run_gophermart:
 	go run .\cmd\gophermart\main.go -a=localhost:8008 -d=postgres://user:password@localhost:5432/gophermart?sslmode=disable -r=localhost:8081

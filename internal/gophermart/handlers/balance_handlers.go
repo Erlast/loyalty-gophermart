@@ -75,6 +75,7 @@ func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r 
 		case errors.Is(err, services.ErrInvalidOrderNumber):
 			http.Error(w, "", http.StatusUnprocessableEntity)
 		default:
+			fmt.Println("Error withdrawing balance:", err)
 			h.logger.Error("Error withdrawing balance", zap.Error(err))
 			http.Error(w, "", http.StatusInternalServerError)
 		}
