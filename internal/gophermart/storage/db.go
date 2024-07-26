@@ -35,6 +35,10 @@ func InitDB(ctx context.Context, cfg config.Config) (*pgxpool.Pool, error) {
 		return nil, fmt.Errorf("не удалось подключиться к базе данных: %w", err)
 	}
 
+	if err = db.Ping(ctx); err != nil {
+		return nil, fmt.Errorf("failed to ping the DB: %w", err)
+	}
+
 	return db, nil
 }
 

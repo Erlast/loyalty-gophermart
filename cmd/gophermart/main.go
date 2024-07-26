@@ -60,7 +60,7 @@ func main() {
 		fmt.Println("error initializing database", err)
 		logger.Fatalf("Error initializing database: %s", err)
 	}
-	//defer db.Close()
+	defer db.Close()
 	logger.Infof("Database initialized")
 
 	exist, err := tableExists(ctx, db, "users")
