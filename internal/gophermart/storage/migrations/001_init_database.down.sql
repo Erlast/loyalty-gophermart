@@ -1,4 +1,3 @@
-BEGIN;
 
 -- Сначала удаляем таблицу withdrawals, так как она ссылается на orders и users
 DROP TABLE IF EXISTS withdrawals;
@@ -12,4 +11,3 @@ DROP TABLE IF EXISTS orders;
 -- И, наконец, удаляем таблицу users
 DROP TABLE IF EXISTS users;
 
-COMMIT;
