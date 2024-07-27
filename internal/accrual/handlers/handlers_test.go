@@ -9,6 +9,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/stretchr/testify/mock"
+	"go.uber.org/zap/zaptest"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/assert"
 
@@ -48,6 +51,34 @@ func TestGetAccrualOrderHandler(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "1234567812345670", order.UUID)
 	assert.Equal(t, "PROCESSED", order.Status)
+}
+
+func TestGetAccrualOrderHandler_NotFound(t *testing.T) {
+	logger := zaptest.NewLogger(t).Sugar()
+	store := &storage.MockStorage{}
+
+	store.On("GetByOrderNumber", mock.Anything, "invalid-order-number").Return(nil, errors.New("not found"))
+
+	req, err := http.NewRequest(http.MethodGet, "/orders/invalid-order-number", http.NoBody)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rec := httptest.NewRecorder()
+	r := chi.NewRouter()
+
+	r.Get("/orders/{number}", func(w http.ResponseWriter, r *http.Request) {
+		GetAccrualOrderHandler(r.Context(), w, r, store, logger)
+	})
+
+	r.ServeHTTP(rec, req)
+
+	resp := rec.Result()
+	err = resp.Body.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, http.StatusNoContent, resp.StatusCode)
 }
 
 func TestPostAccrualOrderHandler(t *testing.T) {

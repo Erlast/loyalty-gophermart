@@ -3,6 +3,12 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+	"time"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
@@ -10,11 +16,6 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap/zaptest"
-	"net/http"
-	"net/http/httptest"
-	"strings"
-	"testing"
-	"time"
 )
 
 func TestUserHandler_Login_StatusOK(t *testing.T) {
@@ -29,7 +30,7 @@ func TestUserHandler_Login_StatusOK(t *testing.T) {
 	mockUserStorage.On("GetUserByLogin", ctx, "admin10").Return(&models.User{
 		ID:        1,
 		Login:     "admin10",
-		Password:  "$2b$12$Mv.HOsLLFy8MQGkIlaxI.u3ruZ/4C4JyKJamyAjm23C7uuLhFLfs6", //admin10
+		Password:  "$2b$12$Mv.HOsLLFy8MQGkIlaxI.u3ruZ/4C4JyKJamyAjm23C7uuLhFLfs6", // admin10
 		UpdatedAt: timeUpdatedAt,
 		CreatedAt: timeCreatedAt,
 	}, nil)

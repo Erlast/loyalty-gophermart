@@ -82,3 +82,12 @@ func (m *MockStorage) SaveOrderPoints(ctx context.Context, orderID int64, points
 	}
 	return nil
 }
+
+func (m *MockStorage) GetProcessedOrders(ctx context.Context) ([]models.Order, error) {
+	args := m.Called(ctx)
+	data, ok := args.Get(0).([]models.Order)
+	if !ok {
+		return nil, fmt.Errorf(errString, args.Error(1))
+	}
+	return data, nil
+}
