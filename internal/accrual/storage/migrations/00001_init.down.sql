@@ -1,7 +1,11 @@
 BEGIN TRANSACTION;
 
-DROP TABLE a_order_items;
-DROP TABLE a_orders;
-DROP TABLE a_accrual_rules;
+DROP TABLE IF EXISTS a_order_items;
+DROP TABLE IF EXISTS a_orders;
+DROP TABLE IF EXISTS a_accrual_rules;
+DROP TABLE IF EXISTS withdrawals;
+DROP TABLE IF EXISTS balances;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS users;
 
 COMMIT;

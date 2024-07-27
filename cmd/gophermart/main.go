@@ -9,12 +9,13 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/routes"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/orderrepo"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/userrepo"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
@@ -48,7 +49,8 @@ func main() {
 	userStorage := userrepo.NewUserStorage(db, logger)
 	orderStorage := orderrepo.NewOrderStorage(db, logger)
 	balanceStorage := balancerepo.NewBalanceStorage(db, logger)
-	accrualService := services.NewAccrualService(cfg.AccrualSystemAddress, logger)
+	circuitBreaker := services.NewCircuitBreaker("Accrual API", 10*time.Second)
+	accrualService := services.NewAccrualService(logger, circuitBreaker, cfg.AccrualSystemAddress)
 	userService := services.NewUserService(userStorage, balanceStorage, logger)
 	orderService := services.NewOrderService(orderStorage, balanceStorage, accrualService, logger)
 	balanceService := services.NewBalanceService(balanceStorage, logger)
@@ -58,7 +60,7 @@ func main() {
 	logger.Infof("Initializing router")
 
 	// Регистрация маршрутов
-	handlers.RegisterRoutes(ctx, router, userService, orderService, balanceService, logger)
+	routes.RegisterRoutes(ctx, router, userService, orderService, balanceService, logger)
 	logger.Infof("Routes registered")
 
 	// Запуск фоновой горутины для обновления статусов заказов

@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"

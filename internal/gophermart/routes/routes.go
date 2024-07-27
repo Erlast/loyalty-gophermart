@@ -1,8 +1,10 @@
-package handlers
+package routes
 
 import (
 	"context"
 	"net/http"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers"
 
 	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 
@@ -20,9 +22,9 @@ func RegisterRoutes(
 	balanceService *services.BalanceService,
 	logger *zap.SugaredLogger,
 ) {
-	userHandler := NewUserHandler(userService, logger)
-	orderHandler := NewOrderHandler(orderService, logger)
-	balanceHandler := NewBalanceHandler(balanceService, logger)
+	userHandler := handlers.NewUserHandler(userService, logger)
+	orderHandler := handlers.NewOrderHandler(orderService, logger)
+	balanceHandler := handlers.NewBalanceHandler(balanceService, logger)
 
 	fromContext := new(helpers.UserFormContext)
 
