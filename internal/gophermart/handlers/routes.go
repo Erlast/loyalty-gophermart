@@ -56,7 +56,7 @@ func RegisterRoutes(
 
 		// получение информации о выводе средств с накопительного счёта
 		r.Get("/api/user/withdrawals", func(w http.ResponseWriter, r *http.Request) {
-			balanceHandler.Withdrawals(ctx, w, r)
+			balanceHandler.Withdrawals(ctx, w, r, fromContext)
 		})
 	})
 }
