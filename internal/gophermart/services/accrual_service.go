@@ -16,7 +16,7 @@ import (
 	"net/http"
 )
 
-type AccrualService struct { //nolint:govet
+type AccrualService struct { //nolint:govet //4кб не стоят этого
 	AccrualSystemAddress string
 	logger               *zap.SugaredLogger
 	Circuit              *gobreaker.CircuitBreaker
