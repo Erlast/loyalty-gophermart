@@ -85,8 +85,13 @@ func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r 
 	w.WriteHeader(http.StatusOK)
 }
 
-func (h *BalanceHandler) Withdrawals(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+func (h *BalanceHandler) Withdrawals(
+	ctx context.Context,
+	w http.ResponseWriter,
+	r *http.Request,
+	fromContext helpers.FromContext,
+) {
+	userID, err := fromContext.GetUserID(r, h.logger)
 	if err != nil {
 		h.logger.Error(ErrorGettingUserIDFromContext, zap.Error(err))
 		fmt.Println("error getting userID from context", err)
