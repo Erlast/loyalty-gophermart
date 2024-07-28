@@ -6,16 +6,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/handlers"
+
 	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 )
 
 var timeSleep = 2 * time.Second
 var percentFull float32 = 100
 
-func OrderProcessing(ctx context.Context, store storage.Storage, logger *zap.SugaredLogger) {
+func OrderProcessing(ctx context.Context, store handlers.Storage, logger *zap.SugaredLogger) {
 	for {
 		select {
 		case <-ctx.Done():

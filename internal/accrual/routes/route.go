@@ -7,11 +7,10 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/handlers"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 )
 
 func NewAccrualRouter(
-	store storage.Storage,
+	store handlers.Storage,
 	logger *zap.SugaredLogger,
 ) *chi.Mux {
 	r := chi.NewRouter()
