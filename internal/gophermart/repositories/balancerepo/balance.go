@@ -11,16 +11,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type BalanceStore interface {
-	GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error)
-	Withdraw(ctx context.Context, withdrawal *models.WithdrawalRequest) error
-	GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error)
-	CreateBalance(ctx context.Context, userID int64) error
-	CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64) error
-	UpdateBalance(ctx context.Context, userID int64, amount float32) error
-	UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float32) error
-}
-
 type BalanceStorage struct {
 	logger *zap.SugaredLogger
 	db     *pgxpool.Pool
@@ -29,14 +19,14 @@ type BalanceStorage struct {
 func NewBalanceStorage(
 	db *pgxpool.Pool,
 	logger *zap.SugaredLogger,
-) *BalanceStorage {
-	return &BalanceStorage{
+) BalanceStorage {
+	return BalanceStorage{
 		logger: logger,
 		db:     db,
 	}
 }
 
-func (s *BalanceStorage) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {
+func (s BalanceStorage) GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error) {
 	query := `SELECT current_balance, total_withdrawn FROM balances WHERE user_id = $1`
 	row := s.db.QueryRow(ctx, query, userID)
 	s.logger.Debug("Getting balance", zap.Int64("user_id", userID))
@@ -48,7 +38,7 @@ func (s *BalanceStorage) GetBalanceByUserID(ctx context.Context, userID int64) (
 	return &balance, nil
 }
 
-func (s *BalanceStorage) Withdraw(ctx context.Context, withdrawal *models.WithdrawalRequest) error {
+func (s BalanceStorage) Withdraw(ctx context.Context, withdrawal *models.WithdrawalRequest) error {
 	tx, err := s.db.Begin(ctx)
 	if err != nil {
 		return fmt.Errorf("error starting transaction: %w", err)
@@ -88,7 +78,7 @@ func (s *BalanceStorage) Withdraw(ctx context.Context, withdrawal *models.Withdr
 	return nil
 }
 
-func (s *BalanceStorage) GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error) {
+func (s BalanceStorage) GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error) {
 	query := `SELECT order_number, sum, processed_at FROM withdrawals WHERE user_id = $1` // ORDER BY processed_at
 	rows, err := s.db.Query(ctx, query, userID)
 	if err != nil {
@@ -112,7 +102,7 @@ func (s *BalanceStorage) GetWithdrawalsByUserID(ctx context.Context, userID int6
 	return withdrawals, nil
 }
 
-func (s *BalanceStorage) CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64) error {
+func (s BalanceStorage) CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64) error {
 	query := "INSERT INTO balances (user_id, current_balance, total_withdrawn) VALUES ($1, $2, $3)"
 	_, err := tx.Exec(ctx, query, userID, 0, 0)
 	if err != nil {
@@ -121,7 +111,7 @@ func (s *BalanceStorage) CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID 
 	return nil
 }
 
-func (s *BalanceStorage) CreateBalance(ctx context.Context, userID int64) error {
+func (s BalanceStorage) CreateBalance(ctx context.Context, userID int64) error {
 	query := "INSERT INTO balances (user_id, current_balance, total_withdrawn) VALUES ($1, $2, $3)"
 	_, err := s.db.Exec(ctx, query, userID, 0, 0)
 	if err != nil {
@@ -130,7 +120,7 @@ func (s *BalanceStorage) CreateBalance(ctx context.Context, userID int64) error 
 	return nil
 }
 
-func (s *BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount float32) error {
+func (s BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount float32) error {
 	s.logger.Info("Updating balance", zap.Int64("user_id", userID))
 	query := `
         UPDATE balances
@@ -144,7 +134,7 @@ func (s *BalanceStorage) UpdateBalance(ctx context.Context, userID int64, amount
 	return nil
 }
 
-func (s *BalanceStorage) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float32) error {
+func (s BalanceStorage) UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float32) error {
 	query := "UPDATE balances SET current_balance = current_balance + $1 WHERE user_id = $2"
 	_, err := tx.Exec(ctx, query, accrual, userID)
 	if err != nil {

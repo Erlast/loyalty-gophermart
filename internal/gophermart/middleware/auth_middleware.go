@@ -3,11 +3,12 @@ package middleware
 import (
 	"context"
 
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/jwt"
 
 	"net/http"
 	"strings"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
 
 	"go.uber.org/zap"
 )
@@ -24,7 +25,7 @@ func AuthMiddleware(logger *zap.SugaredLogger) func(next http.Handler) http.Hand
 
 			tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
 
-			claims, err := services.ParseJWT(tokenStr)
+			claims, err := jwt.ParseJWT(tokenStr)
 			logger.Infof("Claims: %v", claims)
 			if err != nil {
 				logger.Error("Invalid token", zap.Error(err))

@@ -7,8 +7,9 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/balance"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 
 	"github.com/go-chi/render"
@@ -16,13 +17,13 @@ import (
 )
 
 type BalanceHandler struct {
-	service *services.BalanceService
+	service *balance.BalanceService
 	logger  *zap.SugaredLogger
 }
 
 const ErrorGettingUserIDFromContext = "error_getting_user_id_from_context: %v"
 
-func NewBalanceHandler(service *services.BalanceService, logger *zap.SugaredLogger) *BalanceHandler {
+func NewBalanceHandler(service *balance.BalanceService, logger *zap.SugaredLogger) *BalanceHandler {
 	return &BalanceHandler{service: service, logger: logger}
 }
 
@@ -39,15 +40,15 @@ func (h *BalanceHandler) GetBalance(
 		return
 	}
 
-	balance, err := h.service.GetBalanceByUserID(ctx, userID)
+	balanceByUser, err := h.service.GetBalanceByUserID(ctx, userID)
 	if err != nil {
 		h.logger.Error("Error getting balance", zap.Error(err))
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
-	h.logger.Debugf("Get Balance from handler: %v", balance)
+	h.logger.Debugf("Get Balance from handler: %v", balanceByUser)
 
-	render.JSON(w, r, balance)
+	render.JSON(w, r, balanceByUser)
 }
 
 func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r *http.Request) {
@@ -70,9 +71,9 @@ func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r 
 	err = h.service.Withdraw(ctx, &withdrawal)
 	if err != nil {
 		switch {
-		case errors.Is(err, services.ErrInsufficientBalance):
+		case errors.Is(err, balance.ErrInsufficientBalance):
 			http.Error(w, "", http.StatusPaymentRequired)
-		case errors.Is(err, services.ErrInvalidOrderNumber):
+		case errors.Is(err, balance.ErrInvalidOrderNumber):
 			http.Error(w, "", http.StatusUnprocessableEntity)
 		default:
 			fmt.Println("Error withdrawing balance:", err)

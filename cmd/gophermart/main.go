@@ -9,6 +9,12 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/accrual"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/balance"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/circuit"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/order"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/user"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/routes"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
@@ -16,7 +22,6 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/userrepo"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/storage"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 	"github.com/go-chi/chi/v5"
@@ -48,11 +53,11 @@ func main() {
 	userStorage := userrepo.NewUserStorage(db, logger)
 	orderStorage := orderrepo.NewOrderStorage(db, logger)
 	balanceStorage := balancerepo.NewBalanceStorage(db, logger)
-	circuitBreaker := services.NewCircuitBreaker("Accrual API", 10*time.Second)
-	accrualService := services.NewAccrualService(logger, circuitBreaker, cfg.AccrualSystemAddress)
-	userService := services.NewUserService(userStorage, balanceStorage, logger)
-	orderService := services.NewOrderService(orderStorage, balanceStorage, accrualService, logger)
-	balanceService := services.NewBalanceService(balanceStorage, logger)
+	circuitBreaker := circuit.NewCircuitBreaker("Accrual API", 10*time.Second, uint32(2))
+	accrualService := accrual.NewAccrualService(logger, circuitBreaker, cfg.AccrualSystemAddress)
+	userService := user.NewUserService(userStorage, balanceStorage, logger)
+	orderService := order.NewOrderService(orderStorage, balanceStorage, accrualService, logger)
+	balanceService := balance.NewBalanceService(balanceStorage, logger)
 
 	// Инициализация роутера
 	router := chi.NewRouter()
