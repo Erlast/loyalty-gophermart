@@ -7,19 +7,20 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/order"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
 )
 
 type OrderHandler struct {
-	service *services.OrderService
+	service *order.OrderService
 	logger  *zap.SugaredLogger
 }
 
-func NewOrderHandler(service *services.OrderService, logger *zap.SugaredLogger) *OrderHandler {
+func NewOrderHandler(service *order.OrderService, logger *zap.SugaredLogger) *OrderHandler {
 	return &OrderHandler{service: service, logger: logger}
 }
 
@@ -47,26 +48,26 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 	h.logger.Infof("Request body: %v", string(body))
 	orderNumber := string(body)
 
-	order := models.Order{
+	orderStruct := models.Order{
 		UserID:     userID,
 		Number:     orderNumber,
 		Status:     string(models.OrderStatusNew),
 		UploadedAt: time.Now(),
 	}
-	h.logger.Infof("Struct Order: %v", order)
+	h.logger.Infof("Struct Order: %v", orderStruct)
 
-	err = h.service.CreateOrder(ctx, &order)
+	err = h.service.CreateOrder(ctx, &orderStruct)
 	if err != nil {
 		switch {
-		case errors.Is(err, services.ErrOrderAlreadyLoadedBySameUser):
+		case errors.Is(err, order.ErrOrderAlreadyLoadedBySameUser):
 			h.logger.Error("Order number already loaded by this user", zap.Error(err))
 			http.Error(w, "", http.StatusOK)
 			return
-		case errors.Is(err, services.ErrOrderAlreadyLoadedByDifferentUser):
-			h.logger.Errorf("Order number already loaded by a different user: %v", order)
+		case errors.Is(err, order.ErrOrderAlreadyLoadedByDifferentUser):
+			h.logger.Errorf("Order number already loaded by a different user: %v", orderStruct)
 			http.Error(w, "", http.StatusConflict)
 			return
-		case errors.Is(err, services.ErrInvalidOrderFormat):
+		case errors.Is(err, order.ErrInvalidOrderFormat):
 			h.logger.Error("Invalid order number format", zap.Error(err))
 			http.Error(w, "", http.StatusUnprocessableEntity)
 			return
@@ -77,7 +78,7 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 		}
 	}
 
-	h.logger.Infof("Created order: %v", order)
+	h.logger.Infof("Created order: %v", orderStruct)
 
 	w.WriteHeader(http.StatusAccepted)
 }

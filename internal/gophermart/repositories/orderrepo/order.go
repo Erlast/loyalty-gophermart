@@ -22,14 +22,14 @@ type OrderStorage struct {
 func NewOrderStorage(
 	db *pgxpool.Pool,
 	logger *zap.SugaredLogger,
-) *OrderStorage {
-	return &OrderStorage{
+) OrderStorage {
+	return OrderStorage{
 		logger: logger,
 		db:     db,
 	}
 }
 
-func (s *OrderStorage) GetOrder(ctx context.Context, number string) (*models.Order, error) {
+func (s OrderStorage) GetOrder(ctx context.Context, number string) (*models.Order, error) {
 	var order models.Order
 	query := "SELECT user_id, number FROM orders WHERE number=$1"
 	row := s.db.QueryRow(ctx, query, number)
@@ -43,7 +43,7 @@ func (s *OrderStorage) GetOrder(ctx context.Context, number string) (*models.Ord
 	return &order, nil
 }
 
-func (s *OrderStorage) CheckOrder(ctx context.Context, number string) (*models.Order, error) {
+func (s OrderStorage) CheckOrder(ctx context.Context, number string) (*models.Order, error) {
 	query := "SELECT user_id, number, status, accrual, uploaded_at FROM orders WHERE number=$1"
 	row := s.db.QueryRow(ctx, query, number)
 	var order models.Order
@@ -57,7 +57,7 @@ func (s *OrderStorage) CheckOrder(ctx context.Context, number string) (*models.O
 	return &order, nil
 }
 
-func (s *OrderStorage) CreateOrder(ctx context.Context, order *models.Order) error {
+func (s OrderStorage) CreateOrder(ctx context.Context, order *models.Order) error {
 	query := "INSERT INTO orders (user_id, number, status, uploaded_at) VALUES ($1, $2, $3, $4)"
 	s.logger.Infof("inserting new order: %v,%v,%v,%v", order.UserID, order.Number, order.Status, order.UploadedAt)
 	_, err := s.db.Exec(ctx, query, order.UserID, order.Number, order.Status, order.UploadedAt)
@@ -67,7 +67,7 @@ func (s *OrderStorage) CreateOrder(ctx context.Context, order *models.Order) err
 	return nil
 }
 
-func (s *OrderStorage) GetOrdersByUserID(ctx context.Context, userID int64) ([]models.Order, error) {
+func (s OrderStorage) GetOrdersByUserID(ctx context.Context, userID int64) ([]models.Order, error) {
 	query := `SELECT number, status, accrual, uploaded_at FROM orders WHERE user_id = $1`
 	rows, err := s.db.Query(ctx, query, userID)
 	if err != nil {
@@ -96,7 +96,7 @@ func (s *OrderStorage) GetOrdersByUserID(ctx context.Context, userID int64) ([]m
 	return orders, nil
 }
 
-func (s *OrderStorage) GetOrdersByStatus(ctx context.Context, statuses ...models.OrderStatus) ([]models.Order, error) {
+func (s OrderStorage) GetOrdersByStatus(ctx context.Context, statuses ...models.OrderStatus) ([]models.Order, error) {
 	var orders []models.Order
 	query := "SELECT user_id, number, status, accrual, uploaded_at FROM orders WHERE status = ANY($1)"
 	rows, err := s.db.Query(ctx, query, statuses)
@@ -120,7 +120,7 @@ func (s *OrderStorage) GetOrdersByStatus(ctx context.Context, statuses ...models
 	return orders, nil
 }
 
-func (s *OrderStorage) UpdateOrder(ctx context.Context, order *models.Order) error {
+func (s OrderStorage) UpdateOrder(ctx context.Context, order *models.Order) error {
 	query := "UPDATE orders SET status=$1, accrual=$2 WHERE number=$3"
 	_, err := s.db.Exec(ctx, query, order.Status, order.Accrual, order.Number)
 	if err != nil {
@@ -129,7 +129,7 @@ func (s *OrderStorage) UpdateOrder(ctx context.Context, order *models.Order) err
 	return nil
 }
 
-func (s *OrderStorage) UpdateOrderTx(ctx context.Context, tx pgx.Tx, order *models.Order) error {
+func (s OrderStorage) UpdateOrderTx(ctx context.Context, tx pgx.Tx, order *models.Order) error {
 	query := "UPDATE orders SET status=$1, accrual=$2 WHERE number=$3"
 	_, err := tx.Exec(ctx, query, order.Status, order.Accrual, order.Number)
 	if err != nil {
@@ -138,7 +138,7 @@ func (s *OrderStorage) UpdateOrderTx(ctx context.Context, tx pgx.Tx, order *mode
 	return nil
 }
 
-func (s *OrderStorage) BeginTx(ctx context.Context) (pgx.Tx, error) {
+func (s OrderStorage) BeginTx(ctx context.Context) (pgx.Tx, error) {
 	tx, err := s.db.Begin(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("error begin transaction from order storage: %w", err)
