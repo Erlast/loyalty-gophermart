@@ -1,11 +1,9 @@
-package services
+package balance
 
 import (
 	"context"
 	"errors"
 	"fmt"
-
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
 
 	"go.uber.org/zap"
 
@@ -18,13 +16,19 @@ var (
 	ErrInvalidOrderNumber  = errors.New("invalid order number format")
 )
 
+type BalanceStore interface {
+	GetBalanceByUserID(ctx context.Context, userID int64) (*models.Balance, error)
+	Withdraw(ctx context.Context, withdrawal *models.WithdrawalRequest) error
+	GetWithdrawalsByUserID(ctx context.Context, userID int64) ([]models.Withdrawal, error)
+}
+
 type BalanceService struct {
 	logger  *zap.SugaredLogger
-	storage balancerepo.BalanceStore
+	storage BalanceStore
 }
 
 func NewBalanceService(
-	balanceStorage balancerepo.BalanceStore,
+	balanceStorage BalanceStore,
 	logger *zap.SugaredLogger,
 ) *BalanceService {
 	return &BalanceService{
