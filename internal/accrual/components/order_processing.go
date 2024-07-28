@@ -2,11 +2,10 @@ package components
 
 import (
 	"context"
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"math"
 	"strings"
 	"time"
-
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/handlers"
 
 	"go.uber.org/zap"
 
@@ -16,7 +15,18 @@ import (
 var timeSleep = 2 * time.Second
 var percentFull float32 = 100
 
-func OrderProcessing(ctx context.Context, store handlers.Storage, logger *zap.SugaredLogger) {
+type Storage interface {
+	GetByOrderNumber(ctx context.Context, orderNumber string) (*models.Order, error)
+	SaveOrderItems(ctx context.Context, items models.OrderItem) error
+	SaveGoods(ctx context.Context, goods models.Goods) error
+	GetRegisteredOrders(ctx context.Context) ([]int64, error)
+	FetchRewardRules(ctx context.Context) ([]models.Goods, error)
+	UpdateOrderStatus(ctx context.Context, orderNumber int64, status string) error
+	FetchProducts(ctx context.Context, orderID int64) ([]models.Items, error)
+	SaveOrderPoints(ctx context.Context, orderID int64, points []float32) error
+}
+
+func OrderProcessing(ctx context.Context, store Storage, logger *zap.SugaredLogger) {
 	for {
 		select {
 		case <-ctx.Done():
