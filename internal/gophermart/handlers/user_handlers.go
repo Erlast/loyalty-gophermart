@@ -5,20 +5,21 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/jwt"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/user"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
 )
 
 type UserHandler struct {
-	service *services.UserService
+	service *user.UserService
 	logger  *zap.SugaredLogger
 }
 
 func NewUserHandler(
-	service *services.UserService,
+	service *user.UserService,
 	logger *zap.SugaredLogger,
 ) *UserHandler {
 	return &UserHandler{
@@ -29,16 +30,16 @@ func NewUserHandler(
 
 func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	h.logger.Info("Register user")
-	var user models.User
-	if err := render.Bind(r, &user); err != nil {
+	var userStruct models.User
+	if err := render.Bind(r, &userStruct); err != nil {
 		h.logger.Error("Error binding request", zap.Error(err))
 		http.Error(w, "Invalid request format", http.StatusBadRequest)
 		return
 	}
 	h.logger.Info("User created")
 
-	if err := h.service.Register(r.Context(), &user); err != nil {
-		if services.IsDuplicateError(err) {
+	if err := h.service.Register(r.Context(), &userStruct); err != nil {
+		if h.service.IsDuplicateError(err) {
 			h.logger.Error("Username already taken", zap.Error(err))
 			http.Error(w, "Username already taken", http.StatusConflict)
 			return
@@ -50,7 +51,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	}
 	h.logger.Info("User registered")
 
-	token, err := services.GenerateJWT(user.ID, h.logger)
+	token, err := jwt.GenerateJWT(userStruct.ID, h.logger)
 	if err != nil {
 		h.logger.Error("Error generating JWT", zap.Error(err))
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
@@ -71,14 +72,14 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := h.service.Login(r.Context(), credentials)
+	authUser, err := h.service.Login(r.Context(), credentials)
 	if err != nil {
 		h.logger.Error("Error logging in", zap.Error(err))
 		http.Error(w, "", http.StatusUnauthorized)
 		return
 	}
 
-	token, err := services.GenerateJWT(user.ID, h.logger)
+	token, err := jwt.GenerateJWT(authUser.ID, h.logger)
 	if err != nil {
 		h.logger.Error("Error generating JWT", zap.Error(err))
 		http.Error(w, "", http.StatusInternalServerError)

@@ -1,12 +1,11 @@
-package services
+package user
 
 import (
 	"context"
 	"errors"
 	"fmt"
 
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/userrepo"
+	"github.com/jackc/pgx/v5"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 	"github.com/jackc/pgx/v5/pgconn"
@@ -14,15 +13,25 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type UserStore interface {
+	CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.User) error
+	GetUserByLogin(ctx context.Context, login string) (*models.User, error)
+	BeginTx(ctx context.Context) (pgx.Tx, error)
+}
+
+type BalanceStore interface {
+	CreateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64) error
+}
+
 type UserService struct {
 	logger         *zap.SugaredLogger
-	userStorage    userrepo.UserStore // Используем интерфейс UserStore
-	balanceStorage balancerepo.BalanceStore
+	userStorage    UserStore
+	balanceStorage BalanceStore
 }
 
 func NewUserService(
-	userStorage userrepo.UserStore, // Используем интерфейс UserStore
-	balanceStorage balancerepo.BalanceStore,
+	userStorage UserStore,
+	balanceStorage BalanceStore,
 	logger *zap.SugaredLogger,
 ) *UserService {
 	return &UserService{
@@ -91,7 +100,7 @@ func (s *UserService) Login(ctx context.Context, credentials models.Credentials)
 }
 
 // IsDuplicateError checks if the error is a duplicate entry error.
-func IsDuplicateError(err error) bool {
+func (s *UserService) IsDuplicateError(err error) bool {
 	var pgErr *pgconn.PgError
 	if errors.As(err, &pgErr) {
 		return pgErr.Code == "23505" // Unique violation error code in PostgreSQL

@@ -13,13 +13,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type UserStore interface {
-	CreateUser(ctx context.Context, user *models.User) error
-	CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.User) error
-	GetUserByLogin(ctx context.Context, login string) (*models.User, error)
-	BeginTx(ctx context.Context) (pgx.Tx, error)
-}
-
 type UserStorage struct {
 	logger *zap.SugaredLogger
 	db     *pgxpool.Pool
@@ -28,14 +21,14 @@ type UserStorage struct {
 func NewUserStorage(
 	db *pgxpool.Pool,
 	logger *zap.SugaredLogger,
-) *UserStorage {
-	return &UserStorage{
+) UserStorage {
+	return UserStorage{
 		logger: logger,
 		db:     db,
 	}
 }
 
-func (s *UserStorage) CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.User) error {
+func (s UserStorage) CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.User) error {
 	query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
 	err := tx.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
 	if err != nil {
@@ -44,7 +37,7 @@ func (s *UserStorage) CreateUserTx(ctx context.Context, tx pgx.Tx, user *models.
 	return nil
 }
 
-func (s *UserStorage) CreateUser(ctx context.Context, user *models.User) error {
+func (s UserStorage) CreateUser(ctx context.Context, user *models.User) error {
 	query := `INSERT INTO users (login, password, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id`
 	err := s.db.QueryRow(ctx, query, user.Login, user.Password).Scan(&user.ID)
 	if err != nil {
@@ -53,7 +46,7 @@ func (s *UserStorage) CreateUser(ctx context.Context, user *models.User) error {
 	return nil
 }
 
-func (s *UserStorage) GetUserByLogin(ctx context.Context, login string) (*models.User, error) {
+func (s UserStorage) GetUserByLogin(ctx context.Context, login string) (*models.User, error) {
 	query := `SELECT id, login, password, created_at, updated_at FROM users WHERE login=$1`
 	user := &models.User{}
 	err := s.db.QueryRow(ctx, query, login).Scan(&user.ID, &user.Login, &user.Password, &user.CreatedAt, &user.UpdatedAt)
@@ -63,7 +56,7 @@ func (s *UserStorage) GetUserByLogin(ctx context.Context, login string) (*models
 	return user, nil
 }
 
-func (s *UserStorage) BeginTx(ctx context.Context) (pgx.Tx, error) {
+func (s UserStorage) BeginTx(ctx context.Context) (pgx.Tx, error) {
 	tx, err := s.db.Begin(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("could not begin transaction: %w", err)

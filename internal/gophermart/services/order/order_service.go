@@ -1,12 +1,9 @@
-package services
+package order
 
 import (
 	"context"
 	"errors"
 	"fmt"
-
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/balancerepo"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/repositories/orderrepo"
 
 	"github.com/jackc/pgx/v5"
 
@@ -22,17 +19,35 @@ var (
 	ErrInvalidOrderFormat                = errors.New("invalid order number format")
 )
 
+type OrderStorage interface {
+	CheckOrder(ctx context.Context, orderNumber string) (*models.Order, error)
+	CreateOrder(ctx context.Context, order *models.Order) error
+	GetOrdersByUserID(ctx context.Context, userID int64) ([]models.Order, error)
+	GetOrdersByStatus(ctx context.Context, statuses ...models.OrderStatus) ([]models.Order, error)
+	UpdateOrder(ctx context.Context, order *models.Order) error
+	UpdateOrderTx(ctx context.Context, tx pgx.Tx, order *models.Order) error
+	BeginTx(ctx context.Context) (pgx.Tx, error)
+}
+
+type BalanceStorage interface {
+	UpdateBalanceTx(ctx context.Context, tx pgx.Tx, userID int64, accrual float32) error
+}
+
+type AccrualService interface {
+	GetAccrualInfo(orderNumber string) (*models.AccrualResponse, error)
+}
+
 type OrderService struct {
 	logger         *zap.SugaredLogger
-	orderStorage   *orderrepo.OrderStorage
-	balanceStorage *balancerepo.BalanceStorage
-	accrualService *AccrualService
+	orderStorage   OrderStorage
+	balanceStorage BalanceStorage
+	accrualService AccrualService
 }
 
 func NewOrderService(
-	orderStorage *orderrepo.OrderStorage,
-	balanceStorage *balancerepo.BalanceStorage,
-	accrualService *AccrualService,
+	orderStorage OrderStorage,
+	balanceStorage BalanceStorage,
+	accrualService AccrualService,
 	logger *zap.SugaredLogger,
 ) *OrderService {
 	return &OrderService{
@@ -127,45 +142,6 @@ func (s *OrderService) UpdateOrderStatuses(ctx context.Context) error {
 	err = tx.Commit(ctx)
 	if err != nil {
 		return fmt.Errorf("error committing transaction: %w", err)
-	}
-
-	return nil
-}
-
-func (s *OrderService) UpdateOrderStatusesOld(ctx context.Context) error {
-	orders, err := s.orderStorage.GetOrdersByStatus(ctx, models.OrderStatusNew, models.OrderStatusProcessing)
-	s.logger.Infof("orders: %v", orders)
-	if err != nil {
-		return fmt.Errorf("error getting orders: %w", err)
-	}
-
-	for _, order := range orders {
-		s.logger.Infof("GetAccrualInfo number: %v", order.Number)
-		accrualInfo, err := s.accrualService.GetAccrualInfo(order.Number)
-		if err != nil {
-			s.logger.Errorf("error getting accrualInfo: %v", err)
-			continue
-		}
-
-		if accrualInfo == nil {
-			continue
-		}
-
-		order.Status = accrualInfo.Status
-		order.Accrual = &accrualInfo.Accrual
-		s.logger.Infof("Order struct for update: %v", order)
-
-		if err := s.orderStorage.UpdateOrder(ctx, &order); err != nil {
-			return fmt.Errorf("error updating order: %w", err)
-		}
-
-		if order.Status == string(models.OrderStatusProcessed) {
-			err := s.balanceStorage.UpdateBalance(ctx, order.UserID, *order.Accrual)
-			if err != nil {
-				s.logger.Infof("Error updating balance: %v", err)
-				return fmt.Errorf("error updating balance: %w", err)
-			}
-		}
 	}
 
 	return nil

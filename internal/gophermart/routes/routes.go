@@ -2,8 +2,11 @@ package routes
 
 import (
 	"context"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/balance"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/order"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/user"
 	chiMiddleware "github.com/go-chi/chi/v5/middleware"
 
 	"net/http"
@@ -18,9 +21,9 @@ import (
 func RegisterRoutes(
 	ctx context.Context,
 	r *chi.Mux,
-	userService *services.UserService,
-	orderService *services.OrderService,
-	balanceService *services.BalanceService,
+	userService *user.UserService,
+	orderService *order.OrderService,
+	balanceService *balance.BalanceService,
 	logger *zap.SugaredLogger,
 ) {
 	userHandler := handlers.NewUserHandler(userService, logger)
