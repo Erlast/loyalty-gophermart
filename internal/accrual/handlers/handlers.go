@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -13,15 +14,25 @@ import (
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 )
 
 var limiter = rate.NewLimiter(1, 5)
 
+type Storage interface {
+	GetByOrderNumber(ctx context.Context, orderNumber string) (*models.Order, error)
+	SaveOrderItems(ctx context.Context, items models.OrderItem) error
+	SaveGoods(ctx context.Context, goods models.Goods) error
+	GetRegisteredOrders(ctx context.Context) ([]int64, error)
+	FetchRewardRules(ctx context.Context) ([]models.Goods, error)
+	UpdateOrderStatus(ctx context.Context, orderNumber int64, status string) error
+	FetchProducts(ctx context.Context, orderID int64) ([]models.Items, error)
+	SaveOrderPoints(ctx context.Context, orderID int64, points []float32) error
+}
+
 func GetAccrualOrderHandler(
 	res http.ResponseWriter,
 	req *http.Request,
-	store storage.Storage,
+	store Storage,
 	logger *zap.SugaredLogger,
 ) {
 	if !limiter.Allow() {
@@ -59,7 +70,7 @@ func GetAccrualOrderHandler(
 func PostAccrualOrderHandler(
 	res http.ResponseWriter,
 	req *http.Request,
-	store storage.Storage,
+	store Storage,
 	logger *zap.SugaredLogger,
 ) {
 	var bodyReq models.OrderItem
@@ -89,7 +100,7 @@ func PostAccrualOrderHandler(
 func PostAccrualGoodsHandler(
 	res http.ResponseWriter,
 	req *http.Request,
-	store storage.Storage,
+	store Storage,
 	logger *zap.SugaredLogger,
 ) {
 	var bodyReq models.Goods

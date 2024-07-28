@@ -1,7 +1,7 @@
 BEGIN TRANSACTION;
 
 CREATE TABLE IF NOT EXISTS a_orders (
-    id          SERIAL PRIMARY KEY,
+    id          INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     uuid        VARCHAR(255) NOT NULL UNIQUE,
     status      VARCHAR(255) NOT NULL,
     accrual     REAL         NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS a_orders (
 );
 
 CREATE TABLE IF NOT EXISTS a_order_items (
-    id          SERIAL PRIMARY KEY,
+    id          INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     order_id    INT          NOT NULL,
     price       REAL         NOT NULL,
     description VARCHAR(255) NOT NULL
@@ -21,14 +21,14 @@ ALTER TABLE a_order_items
             REFERENCES a_orders (id);
 
 CREATE TABLE IF NOT EXISTS a_accrual_rules (
-    id          SERIAL PRIMARY KEY,
+    id          INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     match       VARCHAR(255) NOT NULL UNIQUE,
     reward      INT          NOT NULL,
     reward_type VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS users (
-    id          SERIAL PRIMARY KEY,
+    id          INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     login       VARCHAR(255) NOT NULL UNIQUE,
     password    VARCHAR(255) NOT NULL,
     created_at  TIMESTAMP    NOT NULL DEFAULT NOW(),
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS orders (
-    id          SERIAL PRIMARY KEY,
+    id          INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id     INTEGER      NOT NULL,
     number      VARCHAR(255) NOT NULL UNIQUE,
     status      VARCHAR(50)  NOT NULL,
@@ -65,7 +65,7 @@ ALTER TABLE balances
             REFERENCES users (id);
 
 CREATE TABLE IF NOT EXISTS withdrawals (
-    id            SERIAL PRIMARY KEY,
+    id            INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id       INTEGER      NOT NULL,
     order_number  VARCHAR(255) NOT NULL,
     sum           REAL         NOT NULL,
