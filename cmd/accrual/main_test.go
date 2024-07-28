@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -45,10 +44,9 @@ func TestParseFlags(t *testing.T) {
 
 func TestNewAccrualRouter(t *testing.T) {
 	logger := zap.NewNop().Sugar()
-	ctx := context.Background()
-	store := &storage.MockStorage{} // Предположим, что у нас есть мок для storage
+	store := &storage.MockStorage{}
 
-	router := routes.NewAccrualRouter(ctx, store, logger)
+	router := routes.NewAccrualRouter(store, logger)
 
 	ts := httptest.NewServer(router)
 	defer ts.Close()

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -10,19 +9,26 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
+	"golang.org/x/time/rate"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 )
 
+var limiter = rate.NewLimiter(1, 5)
+
 func GetAccrualOrderHandler(
-	_ context.Context,
 	res http.ResponseWriter,
 	req *http.Request,
 	store storage.Storage,
 	logger *zap.SugaredLogger,
 ) {
+	if !limiter.Allow() {
+		http.Error(res, "Too Many Requests", http.StatusTooManyRequests)
+		return
+	}
+
 	orderNumber := chi.URLParam(req, "number")
 
 	order, err := store.GetByOrderNumber(req.Context(), orderNumber)
@@ -51,7 +57,6 @@ func GetAccrualOrderHandler(
 }
 
 func PostAccrualOrderHandler(
-	ctx context.Context,
 	res http.ResponseWriter,
 	req *http.Request,
 	store storage.Storage,
@@ -65,7 +70,7 @@ func PostAccrualOrderHandler(
 		return
 	}
 
-	err = store.SaveOrderItems(ctx, bodyReq)
+	err = store.SaveOrderItems(req.Context(), bodyReq)
 
 	if err != nil {
 		var conflictErr *helpers.ConflictError
@@ -82,7 +87,6 @@ func PostAccrualOrderHandler(
 }
 
 func PostAccrualGoodsHandler(
-	ctx context.Context,
 	res http.ResponseWriter,
 	req *http.Request,
 	store storage.Storage,
@@ -96,7 +100,7 @@ func PostAccrualGoodsHandler(
 		return
 	}
 
-	err = store.SaveGoods(ctx, bodyReq)
+	err = store.SaveGoods(req.Context(), bodyReq)
 
 	if err != nil {
 		var conflictErr *helpers.ConflictError

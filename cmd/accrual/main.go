@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync"
 	"time"
 
-	"go.uber.org/zap"
-
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
+	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/components"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
@@ -19,7 +19,9 @@ import (
 )
 
 func main() {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	newLogger := zaplog.InitLogger()
 	cfg := config.ParseFlags(newLogger)
 
@@ -30,9 +32,15 @@ func main() {
 
 	defer store.DB.Close()
 
-	go components.OrderProcessing(ctx, store, newLogger)
+	var wg sync.WaitGroup
+	wg.Add(1)
 
-	r := routes.NewAccrualRouter(ctx, store, newLogger)
+	go func() {
+		defer wg.Done()
+		components.OrderProcessing(ctx, store, newLogger)
+	}()
+
+	r := routes.NewAccrualRouter(store, newLogger)
 
 	newLogger.Infof("Start running server. Address: %s, db: %s", cfg.RunAddress, cfg.DatabaseURI)
 
@@ -41,23 +49,34 @@ func main() {
 		Handler: r,
 	}
 
+	signalChan := make(chan os.Signal, 1)
+	signal.Notify(signalChan, os.Interrupt)
+
+	wg.Add(1)
 	go func() {
+		defer wg.Done()
+
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			newLogger.Fatal("Running server fail", zap.Error(err))
 		}
 	}()
 
-	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, os.Interrupt)
-	<-quit
-	newLogger.Info("Shutting down server...")
+	go func() {
+		<-signalChan
+		newLogger.Info("Shutting down server...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+		cancel()
 
-	if err := srv.Shutdown(ctx); err != nil {
-		newLogger.Fatal("Server forced to shutdown", zap.Error(err))
-	}
+		ctxShutdown, cancelShutdown := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancelShutdown()
 
+		if err := srv.Shutdown(ctxShutdown); err != nil {
+			newLogger.Fatal("Server forced to shutdown", zap.Error(err))
+		}
+
+		newLogger.Info("Server exited gracefully")
+	}()
+
+	wg.Wait()
 	newLogger.Info("Server exiting")
 }

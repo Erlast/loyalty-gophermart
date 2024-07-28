@@ -40,7 +40,7 @@ func TestGetAccrualOrderHandler(t *testing.T) {
 		Status: "PROCESSED",
 	}, nil)
 
-	GetAccrualOrderHandler(context.Background(), res, req, store, newLogger)
+	GetAccrualOrderHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusOK, res.Code)
 
@@ -68,7 +68,7 @@ func TestGetAccrualOrderHandler_NotFound(t *testing.T) {
 	r := chi.NewRouter()
 
 	r.Get("/orders/{number}", func(w http.ResponseWriter, r *http.Request) {
-		GetAccrualOrderHandler(r.Context(), w, r, store, logger)
+		GetAccrualOrderHandler(w, r, store, logger)
 	})
 
 	r.ServeHTTP(rec, req)
@@ -103,7 +103,7 @@ func TestPostAccrualOrderHandler(t *testing.T) {
 
 	store.On("SaveOrderItems", req.Context(), orderItem).Return(nil)
 
-	PostAccrualOrderHandler(context.Background(), res, req, store, newLogger)
+	PostAccrualOrderHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusAccepted, res.Code)
 
@@ -132,7 +132,7 @@ func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 
 	store.On("SaveOrderItems", req.Context(), orderItem).Return(&helpers.ConflictError{})
 
-	PostAccrualOrderHandler(context.Background(), res, req, store, newLogger)
+	PostAccrualOrderHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusConflict, res.Code)
 
@@ -161,7 +161,7 @@ func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 
 	store.On("SaveOrderItems", req.Context(), orderItem).Return(errors.New("internal error"))
 
-	PostAccrualOrderHandler(context.Background(), res, req, store, newLogger)
+	PostAccrualOrderHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusInternalServerError, res.Code)
 
@@ -185,7 +185,7 @@ func TestPostAccrualGoodsHandler(t *testing.T) {
 
 	store.On("SaveGoods", req.Context(), goods).Return(nil)
 
-	PostAccrualGoodsHandler(context.Background(), res, req, store, newLogger)
+	PostAccrualGoodsHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusOK, res.Code)
 
@@ -209,7 +209,7 @@ func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 
 	store.On("SaveGoods", req.Context(), goods).Return(&helpers.ConflictError{})
 
-	PostAccrualGoodsHandler(context.Background(), res, req, store, newLogger)
+	PostAccrualGoodsHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusConflict, res.Code)
 
@@ -233,7 +233,7 @@ func TestPostAccrualGoodsHandler_InternalServerError(t *testing.T) {
 
 	store.On("SaveGoods", req.Context(), goods).Return(errors.New("internal error"))
 
-	PostAccrualGoodsHandler(context.Background(), res, req, store, newLogger)
+	PostAccrualGoodsHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusInternalServerError, res.Code)
 
