@@ -24,5 +24,4 @@ golangci-lint/
 # IDEs directories
 .idea
 .vscode
-
-golangci-lint/
+*.log

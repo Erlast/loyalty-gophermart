@@ -23,7 +23,7 @@ func AuthMiddleware(logger *zap.SugaredLogger) func(next http.Handler) http.Hand
 			}
 
 			tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
-			logger.Infof("Token: %s", tokenStr)
+
 			claims, err := services.ParseJWT(tokenStr)
 			logger.Infof("Claims: %v", claims)
 			if err != nil {

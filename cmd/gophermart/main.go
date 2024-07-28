@@ -36,7 +36,6 @@ func main() {
 	}(logger)
 
 	cfg := config.LoadConfig(logger)
-	logger.Infof("Config: %v", cfg)
 
 	db, err := storage.InitDB(ctx, cfg)
 	if err != nil {
@@ -70,7 +69,6 @@ func main() {
 		for {
 			select {
 			case <-ticker.C:
-				logger.Error("orderService.UpdateOrderStatuses called every 1 minute")
 				if err := orderService.UpdateOrderStatuses(ctx); err != nil {
 					logger.Error("Error updating order statuses", zap.Error(err))
 				}

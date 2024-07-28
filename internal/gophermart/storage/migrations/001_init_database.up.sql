@@ -1,3 +1,5 @@
+BEGIN TRANSACTION;
+
 -- Создание таблицы пользователей
 CREATE TABLE IF NOT EXISTS users (
                                      id SERIAL PRIMARY KEY,
@@ -51,4 +53,6 @@ CREATE TABLE IF NOT EXISTS withdrawals (
 
 -- Индекс для улучшения производительности запросов по user_id в таблице withdrawals
 CREATE INDEX idx_withdrawals_user_id ON withdrawals(user_id);
+
+COMMIT;
 
