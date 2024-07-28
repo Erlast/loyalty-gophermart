@@ -2,14 +2,15 @@ package routes
 
 import (
 	"context"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
+	chiMiddleware "github.com/go-chi/chi/v5/middleware"
+
 	"net/http"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers"
 
 	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
-
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services"
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 )
@@ -41,11 +42,6 @@ func RegisterRoutes(
 			orderHandler.LoadOrder(ctx, w, r)
 		})
 
-		// получение списка загруженных пользователем номеров заказов и их статусов
-		r.Get("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {
-			orderHandler.ListOrders(ctx, w, r)
-		})
-
 		// получение текущего баланса счёта баллов лояльности пользователя
 		r.Get("/api/user/balance", func(w http.ResponseWriter, r *http.Request) {
 			balanceHandler.GetBalance(ctx, w, r, fromContext)
@@ -56,9 +52,18 @@ func RegisterRoutes(
 			balanceHandler.Withdraw(ctx, w, r)
 		})
 
-		// получение информации о выводе средств с накопительного счёта
-		r.Get("/api/user/withdrawals", func(w http.ResponseWriter, r *http.Request) {
-			balanceHandler.Withdrawals(ctx, w, r, fromContext)
+		r.Group(func(r chi.Router) {
+			r.Use(chiMiddleware.Compress(5, "application/json"))
+
+			// получение списка загруженных пользователем номеров заказов и их статусов
+			r.Get("/api/user/orders", func(w http.ResponseWriter, r *http.Request) {
+				orderHandler.ListOrders(ctx, w, r)
+			})
+
+			// получение информации о выводе средств с накопительного счёта
+			r.Get("/api/user/withdrawals", func(w http.ResponseWriter, r *http.Request) {
+				balanceHandler.Withdrawals(ctx, w, r, fromContext)
+			})
 		})
 	})
 }
