@@ -2,7 +2,7 @@
 // Source: github.com/jackc/pgx/v5 (interfaces: Tx)
 
 // Package user is a generated GoMock package.
-package user
+package mocks
 
 import (
 	context "context"

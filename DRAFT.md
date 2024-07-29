@@ -44,8 +44,8 @@ gophermart
         /получение информации о выводе средств с накопительного счета пользователем
 
 
-mockgen -source=internal/gophermart/services/user/user_service.go -destination=internal/gophermart/services/user/mock_user_service.go -package=user
-mockgen -destination internal/gophermart/services/user/mock_pgx_tx.go -package mocks github.com/jackc/pgx/v5 Tx
+mockgen -source=internal/gophermart/services/order/order_service.go -destination=internal/gophermart/services/order/mocks/mock_order_service.go -package=order
+mockgen -destination internal/gophermart/services/order/mocks/mock_pgx_tx.go -package mocks github.com/jackc/pgx/v5 Tx
 
 
 

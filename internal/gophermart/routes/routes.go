@@ -2,6 +2,7 @@ package routes
 
 import (
 	"context"
+
 	balance2 "github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers/balance"
 	order2 "github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers/order"
 	user2 "github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers/user"

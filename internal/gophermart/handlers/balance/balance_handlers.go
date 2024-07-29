@@ -5,8 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"net/http"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/balance"
 

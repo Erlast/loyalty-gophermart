@@ -2,7 +2,7 @@
 // Source: internal/gophermart/services/user/user_service.go
 
 // Package user is a generated GoMock package.
-package user
+package mocks
 
 import (
 	context "context"

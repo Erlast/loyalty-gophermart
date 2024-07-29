@@ -3,10 +3,11 @@ package order
 import (
 	"context"
 	"errors"
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/order"
 

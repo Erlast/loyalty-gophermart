@@ -2,10 +2,11 @@ package components
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"math"
 	"strings"
 	"time"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 
 	"go.uber.org/zap"
 

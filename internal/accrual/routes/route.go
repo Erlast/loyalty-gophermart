@@ -2,8 +2,9 @@ package routes
 
 import (
 	"context"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"net/http"
+
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"

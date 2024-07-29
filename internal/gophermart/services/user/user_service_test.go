@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/user/mocks"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
 
 	"github.com/golang/mock/gomock"
@@ -16,9 +18,9 @@ func TestRegister(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockUserStore := NewMockUserStore(ctrl)
-	mockBalanceStore := NewMockBalanceStore(ctrl)
-	mockTx := NewMockTx(ctrl)
+	mockUserStore := mocks.NewMockUserStore(ctrl)
+	mockBalanceStore := mocks.NewMockBalanceStore(ctrl)
+	mockTx := mocks.NewMockTx(ctrl)
 	logger := zap.NewExample().Sugar()
 	userService := NewUserService(mockUserStore, mockBalanceStore, logger)
 
@@ -68,7 +70,7 @@ func TestLogin(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockUserStore := NewMockUserStore(ctrl)
+	mockUserStore := mocks.NewMockUserStore(ctrl)
 	logger := zap.NewExample().Sugar()
 	userService := NewUserService(mockUserStore, nil, logger)
 
