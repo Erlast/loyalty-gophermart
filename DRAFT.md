@@ -45,6 +45,7 @@ gophermart
 
 
 mockgen -source=internal/gophermart/services/user/user_service.go -destination=internal/gophermart/services/user/mock_user_service.go -package=user
+mockgen -destination internal/gophermart/services/user/mock_pgx_tx.go -package mocks github.com/jackc/pgx/v5 Tx
 
 
 

@@ -41,7 +41,7 @@ func NewUserService(
 	}
 }
 
-func (s *UserService) Register(ctx context.Context, user *models.User) (err error) {
+func (s *UserService) Register(ctx context.Context, user *models.User) error {
 	// Хэширование пароля
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
