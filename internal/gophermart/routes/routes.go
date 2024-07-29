@@ -2,6 +2,9 @@ package routes
 
 import (
 	"context"
+	balance2 "github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers/balance"
+	order2 "github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers/order"
+	user2 "github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers/user"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/balance"
@@ -10,8 +13,6 @@ import (
 	chiMiddleware "github.com/go-chi/chi/v5/middleware"
 
 	"net/http"
-
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/handlers"
 
 	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 	"github.com/go-chi/chi/v5"
@@ -26,9 +27,9 @@ func RegisterRoutes(
 	balanceService *balance.BalanceService,
 	logger *zap.SugaredLogger,
 ) {
-	userHandler := handlers.NewUserHandler(userService, logger)
-	orderHandler := handlers.NewOrderHandler(orderService, logger)
-	balanceHandler := handlers.NewBalanceHandler(balanceService, logger)
+	userHandler := user2.NewUserHandler(userService, logger)
+	orderHandler := order2.NewOrderHandler(orderService, logger)
+	balanceHandler := balance2.NewBalanceHandler(balanceService, logger)
 
 	fromContext := new(helpers.UserFormContext)
 
