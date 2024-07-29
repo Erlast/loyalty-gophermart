@@ -44,5 +44,7 @@ gophermart
         /получение информации о выводе средств с накопительного счета пользователем
 
 
+mockgen -source=internal/gophermart/services/user/user_service.go -destination=internal/gophermart/services/user/mock_user_service.go -package=user
+
 
 
