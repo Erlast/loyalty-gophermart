@@ -2,16 +2,31 @@ package middleware
 
 import (
 	"context"
+	"errors"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/jwt"
 
 	"net/http"
 	"strings"
 
-	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/config"
-
 	"go.uber.org/zap"
 )
+
+type contextKey string
+
+var contextKeyUserID = contextKey("userID")
+
+func SetUserIDToContext(ctx context.Context, userID int64) context.Context {
+	return context.WithValue(ctx, contextKeyUserID, userID)
+}
+
+func GetUserIDFromContext(ctx context.Context) (int64, error) {
+	userID, ok := ctx.Value(contextKeyUserID).(int64)
+	if !ok {
+		return 0, errors.New("user ID not found in context")
+	}
+	return userID, nil
+}
 
 func AuthMiddleware(logger *zap.SugaredLogger) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
@@ -33,7 +48,7 @@ func AuthMiddleware(logger *zap.SugaredLogger) func(next http.Handler) http.Hand
 				return
 			}
 
-			ctx := context.WithValue(r.Context(), config.UserIDContextKey, claims.UserID)
+			ctx := SetUserIDToContext(r.Context(), claims.UserID)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}

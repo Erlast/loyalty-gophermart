@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"errors"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"io"
 	"net/http"
 	"time"
@@ -10,7 +11,6 @@ import (
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/order"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/models"
-	"github.com/Erlast/loyalty-gophermart.git/pkg/helpers"
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
 )
@@ -25,7 +25,7 @@ func NewOrderHandler(service *order.OrderService, logger *zap.SugaredLogger) *Or
 }
 
 func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+	userID, err := middleware.GetUserIDFromContext(r.Context())
 	if err != nil {
 		h.logger.Errorf("Error getting user id from context: %v", err)
 		http.Error(w, "", http.StatusUnauthorized)
@@ -85,7 +85,7 @@ func (h *OrderHandler) LoadOrder(ctx context.Context, w http.ResponseWriter, r *
 
 func (h *OrderHandler) ListOrders(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	h.logger.Info("List orders called")
-	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+	userID, err := middleware.GetUserIDFromContext(r.Context())
 	if err != nil {
 		h.logger.Errorf("Error getting user id from context: %v", err)
 		http.Error(w, "", http.StatusInternalServerError)

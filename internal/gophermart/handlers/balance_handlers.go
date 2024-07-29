@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/middleware"
 	"net/http"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/gophermart/services/balance"
@@ -33,7 +34,7 @@ func (h *BalanceHandler) GetBalance(
 	r *http.Request,
 	fromContext helpers.FromContext,
 ) {
-	userID, err := fromContext.GetUserID(r, h.logger)
+	userID, err := fromContext.GetUserID(r.Context(), h.logger)
 	if err != nil {
 		h.logger.Errorf(ErrorGettingUserIDFromContext, err)
 		http.Error(w, "", http.StatusInternalServerError)
@@ -52,7 +53,7 @@ func (h *BalanceHandler) GetBalance(
 }
 
 func (h *BalanceHandler) Withdraw(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	userID, err := helpers.GetUserIDFromContext(r, h.logger)
+	userID, err := middleware.GetUserIDFromContext(r.Context())
 	if err != nil {
 		h.logger.Error("Unauthorized user", zap.Error(err))
 		http.Error(w, "", http.StatusUnauthorized)
@@ -92,7 +93,7 @@ func (h *BalanceHandler) Withdrawals(
 	r *http.Request,
 	fromContext helpers.FromContext,
 ) {
-	userID, err := fromContext.GetUserID(r, h.logger)
+	userID, err := fromContext.GetUserID(r.Context(), h.logger)
 	if err != nil {
 		h.logger.Error(ErrorGettingUserIDFromContext, zap.Error(err))
 		fmt.Println("error getting userID from context", err)
