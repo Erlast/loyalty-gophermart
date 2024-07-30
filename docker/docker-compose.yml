@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  common_postgres:
+    image: postgres:16.3
+    container_name: common_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: common_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - common_postgres:/var/lib/postgresql/data
+
+  gophermart:
+    build:
+      context: ..
+      dockerfile: docker/gophermart/Dockerfile
+    container_name: gophermart
+    environment:
+      - RUN_ADDRESS=:8080
+      - DATABASE_URI=postgres://user:password@common_postgres:5432/common_db?sslmode=disable
+      - ACCRUAL_SYSTEM_ADDRESS=http://accrual:8080
+      - JWT_SECRET=secret_key
+    depends_on:
+      - common_postgres
+    ports:
+      - "8080:8080"
+
+  accrual:
+    build:
+      context: ..
+      dockerfile: docker/accrual/Dockerfile
+    container_name: accrual
+    environment:
+      - RUN_ADDRESS=:8080
+      - DATABASE_URI=postgres://user:password@common_postgres:5432/common_db?sslmode=disable
+    depends_on:
+      - common_postgres
+    ports:
+      - "8081:8080"
+
+volumes:
+  common_postgres:

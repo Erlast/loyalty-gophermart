@@ -1,0 +1,53 @@
+### регистрация
+POST  http://localhost:8008/api/user/register
+Content-Type: application/json
+
+{
+  "login": "admin10",
+  "password": "admin10"
+}
+
+### авторизация
+POST http://localhost:8080/api/user/login
+Content-Type: application/json
+
+{
+  "login": "admin10",
+  "password": "admin10"
+}
+
+### загрузка заказа
+POST http://localhost:8080/api/user/orders
+Content-Type: text/plain
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE1OTI3ODgsInVzZXJfaWQiOjF9.qV-0KqpfawJNfFJh75h3Fj4yBX_q9JYOoBzqIi9-nyo
+
+123452670
+
+### получение списка загруженных номеров заказов
+GET http://localhost:8080/api/user/orders
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
+
+### получение текущего баланса пользователя
+GET http://localhost:8080/api/user/balance
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE1OTI3ODgsInVzZXJfaWQiOjF9.qV-0KqpfawJNfFJh75h3Fj4yBX_q9JYOoBzqIi9-nyo
+
+### запрос на списание баллов с накопительного счёта
+POST http://localhost:8080/api/user/balance/withdraw
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
+
+{
+  "order": "12345678111",
+  "sum": 15
+}
+
+### получение информации о выводе средств
+GET http://localhost:8080/api/user/withdrawals
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzMjQzODksInVzZXJfaWQiOjF9.mdDFD_81eKOaGwX5y2UMFUlBmXSA6BAs1Nz8K2uUQDM
+
+### получение информации о выводе средств (нет ни одного списания)
+GET http://localhost:8080/api/user/withdrawals
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjEzNzUxMjEsInVzZXJfaWQiOjIzfQ.OVX6j06sFOQkWpS_gOfzZZRwowt_wNx8x1TD1gURn64
+
+### получение информации о расчёте начислений баллов лояльности
+GET http://localhost:8081/api/orders/1234567812345670
