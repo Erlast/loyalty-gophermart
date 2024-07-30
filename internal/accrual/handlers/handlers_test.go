@@ -10,18 +10,20 @@ import (
 	"testing"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 	"go.uber.org/zap/zaptest"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 	"github.com/Erlast/loyalty-gophermart.git/pkg/zaplog"
 )
 
 func TestGetAccrualOrderHandler(t *testing.T) {
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := NewMockStorage(ctrl)
 	newLogger := zaplog.InitLogger()
 
 	req := httptest.NewRequest(http.MethodGet, "/orders/1234567812345670", http.NoBody)
@@ -34,7 +36,7 @@ func TestGetAccrualOrderHandler(t *testing.T) {
 
 	res := httptest.NewRecorder()
 
-	store.On("GetByOrderNumber", req.Context(), "1234567812345670").Return(&models.Order{
+	store.EXPECT().GetByOrderNumber(req.Context(), "1234567812345670").Return(&models.Order{
 		UUID:   "1234567812345670",
 		Status: "PROCESSED",
 	}, nil)
@@ -54,9 +56,12 @@ func TestGetAccrualOrderHandler(t *testing.T) {
 
 func TestGetAccrualOrderHandler_NotFound(t *testing.T) {
 	logger := zaptest.NewLogger(t).Sugar()
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-	store.On("GetByOrderNumber", mock.Anything, "invalid-order-number").Return(nil, errors.New("not found"))
+	store := NewMockStorage(ctrl)
+
+	store.EXPECT().GetByOrderNumber(gomock.Any(), "invalid-order-number").Return(nil, errors.New("not found"))
 
 	req, err := http.NewRequest(http.MethodGet, "/orders/invalid-order-number", http.NoBody)
 	if err != nil {
@@ -81,7 +86,10 @@ func TestGetAccrualOrderHandler_NotFound(t *testing.T) {
 }
 
 func TestPostAccrualOrderHandler(t *testing.T) {
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := NewMockStorage(ctrl)
 	newLogger := zaplog.InitLogger()
 
 	var goods []models.Items
@@ -100,17 +108,18 @@ func TestPostAccrualOrderHandler(t *testing.T) {
 
 	res := httptest.NewRecorder()
 
-	store.On("SaveOrderItems", req.Context(), orderItem).Return(nil)
+	store.EXPECT().SaveOrderItems(req.Context(), orderItem).Return(nil)
 
 	PostAccrualOrderHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusAccepted, res.Code)
-
-	store.AssertCalled(t, "SaveOrderItems", req.Context(), orderItem)
 }
 
 func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := NewMockStorage(ctrl)
 	newLogger := zaplog.InitLogger()
 
 	var goods []models.Items
@@ -129,17 +138,18 @@ func TestPostAccrualOrderHandler_Conflict(t *testing.T) {
 
 	res := httptest.NewRecorder()
 
-	store.On("SaveOrderItems", req.Context(), orderItem).Return(&helpers.ConflictError{})
+	store.EXPECT().SaveOrderItems(req.Context(), orderItem).Return(&helpers.ConflictError{})
 
 	PostAccrualOrderHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusConflict, res.Code)
-
-	store.AssertCalled(t, "SaveOrderItems", req.Context(), orderItem)
 }
 
 func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := NewMockStorage(ctrl)
 	newLogger := zaplog.InitLogger()
 
 	var goods []models.Items
@@ -158,17 +168,18 @@ func TestPostAccrualOrderHandler_InternalServerError(t *testing.T) {
 
 	res := httptest.NewRecorder()
 
-	store.On("SaveOrderItems", req.Context(), orderItem).Return(errors.New("internal error"))
+	store.EXPECT().SaveOrderItems(req.Context(), orderItem).Return(errors.New("internal error"))
 
 	PostAccrualOrderHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusInternalServerError, res.Code)
-
-	store.AssertCalled(t, "SaveOrderItems", req.Context(), orderItem)
 }
 
 func TestPostAccrualGoodsHandler(t *testing.T) {
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := NewMockStorage(ctrl)
 	newLogger := zaplog.InitLogger()
 
 	goods := models.Goods{
@@ -182,17 +193,18 @@ func TestPostAccrualGoodsHandler(t *testing.T) {
 
 	res := httptest.NewRecorder()
 
-	store.On("SaveGoods", req.Context(), goods).Return(nil)
+	store.EXPECT().SaveGoods(req.Context(), goods).Return(nil)
 
 	PostAccrualGoodsHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusOK, res.Code)
-
-	store.AssertCalled(t, "SaveGoods", req.Context(), goods)
 }
 
 func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := NewMockStorage(ctrl)
 	newLogger := zaplog.InitLogger()
 
 	goods := models.Goods{
@@ -206,17 +218,18 @@ func TestPostAccrualGoodsHandler_Conflict(t *testing.T) {
 
 	res := httptest.NewRecorder()
 
-	store.On("SaveGoods", req.Context(), goods).Return(&helpers.ConflictError{})
+	store.EXPECT().SaveGoods(req.Context(), goods).Return(&helpers.ConflictError{})
 
 	PostAccrualGoodsHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusConflict, res.Code)
-
-	store.AssertCalled(t, "SaveGoods", req.Context(), goods)
 }
 
 func TestPostAccrualGoodsHandler_InternalServerError(t *testing.T) {
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := NewMockStorage(ctrl)
 	newLogger := zaplog.InitLogger()
 
 	goods := models.Goods{
@@ -230,11 +243,9 @@ func TestPostAccrualGoodsHandler_InternalServerError(t *testing.T) {
 
 	res := httptest.NewRecorder()
 
-	store.On("SaveGoods", req.Context(), goods).Return(errors.New("internal error"))
+	store.EXPECT().SaveGoods(req.Context(), goods).Return(errors.New("internal error"))
 
 	PostAccrualGoodsHandler(res, req, store, newLogger)
 
 	assert.Equal(t, http.StatusInternalServerError, res.Code)
-
-	store.AssertCalled(t, "SaveGoods", req.Context(), goods)
 }

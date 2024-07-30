@@ -6,16 +6,17 @@ import (
 	"os"
 	"testing"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/handlers"
+	"github.com/golang/mock/gomock"
+
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 	"go.uber.org/zap"
 
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/config"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/routes"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
 )
 
 func TestParseFlags(t *testing.T) {
@@ -44,13 +45,16 @@ func TestParseFlags(t *testing.T) {
 
 func TestNewAccrualRouter(t *testing.T) {
 	logger := zap.NewNop().Sugar()
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := handlers.NewMockStorage(ctrl)
 
 	router := routes.NewAccrualRouter(store, logger)
 
 	ts := httptest.NewServer(router)
 	defer ts.Close()
-	store.On("GetByOrderNumber", mock.Anything, "1d21").Return(&models.Order{
+	store.EXPECT().GetByOrderNumber(gomock.Any(), "1d21").Return(&models.Order{
 		UUID:    "uuid",
 		Status:  helpers.StatusRegistered,
 		Accrual: 100.00,

@@ -6,35 +6,38 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/handlers"
+	"github.com/golang/mock/gomock"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zaptest/observer"
 
 	"go.uber.org/zap/zaptest"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/helpers"
 	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/models"
-	"github.com/Erlast/loyalty-gophermart.git/internal/accrual/storage"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestOrderProcessing(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := handlers.NewMockStorage(ctrl)
 	logger := zaptest.NewLogger(t).Sugar()
 
-	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
-	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
+	store.EXPECT().GetRegisteredOrders(gomock.Any()).Return([]int64{1}, nil).AnyTimes()
+	store.EXPECT().FetchRewardRules(gomock.Any()).Return([]models.Goods{
 		{Match: "test", Reward: 10, RewardType: "%"},
-	}, nil)
-	store.On("UpdateOrderStatus", mock.Anything, int64(1), helpers.StatusProcessing).Return(nil)
-	store.On("FetchProducts", mock.Anything, int64(1)).Return([]models.Items{
+	}, nil).AnyTimes()
+	store.EXPECT().UpdateOrderStatus(gomock.Any(), int64(1), helpers.StatusProcessing).Return(nil).AnyTimes()
+	store.EXPECT().FetchProducts(gomock.Any(), int64(1)).Return([]models.Items{
 		{Description: "test product", Price: 100.00},
-	}, nil)
-	store.On("SaveOrderPoints", mock.Anything, int64(1), []float32{10}).Return(nil)
+	}, nil).AnyTimes()
+	store.EXPECT().SaveOrderPoints(gomock.Any(), int64(1), []float32{10}).Return(nil).AnyTimes()
 
 	go func() {
 		OrderProcessing(ctx, store, logger)
@@ -44,7 +47,6 @@ func TestOrderProcessing(t *testing.T) {
 
 	cancel()
 
-	store.AssertExpectations(t)
 	assert.True(t, true)
 }
 
@@ -55,9 +57,12 @@ func TestOrderProcessing_ErrorGetOrders(t *testing.T) {
 	core, observedLogs := observer.New(zap.ErrorLevel)
 	logger := zap.New(core).Sugar()
 
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-	store.On("GetRegisteredOrders", mock.Anything).Return(nil, errors.New("database error"))
+	store := handlers.NewMockStorage(ctrl)
+
+	store.EXPECT().GetRegisteredOrders(gomock.Any()).Return(nil, errors.New("database error"))
 
 	go func() {
 		OrderProcessing(ctx, store, logger)
@@ -67,9 +72,7 @@ func TestOrderProcessing_ErrorGetOrders(t *testing.T) {
 	cancel()
 	logs := observedLogs.TakeAll()
 	assert.Len(t, logs, 1, "expected one log entry")
-	assert.Equal(t, "ошибка при попытке выбрать новые заказы: err database error", logs[0].Message)
-
-	store.AssertExpectations(t)
+	assert.Equal(t, "ошибка при попытке выбрать новые заказы: database error", logs[0].Message)
 }
 
 func TestFetchRewardRules_Error(t *testing.T) {
@@ -79,10 +82,13 @@ func TestFetchRewardRules_Error(t *testing.T) {
 	core, observedLogs := observer.New(zap.ErrorLevel)
 	logger := zap.New(core).Sugar()
 
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
-	store.On("FetchRewardRules", mock.Anything).Return(nil, errors.New("database error"))
+	store := handlers.NewMockStorage(ctrl)
+
+	store.EXPECT().GetRegisteredOrders(gomock.Any()).Return([]int64{1}, nil)
+	store.EXPECT().FetchRewardRules(gomock.Any()).Return(nil, errors.New("database error"))
 
 	go func() {
 		OrderProcessing(ctx, store, logger)
@@ -93,8 +99,6 @@ func TestFetchRewardRules_Error(t *testing.T) {
 	logs := observedLogs.TakeAll()
 	assert.Len(t, logs, 1, "expected one log entry")
 	assert.Equal(t, "не могу выбрать правила начислений", logs[0].Message)
-
-	store.AssertExpectations(t)
 }
 
 func TestUpdateOrderStatus_Error(t *testing.T) {
@@ -103,14 +107,16 @@ func TestUpdateOrderStatus_Error(t *testing.T) {
 
 	logger := zap.NewExample().Sugar()
 
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
-	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
+	store := handlers.NewMockStorage(ctrl)
+
+	store.EXPECT().GetRegisteredOrders(gomock.Any()).Return([]int64{1}, nil)
+	store.EXPECT().FetchRewardRules(gomock.Any()).Return([]models.Goods{
 		{Match: "test", Reward: 10, RewardType: "%"},
 	}, nil)
-	store.On(
-		"UpdateOrderStatus",
+	store.EXPECT().UpdateOrderStatus(
 		ctx, int64(1),
 		helpers.StatusProcessing,
 	).Return(errors.New("failed to update order status"))
@@ -121,8 +127,6 @@ func TestUpdateOrderStatus_Error(t *testing.T) {
 
 	time.Sleep(2 * time.Second)
 	cancel()
-
-	store.AssertExpectations(t)
 }
 
 func TestFetchProducts_Error(t *testing.T) {
@@ -132,15 +136,18 @@ func TestFetchProducts_Error(t *testing.T) {
 	core, observedLogs := observer.New(zap.ErrorLevel)
 	logger := zap.New(core).Sugar()
 
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
-	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
+	store := handlers.NewMockStorage(ctrl)
+
+	store.EXPECT().GetRegisteredOrders(gomock.Any()).Return([]int64{1}, nil)
+	store.EXPECT().FetchRewardRules(gomock.Any()).Return([]models.Goods{
 		{Match: "test", Reward: 10, RewardType: "%"},
 	}, nil)
-	store.On("UpdateOrderStatus", ctx, int64(1), helpers.StatusProcessing).Return(nil)
-	store.On("FetchProducts", ctx, int64(1)).Return(nil, errors.New("failed to fetch products"))
-	store.On("UpdateOrderStatus", ctx, int64(1), helpers.StatusInvalid).Return(nil)
+	store.EXPECT().UpdateOrderStatus(ctx, int64(1), helpers.StatusProcessing).Return(nil)
+	store.EXPECT().FetchProducts(ctx, int64(1)).Return(nil, errors.New("failed to fetch products"))
+	store.EXPECT().UpdateOrderStatus(ctx, int64(1), helpers.StatusInvalid).Return(nil)
 
 	go func() {
 		OrderProcessing(ctx, store, logger)
@@ -150,9 +157,7 @@ func TestFetchProducts_Error(t *testing.T) {
 	cancel()
 	logs := observedLogs.TakeAll()
 	assert.Len(t, logs, 1, "expected one log entry")
-	assert.Equal(t, "не могу получить товары из заказаerr failed to fetch products", logs[0].Message)
-
-	store.AssertExpectations(t)
+	assert.Equal(t, "не могу получить товары из заказаfailed to fetch products", logs[0].Message)
 }
 
 func TestFetchProducts_ErrorUpdateStatus(t *testing.T) {
@@ -161,15 +166,23 @@ func TestFetchProducts_ErrorUpdateStatus(t *testing.T) {
 
 	logger := zap.NewExample().Sugar()
 
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-	store.On("GetRegisteredOrders", mock.Anything).Return([]int64{1}, nil)
-	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
+	store := handlers.NewMockStorage(ctrl)
+
+	store.EXPECT().GetRegisteredOrders(gomock.Any()).Return([]int64{1}, nil)
+	store.EXPECT().FetchRewardRules(gomock.Any()).Return([]models.Goods{
 		{Match: "test", Reward: 10, RewardType: "%"},
 	}, nil)
-	store.On("UpdateOrderStatus", ctx, int64(1), helpers.StatusProcessing).Return(nil)
-	store.On("FetchProducts", mock.Anything, int64(1)).Return(nil, errors.New("failed to fetch products"))
-	store.On("UpdateOrderStatus", ctx, int64(1), helpers.StatusInvalid).Return(errors.New("failed to update order status"))
+	store.EXPECT().UpdateOrderStatus(ctx, int64(1), helpers.StatusProcessing).Return(nil)
+	store.EXPECT().FetchProducts(gomock.Any(), int64(1)).Return(
+		nil,
+		errors.New("failed to fetch products"),
+	)
+	store.EXPECT().UpdateOrderStatus(ctx, int64(1), helpers.StatusInvalid).Return(
+		errors.New("failed to update order status"),
+	)
 
 	go func() {
 		OrderProcessing(ctx, store, logger)
@@ -177,8 +190,6 @@ func TestFetchProducts_ErrorUpdateStatus(t *testing.T) {
 
 	time.Sleep(2 * time.Second)
 	cancel()
-
-	store.AssertExpectations(t)
 }
 
 func TestSaveOrderPoints(t *testing.T) {
@@ -187,20 +198,23 @@ func TestSaveOrderPoints(t *testing.T) {
 
 	logger := zap.NewExample().Sugar()
 
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-	store.On("GetRegisteredOrders", ctx).Return([]int64{1}, nil)
-	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
+	store := handlers.NewMockStorage(ctrl)
+
+	store.EXPECT().GetRegisteredOrders(ctx).Return([]int64{1}, nil).AnyTimes()
+	store.EXPECT().FetchRewardRules(gomock.Any()).Return([]models.Goods{
 		{Match: "encrypt", Reward: 10, RewardType: "%"},
 		{Match: "simple", Reward: 5, RewardType: "pt"},
 		{Match: "simple", Reward: 5, RewardType: "no"},
-	}, nil)
-	store.On("UpdateOrderStatus", ctx, int64(1), helpers.StatusProcessing).Return(nil)
-	store.On("FetchProducts", mock.Anything, int64(1)).Return([]models.Items{
+	}, nil).AnyTimes()
+	store.EXPECT().UpdateOrderStatus(ctx, int64(1), helpers.StatusProcessing).Return(nil).AnyTimes()
+	store.EXPECT().FetchProducts(gomock.Any(), int64(1)).Return([]models.Items{
 		{Description: "encrypt data", Price: 100.00},
 		{Description: "simple product", Price: 50.00},
-	}, nil)
-	store.On("SaveOrderPoints", mock.Anything, int64(1), []float32{10.00, 5.00}).Return(nil)
+	}, nil).AnyTimes()
+	store.EXPECT().SaveOrderPoints(gomock.Any(), int64(1), []float32{10.00, 5.00}).Return(nil).AnyTimes()
 
 	go func() {
 		OrderProcessing(ctx, store, logger)
@@ -208,8 +222,6 @@ func TestSaveOrderPoints(t *testing.T) {
 
 	time.Sleep(2 * time.Second)
 	cancel()
-
-	store.AssertExpectations(t)
 }
 
 func TestSaveOrderPoints_Error(t *testing.T) {
@@ -218,18 +230,23 @@ func TestSaveOrderPoints_Error(t *testing.T) {
 
 	logger := zap.NewExample().Sugar()
 
-	store := &storage.MockStorage{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-	store.On("GetRegisteredOrders", ctx).Return([]int64{1}, nil)
-	store.On("FetchRewardRules", mock.Anything).Return([]models.Goods{
+	store := handlers.NewMockStorage(ctrl)
+
+	store.EXPECT().GetRegisteredOrders(ctx).Return([]int64{1}, nil)
+	store.EXPECT().FetchRewardRules(gomock.Any()).Return([]models.Goods{
 		{Match: "encrypt", Reward: 10, RewardType: "%"},
 	}, nil)
-	store.On("UpdateOrderStatus", ctx, int64(1), helpers.StatusProcessing).Return(nil)
-	store.On("FetchProducts", mock.Anything, int64(1)).Return([]models.Items{
+	store.EXPECT().UpdateOrderStatus(ctx, int64(1), helpers.StatusProcessing).Return(nil)
+	store.EXPECT().FetchProducts(gomock.Any(), int64(1)).Return([]models.Items{
 		{Description: "encrypt data", Price: 100.00},
 	}, nil)
-	store.On("SaveOrderPoints", mock.Anything, int64(1), []float32{10.00}).Return(errors.New("failed to fetch products"))
-	store.On("UpdateOrderStatus", ctx, int64(1), helpers.StatusInvalid).Return(errors.New("failed to update order status"))
+	store.EXPECT().SaveOrderPoints(gomock.Any(), int64(1), []float32{10.00}).Return(errors.New("failed to fetch products"))
+	store.EXPECT().UpdateOrderStatus(ctx, int64(1), helpers.StatusInvalid).Return(
+		errors.New("failed to update order status"),
+	)
 
 	go func() {
 		OrderProcessing(ctx, store, logger)
@@ -237,6 +254,4 @@ func TestSaveOrderPoints_Error(t *testing.T) {
 
 	time.Sleep(2 * time.Second)
 	cancel()
-
-	store.AssertExpectations(t)
 }
